@@ -1,4 +1,4 @@
-package com.example.timetable
+package com.example.timetable.home
 
 import androidx.lifecycle.ViewModel
 

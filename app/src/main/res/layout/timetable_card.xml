@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="#aaa06b">
+    tools:background="#f9e686">
 
     <TextView
         android:id="@+id/timeTextView"
