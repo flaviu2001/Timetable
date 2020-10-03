@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.timetable.home.HomeViewModel" />
+            type="com.flaviu.timetable.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

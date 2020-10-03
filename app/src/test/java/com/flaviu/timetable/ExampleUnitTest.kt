@@ -1,4 +1,4 @@
-package com.example.timetable
+package com.flaviu.timetable
 
 import org.junit.Test
 

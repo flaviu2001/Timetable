@@ -1,4 +1,4 @@
-package com.example.timetable.home
+package com.flaviu.timetable.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.timetable.R
-import com.example.timetable.databinding.HomeFragmentBinding
+import com.flaviu.timetable.R
+import com.flaviu.timetable.databinding.HomeFragmentBinding
 
 class HomeFragment : Fragment() {
 

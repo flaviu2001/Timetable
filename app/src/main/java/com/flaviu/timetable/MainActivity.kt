@@ -1,4 +1,4 @@
-package com.example.timetable
+package com.flaviu.timetable
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

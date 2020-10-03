@@ -1,4 +1,4 @@
-package com.example.timetable.database
+package com.flaviu.timetable.database
 
 import android.content.Context
 import androidx.room.Database

@@ -1,4 +1,4 @@
-package com.example.timetable.database
+package com.flaviu.timetable.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
