@@ -9,5 +9,23 @@
         android:id="@+id/homeFragment"
         android:name="com.flaviu.timetable.home.HomeFragment"
         android:label="home_fragment"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_addCardFragment"
+            app:destination="@id/addCardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCardFragment"
+        android:name="com.flaviu.timetable.addcard.AddCardFragment"
+        android:label="add_card_fragment"
+        tools:layout="@layout/add_card_fragment" >
+        <action
+            android:id="@+id/action_addCardFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.flaviu.timetable.settings.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/settings_fragment" />
 </navigation>

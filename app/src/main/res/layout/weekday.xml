@@ -6,5 +6,5 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:padding="8dp"
-    android:textColor="@android:color/holo_green_dark"
-    android:textAppearance="?android:attr/textAppearanceLarge" />
+    android:textColor="@android:color/holo_purple"
+    android:textAppearance="?android:attr/textAppearanceMedium" />
