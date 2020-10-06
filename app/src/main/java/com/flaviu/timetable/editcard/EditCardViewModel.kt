@@ -1,6 +1,7 @@
 package com.flaviu.timetable.editcard
 
 import androidx.lifecycle.ViewModel
+import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabaseDao
 import kotlinx.coroutines.*
 import java.lang.Exception
@@ -39,6 +40,27 @@ class EditCardViewModel(
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 dataSource.update(newCard)
+            }
+        }
+    }
+
+    fun cloneCard(
+        start: String,
+        finish: String,
+        weekday: String,
+        place: String,
+        name: String,
+        info: String
+    ) {
+        val newCard = Card(timeBegin = start.toInt(),
+            timeEnd = finish.toInt(),
+            weekday = weekday.toInt(),
+            place = place,
+            name = name,
+            info = info)
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                dataSource.insert(newCard)
             }
         }
     }

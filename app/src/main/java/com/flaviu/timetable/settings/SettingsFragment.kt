@@ -29,8 +29,9 @@ class SettingsFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory).get(SettingsViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        binding.clearButton.setOnClickListener{
+        binding.clearButton.setOnClickListener{view: View ->
             viewModel.clearData()
+            view.findNavController().navigateUp()
         }
         binding.backButton.setOnClickListener{view: View ->
             view.findNavController().navigateUp()

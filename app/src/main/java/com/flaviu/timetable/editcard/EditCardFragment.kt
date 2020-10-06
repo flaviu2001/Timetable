@@ -57,6 +57,21 @@ class EditCardFragment : Fragment() {
                 Toast.makeText(context, e.localizedMessage!!.toString(), Toast.LENGTH_SHORT).show()
             }
         }
+        binding.cloneButton.setOnClickListener { view: View ->
+            val start = binding.startHourEditText.text.toString()
+            val finish = binding.endHourEditText.text.toString()
+            val weekday = binding.weekdayEditText.text.toString()
+            val place = binding.placeEditText.text.toString()
+            val name = binding.nameEditText.text.toString()
+            val info = binding.infoEditText.text.toString()
+            try{
+                viewModel.cloneCard(start, finish, weekday, place, name, info)
+                view.findNavController().navigateUp()
+                hideKeyboard(activity as MainActivity)
+            } catch (e: Exception) {
+                Toast.makeText(context, e.localizedMessage!!.toString(), Toast.LENGTH_SHORT).show()
+            }
+        }
         return binding.root
     }
 
