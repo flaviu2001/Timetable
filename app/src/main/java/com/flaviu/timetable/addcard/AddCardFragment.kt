@@ -9,10 +9,12 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.flaviu.timetable.MainActivity
 import com.flaviu.timetable.R
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.AddCardFragmentBinding
+import com.flaviu.timetable.hideKeyboard
 import java.lang.Exception
 
 class AddCardFragment : Fragment() {
@@ -29,10 +31,12 @@ class AddCardFragment : Fragment() {
         val factory = AddCardViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, factory).get(AddCardViewModel::class.java)
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
         binding.cancelButton.setOnClickListener{view: View ->
             view.findNavController().navigateUp()
+            hideKeyboard(activity as MainActivity)
         }
-        binding.addCardBButton.setOnClickListener{view: View -> //TODO: Move to ViewModel
+        binding.addCardBButton.setOnClickListener{view: View -> //TODO: Implement using LiveData
             val start = binding.startHourEditText.text.toString()
             val finish = binding.endHourEditText.text.toString()
             val weekday = binding.weekdayEditText.text.toString()
@@ -42,6 +46,7 @@ class AddCardFragment : Fragment() {
             try{
                 viewModel.addCard(start, finish, weekday, place, name, info)
                 view.findNavController().navigateUp()
+                hideKeyboard(activity as MainActivity)
             } catch (e: Exception) {
                 Toast.makeText(context, e.localizedMessage!!.toString(), Toast.LENGTH_SHORT).show()
             }

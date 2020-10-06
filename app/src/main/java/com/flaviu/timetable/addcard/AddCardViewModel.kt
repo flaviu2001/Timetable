@@ -9,7 +9,6 @@ import kotlinx.coroutines.*
 import java.lang.Exception
 
 class AddCardViewModel(
-
     private val database: CardDatabaseDao
 ) : ViewModel() {
     private val viewModelJob = Job()
