@@ -42,7 +42,7 @@ class AddCardFragment : Fragment() {
             val weekday = binding.weekdayEditText.text.toString()
             val place = binding.placeEditText.text.toString()
             val name = binding.nameEditText.text.toString()
-            val info = binding.placeEditText.text.toString()
+            val info = binding.infoEditText.text.toString()
             try{
                 viewModel.addCard(start, finish, weekday, place, name, info)
                 view.findNavController().navigateUp()

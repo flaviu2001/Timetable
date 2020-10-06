@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_addCardFragment"
             app:destination="@id/addCardFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_editCardFragment"
+            app:destination="@id/editCardFragment" />
     </fragment>
     <fragment
         android:id="@+id/addCardFragment"
@@ -28,4 +31,12 @@
         android:name="com.flaviu.timetable.settings.SettingsFragment"
         android:label="settings_fragment"
         tools:layout="@layout/settings_fragment" />
+    <fragment
+        android:id="@+id/editCardFragment"
+        android:name="com.flaviu.timetable.editcard.EditCardFragment"
+        android:label="EditCardFragment" >
+        <argument
+            android:name="cardKey"
+            app:argType="long" />
+    </fragment>
 </navigation>

@@ -1,12 +1,11 @@
 package com.flaviu.timetable.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.flaviu.timetable.R
 import com.flaviu.timetable.database.CardDatabase
@@ -27,8 +26,8 @@ class HomeFragment : Fragment() {
         val homeViewModelFactory = HomeViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
         binding.viewModel = viewModel
-        val adapter = CardAdapter(CardListener {
-            Log.i("HomeFragment", "O bagat baiatu meu click listener")
+        val adapter = CardAdapter(CardListener {cardKey: Long ->
+            viewModel.onCardClicked(cardKey)
         })
         binding.cardList.adapter = adapter
         viewModel.cards.observe(viewLifecycleOwner, {
@@ -39,6 +38,12 @@ class HomeFragment : Fragment() {
         binding.addCardButton.setOnClickListener{view: View ->
             view.findNavController().navigate(R.id.action_homeFragment_to_addCardFragment)
         }
+        viewModel.navigateToEditCard.observe(viewLifecycleOwner, {cardKey ->
+            cardKey?.let{
+                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToEditCardFragment(cardKey))
+                viewModel.onEditCardNavigated()
+            }
+        })
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)
         return binding.root

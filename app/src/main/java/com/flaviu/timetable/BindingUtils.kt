@@ -1,5 +1,6 @@
 package com.flaviu.timetable
 
+import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.flaviu.timetable.database.Card
@@ -35,5 +36,49 @@ fun TextView.setNameText(item: Card?) {
 fun TextView.setInfoText(item: Card?) {
     item?.let{
         text="Description: ${item.info}"
+    }
+}
+
+@BindingAdapter("beginTimeText")
+fun EditText.setBeginTimeText(item: Card?) {
+    item?.let{
+        val begin = item.timeBegin.toString()
+        setText(begin)
+    }
+}
+
+@BindingAdapter("endTimeText")
+fun EditText.setEndTimeText(item: Card?) {
+    item?.let{
+        val begin = item.timeEnd.toString()
+        setText(begin)
+    }
+}
+
+@BindingAdapter("weekdayText")
+fun EditText.setWeekdayText(item: Card?) {
+    item?.let{
+        setText(item.weekday.toString())
+    }
+}
+
+@BindingAdapter("placeText")
+fun EditText.setPlaceText(item: Card?) {
+    item?.let{
+        setText(item.place)
+    }
+}
+
+@BindingAdapter("nameText")
+fun EditText.setNameText(item: Card?) {
+    item?.let{
+        setText(item.name)
+    }
+}
+
+@BindingAdapter("infoText")
+fun EditText.setInfoText(item: Card?) {
+    item?.let{
+        setText(item.info)
     }
 }
