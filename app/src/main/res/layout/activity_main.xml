@@ -9,11 +9,12 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:titleTextColor="@android:color/white"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+            app:popupTheme="@style/myPopupStyle">
         </androidx.appcompat.widget.Toolbar>
 
 

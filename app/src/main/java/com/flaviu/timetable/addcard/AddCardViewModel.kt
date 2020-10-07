@@ -3,6 +3,7 @@ package com.flaviu.timetable.addcard
 import androidx.lifecycle.ViewModel
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabaseDao
+import com.flaviu.timetable.weekdayToInt
 import kotlinx.coroutines.*
 
 class AddCardViewModel(
@@ -24,16 +25,10 @@ class AddCardViewModel(
             if (it.isEmpty())
                 throw Exception("All fields must be completed.")
         }
-        if (start.toInt() !in 0..23)
-            throw Exception("Start hour invalid. Must be between 0 and 23")
-        if (finish.toInt() !in 0..23)
-            throw Exception("Finish hour invalid. Must be between 0 and 23")
-        if (weekday.toInt() !in 0..6) //TODO: Change to dropdown list
-            throw Exception("Weekday invalid. Must be between 0 and 6")
         val card = Card(
-            timeBegin= start.toInt(),
-            timeEnd = finish.toInt(),
-            weekday = weekday.toInt(),
+            timeBegin= start,
+            timeEnd = finish,
+            weekday = weekdayToInt(weekday),
             place = place,
             name = name,
             info = info,

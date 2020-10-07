@@ -13,6 +13,7 @@ import com.flaviu.timetable.R
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.SettingsFragmentBinding
 import com.flaviu.timetable.hideKeyboard
+import com.google.android.material.snackbar.Snackbar
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: SettingsFragmentBinding
@@ -31,6 +32,11 @@ class SettingsFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.clearButton.setOnClickListener{view: View ->
             viewModel.clearData()
+            Snackbar.make(
+                requireActivity().findViewById(android.R.id.content),
+                "Cleared all entries",
+                Snackbar.LENGTH_SHORT // How long to display the message.
+            ).show()
             view.findNavController().navigateUp()
         }
         return binding.root

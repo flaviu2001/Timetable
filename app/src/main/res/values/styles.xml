@@ -11,5 +11,9 @@
     <style name="tabAppearance">
         <item name="android:textSize">20sp</item>
     </style>
+    
+    <style name="myPopupStyle" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="android:background">@color/primaryDarkColor</item>
+    </style>
 
 </resources>

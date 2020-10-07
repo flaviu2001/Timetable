@@ -3,6 +3,7 @@ package com.flaviu.timetable.editcard
 import androidx.lifecycle.ViewModel
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabaseDao
+import com.flaviu.timetable.weekdayToInt
 import kotlinx.coroutines.*
 import java.lang.Exception
 
@@ -39,9 +40,9 @@ class EditCardViewModel(
         newCard.place = place
         newCard.info = info
         newCard.name = name
-        newCard.timeBegin = start.toInt()
-        newCard.timeEnd = finish.toInt()
-        newCard.weekday = weekday.toInt()
+        newCard.timeBegin = start
+        newCard.timeEnd = finish
+        newCard.weekday = weekdayToInt(weekday)
         newCard.label = label
         uiScope.launch {
             withContext(Dispatchers.IO) {
@@ -63,9 +64,9 @@ class EditCardViewModel(
             if (it.isEmpty())
                 throw Exception("All fields must be completed.")
         }
-        val newCard = Card(timeBegin = start.toInt(),
-            timeEnd = finish.toInt(),
-            weekday = weekday.toInt(),
+        val newCard = Card(timeBegin = start,
+            timeEnd = finish,
+            weekday = weekdayToInt(weekday),
             place = place,
             name = name,
             info = info,

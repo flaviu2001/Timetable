@@ -14,7 +14,7 @@ fun TextView.setTimeText(item: Card?) {
             begin = "0$begin"
         if (end.length == 1)
             end = "0$end"
-        text="Time: $begin-$end"
+        text="Time: $begin - $end"
     }
 }
 
@@ -42,7 +42,7 @@ fun TextView.setInfoText(item: Card?) {
 @BindingAdapter("beginTimeText")
 fun EditText.setBeginTimeText(item: Card?) {
     item?.let{
-        val begin = item.timeBegin.toString()
+        val begin = item.timeBegin
         setText(begin)
     }
 }
@@ -50,7 +50,7 @@ fun EditText.setBeginTimeText(item: Card?) {
 @BindingAdapter("endTimeText")
 fun EditText.setEndTimeText(item: Card?) {
     item?.let{
-        val begin = item.timeEnd.toString()
+        val begin = item.timeEnd
         setText(begin)
     }
 }
@@ -58,7 +58,7 @@ fun EditText.setEndTimeText(item: Card?) {
 @BindingAdapter("weekdayText")
 fun EditText.setWeekdayText(item: Card?) {
     item?.let{
-        setText(item.weekday.toString())
+        setText(intToWeekday(item.weekday))
     }
 }
 

@@ -15,6 +15,6 @@ interface CardDatabaseDao {
     suspend fun clear()
     @Query("SELECT * from timetable_card_table WHERE cardId = :key")
     fun get(key: Long): LiveData<Card>
-    @Query("SELECT * FROM timetable_card_table ORDER BY weekday, timeBegin, timeEnd")
+    @Query("SELECT * FROM timetable_card_table ORDER BY label, weekday, timeBegin, timeEnd")
     fun getAllCards(): LiveData<List<Card>>
 }

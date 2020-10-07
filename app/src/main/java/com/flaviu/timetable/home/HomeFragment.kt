@@ -2,6 +2,7 @@ package com.flaviu.timetable.home
 
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -10,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.flaviu.timetable.R
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabase
@@ -35,6 +37,17 @@ class HomeFragment : Fragment() {
         val homeViewModelFactory = HomeViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
         binding.viewModel = viewModel
+        viewModel.cards.observe(viewLifecycleOwner, Observer{
+            if (viewModel.cards.value == null || viewModel.cards.value!!.isEmpty()) {
+                binding.helperTextView.visibility = TextView.VISIBLE
+                binding.mainTabLayout.visibility = TabLayout.GONE
+                binding.pager.visibility = ViewPager2.GONE
+            }else{
+                binding.helperTextView.visibility = TextView.GONE
+                binding.mainTabLayout.visibility = TabLayout.VISIBLE
+                binding.pager.visibility = ViewPager2.VISIBLE
+            }
+        })
         setupTabLayout()
         setHasOptionsMenu(true)
         return binding.root
@@ -64,7 +77,6 @@ class HomeFragment : Fragment() {
         tabs.observe(viewLifecycleOwner, Observer {
             if (viewModel.cards.value == null)
                 return@Observer
-
             binding.pager.adapter = PagerAdapter(
                 requireActivity().supportFragmentManager,
                 viewLifecycleOwner.lifecycle,

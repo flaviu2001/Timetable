@@ -8,11 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.flaviu.timetable.MainActivity
-import com.flaviu.timetable.R
+import com.flaviu.timetable.*
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.EditCardFragmentBinding
-import com.flaviu.timetable.hideKeyboard
 import java.lang.Exception
 
 class EditCardFragment : Fragment() {
@@ -32,6 +30,9 @@ class EditCardFragment : Fragment() {
         viewModel = ViewModelProvider(this, editCardViewModelFactory).get(EditCardViewModel::class.java)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        editTextTimeDialogInject(context, binding.startHourEditText)
+        editTextTimeDialogInject(context, binding.endHourEditText)
+        editTextWeekdayDialogInject(context, binding.weekdayEditText)
         setHasOptionsMenu(true)
         return binding.root
     }

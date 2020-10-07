@@ -20,7 +20,9 @@
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="Starting hour:"
-            android:inputType="number"
+            android:inputType="none"
+            android:textIsSelectable="true"
+            android:focusable="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,7 +33,9 @@
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="Finish hour:"
-            android:inputType="number"
+            android:inputType="none"
+            android:textIsSelectable="true"
+            android:focusable="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/startHourEditText" />
 
@@ -42,7 +46,9 @@
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="Weekday:"
-            android:inputType="textPersonName"
+            android:inputType="none"
+            android:textIsSelectable="true"
+            android:focusable="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/endHourEditText" />
 

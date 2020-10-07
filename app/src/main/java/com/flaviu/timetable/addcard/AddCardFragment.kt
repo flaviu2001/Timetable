@@ -2,20 +2,15 @@ package com.flaviu.timetable.addcard
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
-import com.flaviu.timetable.MainActivity
-import com.flaviu.timetable.R
-import com.flaviu.timetable.database.Card
+import com.flaviu.timetable.*
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.AddCardFragmentBinding
-import com.flaviu.timetable.hideKeyboard
-import java.lang.Exception
+
 
 class AddCardFragment : Fragment() {
     private lateinit var binding: AddCardFragmentBinding
@@ -32,6 +27,9 @@ class AddCardFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory).get(AddCardViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        editTextTimeDialogInject(context, binding.startHourEditText)
+        editTextTimeDialogInject(context, binding.endHourEditText)
+        editTextWeekdayDialogInject(context, binding.weekdayEditText)
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -42,7 +40,7 @@ class AddCardFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.add) {  //TODO Implement with liveData
+        if (item.itemId == R.id.add) {
             val start = binding.startHourEditText.text.toString()
             val finish = binding.endHourEditText.text.toString()
             val weekday = binding.weekdayEditText.text.toString()
