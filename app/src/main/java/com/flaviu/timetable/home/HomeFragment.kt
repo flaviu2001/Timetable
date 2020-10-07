@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
             val newList = MutableLiveData<List<String>>()
             newList.value = cards.map {
                 it.label
-            }.toSet().toList()
+            }.toSortedSet().toList()
             newList
         }
         tabs.observe(viewLifecycleOwner, Observer {
@@ -85,7 +85,7 @@ class HomeFragment : Fragment() {
             TabLayoutMediator(binding.mainTabLayout, binding.pager) { tab, position ->
                 if (viewModel.cards.value == null)
                     return@TabLayoutMediator
-                tab.text = viewModel.cards.value!![position].label
+                tab.text = tabs.value!![position]
             }.attach()
         })
     }

@@ -27,7 +27,6 @@ class ListFragment : Fragment() {
         val dataSource = CardDatabase.getInstance(application).cardDatabaseDao
         val arguments = ListFragmentArgs.fromBundle(requireArguments())
         val factory = ListViewModelFactory(dataSource)
-        Log.i("pula2", arguments.label)
         viewModel = ViewModelProvider(this, factory).get(ListViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
