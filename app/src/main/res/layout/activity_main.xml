@@ -13,7 +13,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:titleTextColor="@android:color/white"
-            android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar">
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
         </androidx.appcompat.widget.Toolbar>
 
 

@@ -1,4 +1,4 @@
-package com.flaviu.timetable.home
+package com.flaviu.timetable.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +19,9 @@ import kotlinx.coroutines.withContext
 private const val ITEM_VIEW_TYPE_STRING = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
 
-class CardAdapter (private val clickListener: CardListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(CardDiffCallback()){
+class CardAdapter (private val label: String, private val clickListener: CardListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(
+    CardDiffCallback()
+){
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     override fun getItemViewType(position: Int): Int {
@@ -59,6 +61,8 @@ class CardAdapter (private val clickListener: CardListener) : ListAdapter<DataIt
             val items: MutableList<DataItem> = emptyList<DataItem>().toMutableList()
             var currWeekday = 0
             for (i in list.indices) {
+                if (list[i].label != label)
+                    continue
                 if (currWeekday < list[i].weekday)
                     currWeekday = list[i].weekday
                 if (list[i].weekday == currWeekday) {

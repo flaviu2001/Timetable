@@ -9,7 +9,7 @@
             type="com.flaviu.timetable.database.Card" />
         <variable
             name="clickListener"
-            type="com.flaviu.timetable.home.CardListener" />
+            type="com.flaviu.timetable.list.CardListener" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout 

@@ -20,7 +20,8 @@ class AddCardViewModel(
         weekday: String,
         place: String,
         name: String,
-        info: String
+        info: String,
+        label: String
     ) {
         listOf(start, finish, weekday, place, name, info).forEach{
             if (it.isEmpty())
@@ -39,7 +40,8 @@ class AddCardViewModel(
             weekday = weekday.toInt(),
             place = place,
             name = name,
-            info = info
+            info = info,
+            label = label
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {

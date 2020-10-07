@@ -82,3 +82,10 @@ fun EditText.setInfoText(item: Card?) {
         setText(item.info)
     }
 }
+
+@BindingAdapter("labelText")
+fun EditText.setLabelText(item: Card?) {
+    item?.let {
+        setText(item.label)
+    }
+}

@@ -13,5 +13,6 @@ data class Card (
     var weekday: Int = -1,
     var place: String,
     var name: String,
-    var info: String
+    var info: String,
+    var label: String
 )

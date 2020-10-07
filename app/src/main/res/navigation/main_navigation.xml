@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.flaviu.timetable.home.HomeFragment"
-        android:label="home_fragment"
+        android:label="Timetable"
         tools:layout="@layout/home_fragment" >
         <action
             android:id="@+id/action_homeFragment_to_addCardFragment"
@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/addCardFragment"
         android:name="com.flaviu.timetable.addcard.AddCardFragment"
-        android:label="add_card_fragment"
+        android:label="Timetable"
         tools:layout="@layout/add_card_fragment" >
         <action
             android:id="@+id/action_addCardFragment_to_homeFragment"
@@ -29,14 +29,22 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.flaviu.timetable.settings.SettingsFragment"
-        android:label="settings_fragment"
+        android:label="Timetable"
         tools:layout="@layout/settings_fragment" />
     <fragment
         android:id="@+id/editCardFragment"
         android:name="com.flaviu.timetable.editcard.EditCardFragment"
-        android:label="EditCardFragment" >
+        android:label="Timetable" >
         <argument
             android:name="cardKey"
             app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.flaviu.timetable.list.ListFragment"
+        android:label="Timetable" >
+        <argument
+            android:name="label"
+            app:argType="string" />
     </fragment>
 </navigation>

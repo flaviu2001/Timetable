@@ -28,7 +28,8 @@ class EditCardViewModel(
         weekday: String,
         place: String,
         name: String,
-        info: String
+        info: String,
+        label: String
     ) {
         val newCard = card.value ?: throw Exception("Invalid card")
         newCard.place = place
@@ -37,6 +38,7 @@ class EditCardViewModel(
         newCard.timeBegin = start.toInt()
         newCard.timeEnd = finish.toInt()
         newCard.weekday = weekday.toInt()
+        newCard.label = label
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 dataSource.update(newCard)
@@ -50,14 +52,16 @@ class EditCardViewModel(
         weekday: String,
         place: String,
         name: String,
-        info: String
+        info: String,
+        label: String
     ) {
         val newCard = Card(timeBegin = start.toInt(),
             timeEnd = finish.toInt(),
             weekday = weekday.toInt(),
             place = place,
             name = name,
-            info = info)
+            info = info,
+            label = label)
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 dataSource.insert(newCard)
