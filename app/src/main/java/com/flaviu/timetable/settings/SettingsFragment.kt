@@ -33,9 +33,6 @@ class SettingsFragment : Fragment() {
             viewModel.clearData()
             view.findNavController().navigateUp()
         }
-        binding.backButton.setOnClickListener{view: View ->
-            view.findNavController().navigateUp()
-        }
         return binding.root
     }
 }

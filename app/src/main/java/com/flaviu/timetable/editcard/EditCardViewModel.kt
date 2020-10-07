@@ -31,6 +31,10 @@ class EditCardViewModel(
         info: String,
         label: String
     ) {
+        listOf(start, finish, weekday, place, name, info, label).forEach{
+            if (it.isEmpty())
+                throw Exception("All fields must be completed.")
+        }
         val newCard = card.value ?: throw Exception("Invalid card")
         newCard.place = place
         newCard.info = info
@@ -55,6 +59,10 @@ class EditCardViewModel(
         info: String,
         label: String
     ) {
+        listOf(start, finish, weekday, place, name, info, label).forEach{
+            if (it.isEmpty())
+                throw Exception("All fields must be completed.")
+        }
         val newCard = Card(timeBegin = start.toInt(),
             timeEnd = finish.toInt(),
             weekday = weekday.toInt(),

@@ -1,12 +1,9 @@
 package com.flaviu.timetable.addcard
 
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabaseDao
 import kotlinx.coroutines.*
-import java.lang.Exception
 
 class AddCardViewModel(
     private val database: CardDatabaseDao
@@ -23,11 +20,10 @@ class AddCardViewModel(
         info: String,
         label: String
     ) {
-        listOf(start, finish, weekday, place, name, info).forEach{
+        listOf(start, finish, weekday, place, name, info, label).forEach{
             if (it.isEmpty())
                 throw Exception("All fields must be completed.")
         }
-        Log.i("AddCardViewModel", start)
         if (start.toInt() !in 0..23)
             throw Exception("Start hour invalid. Must be between 0 and 23")
         if (finish.toInt() !in 0..23)
