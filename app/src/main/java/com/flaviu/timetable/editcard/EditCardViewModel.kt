@@ -30,9 +30,10 @@ class EditCardViewModel(
         place: String,
         name: String,
         info: String,
-        label: String
+        label: String,
+        notes: String
     ) {
-        listOf(start, finish, weekday, place, name, info, label).forEach{
+        listOf(start, finish, weekday, place, name, label).forEach{
             if (it.isEmpty())
                 throw Exception("All fields must be completed.")
         }
@@ -44,6 +45,7 @@ class EditCardViewModel(
         newCard.timeEnd = finish
         newCard.weekday = weekdayToInt(weekday)
         newCard.label = label
+        newCard.notes = notes
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 dataSource.update(newCard)
@@ -58,9 +60,10 @@ class EditCardViewModel(
         place: String,
         name: String,
         info: String,
-        label: String
+        label: String,
+        notes: String
     ) {
-        listOf(start, finish, weekday, place, name, info, label).forEach{
+        listOf(start, finish, weekday, place, name, label).forEach{
             if (it.isEmpty())
                 throw Exception("All fields must be completed.")
         }
@@ -70,7 +73,8 @@ class EditCardViewModel(
             place = place,
             name = name,
             info = info,
-            label = label)
+            label = label,
+            notes = notes)
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 dataSource.insert(newCard)

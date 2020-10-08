@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.flaviu.timetable.settings.SettingsFragment"
-        android:label="Timetable"
+        android:label="Settings"
         tools:layout="@layout/settings_fragment" />
     <fragment
         android:id="@+id/editCardFragment"
@@ -46,5 +46,13 @@
         <argument
             android:name="label"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/notesFragment"
+        android:name="com.flaviu.timetable.notes.NotesFragment"
+        android:label="Notes" >
+        <action
+            android:id="@+id/action_notesFragment_to_editCardFragment"
+            app:destination="@id/editCardFragment" />
     </fragment>
 </navigation>

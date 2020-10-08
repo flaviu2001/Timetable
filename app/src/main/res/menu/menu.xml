@@ -11,4 +11,8 @@
         android:title="Settings"
         android:id="@+id/settingsFragment"
         android:orderInCategory="2"/>
+    <item
+        android:title="All notes"
+        android:id="@+id/notesFragment"
+        android:orderInCategory="3"/>
 </menu>

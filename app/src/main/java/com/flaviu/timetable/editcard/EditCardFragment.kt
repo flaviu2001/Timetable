@@ -51,8 +51,9 @@ class EditCardFragment : Fragment() {
                 val name = binding.nameEditText.text.toString()
                 val info = binding.infoEditText.text.toString()
                 val label = binding.labelEditText.text.toString()
+                val notes = binding.notesEditText.text.toString()
                 try {
-                    viewModel.cloneCard(start, finish, weekday, place, name, info, label)
+                    viewModel.cloneCard(start, finish, weekday, place, name, info, label, notes)
                     this.findNavController().navigateUp()
                     hideKeyboard(activity as MainActivity)
                 } catch (e: Exception) {
@@ -69,8 +70,9 @@ class EditCardFragment : Fragment() {
                 val name = binding.nameEditText.text.toString()
                 val info = binding.infoEditText.text.toString()
                 val label = binding.labelEditText.text.toString()
+                val notes = binding.notesEditText.text.toString()
                 try{
-                    viewModel.editCard(start, finish, weekday, place, name, info, label)
+                    viewModel.editCard(start, finish, weekday, place, name, info, label, notes)
                     this.findNavController().navigateUp()
                     hideKeyboard(activity as MainActivity)
                 } catch (e: Exception) {

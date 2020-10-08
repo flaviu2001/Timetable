@@ -9,92 +9,109 @@
             type="com.flaviu.timetable.addcard.AddCardViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/startHourEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="Starting hour:"
-            android:inputType="none"
-            android:textIsSelectable="true"
-            android:focusable="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <EditText
+                android:id="@+id/startHourEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Starting hour:"
+                android:inputType="none"
+                android:textIsSelectable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/endHourEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="Finish hour:"
-            android:inputType="none"
-            android:textIsSelectable="true"
-            android:focusable="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/startHourEditText" />
+            <EditText
+                android:id="@+id/endHourEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Finish hour:"
+                android:inputType="none"
+                android:textIsSelectable="true"
+                app:layout_constraintStart_toStartOf="@+id/startHourEditText"
+                app:layout_constraintTop_toBottomOf="@+id/startHourEditText" />
 
-        <EditText
-            android:id="@+id/weekdayEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="Weekday:"
-            android:inputType="none"
-            android:textIsSelectable="true"
-            android:focusable="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/endHourEditText" />
+            <EditText
+                android:id="@+id/weekdayEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Weekday:"
+                android:inputType="none"
+                android:textIsSelectable="true"
+                app:layout_constraintStart_toStartOf="@+id/endHourEditText"
+                app:layout_constraintTop_toBottomOf="@+id/endHourEditText" />
 
-        <EditText
-            android:id="@+id/placeEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="Place:"
-            android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weekdayEditText" />
+            <EditText
+                android:id="@+id/placeEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="Place:"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="@+id/weekdayEditText"
+                app:layout_constraintTop_toBottomOf="@+id/weekdayEditText" />
 
-        <EditText
-            android:id="@+id/nameEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="Name:"
-            android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/placeEditText" />
+            <EditText
+                android:id="@+id/nameEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="Name:"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="@+id/placeEditText"
+                app:layout_constraintTop_toBottomOf="@+id/placeEditText" />
 
-        <EditText
-            android:id="@+id/infoEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="Description:"
-            android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
+            <EditText
+                android:id="@+id/infoEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="Description:"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="@+id/nameEditText"
+                app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
 
-        <EditText
-            android:id="@+id/labelEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="Label:"
-            android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/infoEditText" />
+            <EditText
+                android:id="@+id/labelEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="Label:"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="@+id/infoEditText"
+                app:layout_constraintTop_toBottomOf="@+id/infoEditText" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/notesEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Notes:"
+                android:inputType="textMultiLine"
+                app:layout_constraintStart_toStartOf="@+id/labelEditText"
+                app:layout_constraintTop_toBottomOf="@+id/labelEditText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

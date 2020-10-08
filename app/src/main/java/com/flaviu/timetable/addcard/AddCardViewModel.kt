@@ -19,9 +19,10 @@ class AddCardViewModel(
         place: String,
         name: String,
         info: String,
-        label: String
+        label: String,
+        notes: String
     ) {
-        listOf(start, finish, weekday, place, name, info, label).forEach{
+        listOf(start, finish, weekday, place, name, label).forEach{
             if (it.isEmpty())
                 throw Exception("All fields must be completed.")
         }
@@ -32,7 +33,8 @@ class AddCardViewModel(
             place = place,
             name = name,
             info = info,
-            label = label
+            label = label,
+            notes = notes
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {

@@ -3,17 +3,17 @@ package com.flaviu.timetable.home
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.flaviu.timetable.R
-import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.HomeFragmentBinding
 import com.flaviu.timetable.list.ListFragment
@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
         val homeViewModelFactory = HomeViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
         binding.viewModel = viewModel
-        viewModel.cards.observe(viewLifecycleOwner, Observer{
+        viewModel.cards.observe(viewLifecycleOwner, {
             if (viewModel.cards.value == null || viewModel.cards.value!!.isEmpty()) {
                 binding.helperTextView.visibility = TextView.VISIBLE
                 binding.mainTabLayout.visibility = TabLayout.GONE
@@ -67,25 +67,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupTabLayout() {
-        val tabs: LiveData<List<String>> = Transformations.switchMap(viewModel.cards) { cards: List<Card> ->
-            val newList = MutableLiveData<List<String>>()
-            newList.value = cards.map {
-                it.label
-            }.toSortedSet().toList()
-            newList
-        }
-        tabs.observe(viewLifecycleOwner, Observer {
+        viewModel.tabs.observe(viewLifecycleOwner, Observer {
             if (viewModel.cards.value == null)
                 return@Observer
             binding.pager.adapter = PagerAdapter(
                 requireActivity().supportFragmentManager,
                 viewLifecycleOwner.lifecycle,
-                tabs
+                viewModel.tabs
             )
             TabLayoutMediator(binding.mainTabLayout, binding.pager) { tab, position ->
                 if (viewModel.cards.value == null)
                     return@TabLayoutMediator
-                tab.text = tabs.value!![position]
+                tab.text = viewModel.tabs.value!![position]
             }.attach()
         })
     }

@@ -4,6 +4,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.flaviu.timetable.database.Card
+import org.w3c.dom.Text
 
 @BindingAdapter("timeText")
 fun TextView.setTimeText(item: Card?) {
@@ -36,6 +37,20 @@ fun TextView.setNameText(item: Card?) {
 fun TextView.setInfoText(item: Card?) {
     item?.let{
         text="Description: ${item.info}"
+    }
+}
+
+@BindingAdapter("labelText")
+fun TextView.setLabelText(item: Card?) {
+    item?.let{
+        text = "Label: ${item.label}"
+    }
+}
+
+@BindingAdapter("notesText")
+fun TextView.setNotesText(item: Card?) {
+    item?.let{
+        text="Notes: ${item.notes}"
     }
 }
 
@@ -87,5 +102,12 @@ fun EditText.setInfoText(item: Card?) {
 fun EditText.setLabelText(item: Card?) {
     item?.let {
         setText(item.label)
+    }
+}
+
+@BindingAdapter("notesText")
+fun EditText.setNotesText(item: Card?) {
+    item?.let {
+        setText(item.notes)
     }
 }

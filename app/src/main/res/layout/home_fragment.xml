@@ -17,6 +17,7 @@
             android:id="@+id/helperTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:text="Add some cards by pressing the plus button above!"
             android:gravity="center"/>
         <com.google.android.material.tabs.TabLayout
