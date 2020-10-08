@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.flaviu.timetable.R
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.NotesFragmentBinding
@@ -34,6 +36,13 @@ class NotesFragment : Fragment() {
         binding.cardList.adapter = adapter
         viewModel.cards.observe(viewLifecycleOwner, {
             it?.let{
+                if (it.isEmpty()) {
+                    binding.helperTextView.visibility = TextView.VISIBLE
+                    binding.cardList.visibility = RecyclerView.GONE
+                }else {
+                    binding.helperTextView.visibility = TextView.GONE
+                    binding.cardList.visibility = RecyclerView.VISIBLE
+                }
                 adapter.addHeaderAndSubmitList(it)
             }
         })
