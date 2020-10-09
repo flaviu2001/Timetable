@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/startHourEditText"
@@ -24,9 +24,10 @@
                 android:layout_marginTop="16dp"
                 android:ems="10"
                 android:focusable="false"
-                android:hint="Starting hour:"
+                android:hint="@string/starting_hour"
                 android:inputType="none"
                 android:textIsSelectable="true"
+                android:importantForAutofill="no"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,9 +38,10 @@
                 android:layout_marginTop="16dp"
                 android:ems="10"
                 android:focusable="false"
-                android:hint="Finish hour:"
+                android:hint="@string/finish_hour"
                 android:inputType="none"
                 android:textIsSelectable="true"
+                android:importantForAutofill="no"
                 app:layout_constraintStart_toStartOf="@+id/startHourEditText"
                 app:layout_constraintTop_toBottomOf="@+id/startHourEditText" />
 
@@ -50,9 +52,10 @@
                 android:layout_marginTop="16dp"
                 android:ems="10"
                 android:focusable="false"
-                android:hint="Weekday:"
+                android:hint="@string/weekday"
                 android:inputType="none"
                 android:textIsSelectable="true"
+                android:importantForAutofill="no"
                 app:layout_constraintStart_toStartOf="@+id/endHourEditText"
                 app:layout_constraintTop_toBottomOf="@+id/endHourEditText" />
 
@@ -62,8 +65,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:ems="10"
-                android:hint="Place:"
+                android:hint="@string/place"
                 android:inputType="textPersonName"
+                android:importantForAutofill="no"
                 app:layout_constraintStart_toStartOf="@+id/weekdayEditText"
                 app:layout_constraintTop_toBottomOf="@+id/weekdayEditText" />
 
@@ -73,8 +77,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:ems="10"
-                android:hint="Name:"
+                android:hint="@string/name"
                 android:inputType="textPersonName"
+                android:importantForAutofill="no"
                 app:layout_constraintStart_toStartOf="@+id/placeEditText"
                 app:layout_constraintTop_toBottomOf="@+id/placeEditText" />
 
@@ -84,8 +89,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:ems="10"
-                android:hint="Description:"
+                android:hint="@string/description"
                 android:inputType="textPersonName"
+                android:importantForAutofill="no"
                 app:layout_constraintStart_toStartOf="@+id/nameEditText"
                 app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
 
@@ -95,8 +101,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:ems="10"
-                android:hint="Label:"
+                android:hint="@string/label"
                 android:inputType="textPersonName"
+                android:importantForAutofill="no"
                 app:layout_constraintStart_toStartOf="@+id/infoEditText"
                 app:layout_constraintTop_toBottomOf="@+id/infoEditText" />
 
@@ -107,8 +114,9 @@
                 android:layout_marginTop="16dp"
                 android:ems="10"
                 android:gravity="start|top"
-                android:hint="Notes:"
+                android:hint="@string/notes"
                 android:inputType="textMultiLine"
+                android:importantForAutofill="no"
                 app:layout_constraintStart_toStartOf="@+id/labelEditText"
                 app:layout_constraintTop_toBottomOf="@+id/labelEditText" />
 

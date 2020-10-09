@@ -1,7 +1,6 @@
 package com.flaviu.timetable.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +29,7 @@ class ListFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory).get(ListViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        val adapter = CardAdapter(arguments.label, CardListener {cardKey: Long ->
+        val adapter = CardAdapter(arguments.label, resources, CardListener {cardKey: Long ->
             viewModel.onCardClicked(cardKey)
         })
         binding.cardList.adapter = adapter

@@ -6,14 +6,17 @@
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/primaryLightColor</item>
         <item name="android:windowBackground">@drawable/background_gradient</item>
+        <item name="actionOverflowMenuStyle">@style/CMOptionsMenu</item>
+
     </style>
 
     <style name="tabAppearance">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
-    
-    <style name="myPopupStyle" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
-        <item name="android:background">@color/primaryDarkColor</item>
+
+    <style name="CMOptionsMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/popup_menu</item>
     </style>
 
 </resources>

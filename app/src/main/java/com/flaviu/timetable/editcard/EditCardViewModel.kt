@@ -1,16 +1,17 @@
 package com.flaviu.timetable.editcard
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabaseDao
 import com.flaviu.timetable.weekdayToInt
 import kotlinx.coroutines.*
-import java.lang.Exception
 
 class EditCardViewModel(
     cardKey: Long,
-    private var dataSource: CardDatabaseDao
-) : ViewModel() {
+    private var dataSource: CardDatabaseDao,
+    private val viewModelApplication: Application
+) : AndroidViewModel(viewModelApplication) {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     val card = dataSource.get(cardKey)
@@ -19,6 +20,16 @@ class EditCardViewModel(
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 card.value?.let { dataSource.delete(it.cardId) }
+            }
+        }
+    }
+
+    fun clearNotes() {
+        val newCard = card.value ?: throw Exception("Invalid card")
+        newCard.notes = ""
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                dataSource.update(newCard)
             }
         }
     }
@@ -43,7 +54,7 @@ class EditCardViewModel(
         newCard.name = name
         newCard.timeBegin = start
         newCard.timeEnd = finish
-        newCard.weekday = weekdayToInt(weekday)
+        newCard.weekday = weekdayToInt(weekday, viewModelApplication.resources)
         newCard.label = label
         newCard.notes = notes
         uiScope.launch {
@@ -69,7 +80,7 @@ class EditCardViewModel(
         }
         val newCard = Card(timeBegin = start,
             timeEnd = finish,
-            weekday = weekdayToInt(weekday),
+            weekday = weekdayToInt(weekday, viewModelApplication.resources),
             place = place,
             name = name,
             info = info,

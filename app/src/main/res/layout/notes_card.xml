@@ -32,77 +32,77 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
+                android:textColor="#C5C5C5"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:textColor="#C5C5C5"
-                android:textSize="16sp"
                 app:timeText="@{card}"
-                tools:text="10-12" />
+                tools:text="Time: 12:00 - 14:00" />
 
             <TextView
                 android:id="@+id/placeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
+                android:textColor="#C5C5C5"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/timeTextView"
-                android:textColor="#C5C5C5"
-                android:textSize="16sp"
                 app:placeText="@{card}"
-                tools:text="Online" />
+                tools:text="Place: Online" />
 
             <TextView
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
+                android:textColor="#C5C5C5"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/placeTextView"
-                android:textColor="#C5C5C5"
-                android:textSize="16sp"
                 app:nameText="@{card}"
-                tools:text="Limba Engleza" />
+                tools:text="Name: English" />
 
             <TextView
                 android:id="@+id/descriptionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:textColor="#C5C5C5"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 app:infoText="@{card}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nameTextView"
-                tools:text="Seminar - LAZAR Adriana" />
+                tools:text="Description: Seminar - Lazar Adriana" />
 
             <TextView
                 android:id="@+id/labelTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:textColor="#C5C5C5"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 app:labelText="@{card}"
                 app:layout_constraintStart_toStartOf="@+id/descriptionTextView"
                 app:layout_constraintTop_toBottomOf="@+id/descriptionTextView"
-                tools:text="Week 1" />
+                tools:text="Label: Week 1" />
 
             <TextView
                 android:id="@+id/notesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginBottom="8dp"
                 android:textColor="@color/primaryTextColor"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/descriptionTextView"
                 app:layout_constraintTop_toBottomOf="@+id/labelTextView"
                 app:notesText="@{card}"
-                tools:text="Homework due tomorrow" />
+                tools:text="Notes: Homework due tomorrow" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

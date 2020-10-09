@@ -8,11 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.flaviu.timetable.MainActivity
 import com.flaviu.timetable.R
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.SettingsFragmentBinding
-import com.flaviu.timetable.hideKeyboard
 import com.google.android.material.snackbar.Snackbar
 
 class SettingsFragment : Fragment() {

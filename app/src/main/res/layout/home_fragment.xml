@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:text="Add some cards by pressing the plus button above!"
+            android:text="@string/helper_text_add_screen"
             android:gravity="center"/>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/mainTabLayout"

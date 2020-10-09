@@ -3,36 +3,20 @@ package com.flaviu.timetable
 import android.app.Activity
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.res.Resources
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.navigation.findNavController
-import java.lang.Exception
-import java.util.*
-
-fun weekdayLongToString(number: Long): String {
-    return when(number) {
-        0L -> "Monday"
-        1L -> "Tuesday"
-        2L -> "Wednesday"
-        3L -> "Thursday"
-        4L -> "Friday"
-        5L -> "Saturday"
-        6L -> "Sunday"
-        else -> "What???"
-    }
-}
 
 fun hideKeyboard(activity: Activity) {
     val inputMethodManager =
         activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-    // Check if no view has focus
     val currentFocusedView = activity.currentFocus
     currentFocusedView?.let {
         inputMethodManager.hideSoftInputFromWindow(
-            currentFocusedView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            currentFocusedView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
+        )
     }
 }
 
@@ -53,8 +37,11 @@ fun editTextTimeDialogInject(context: Context?, editText: EditText) {
         val timePicker: TimePickerDialog
         timePicker = TimePickerDialog(
             context,
-            { _, selectedHour, selectedMinute -> editText.setText(
-                timeFormatter(selectedHour, selectedMinute)) },
+            { _, selectedHour, selectedMinute ->
+                editText.setText(
+                    timeFormatter(selectedHour, selectedMinute)
+                )
+            },
             hour,
             minute,
             true
@@ -64,16 +51,17 @@ fun editTextTimeDialogInject(context: Context?, editText: EditText) {
     }
 }
 
-fun intToWeekday(day: Int): String {
-    return listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")[day]
+fun intToWeekday(day: Int, resources: Resources): String {
+    val weekdays = resources.getStringArray(R.array.weekdays)
+    return weekdays[day]
 }
 
-fun weekdayToInt(day: String): Int {
-    val l = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-    for (i in l.indices)
-        if (l[i] == day)
+fun weekdayToInt(day: String, resources: Resources): Int {
+    val weekdays = resources.getStringArray(R.array.weekdays)
+    for (i in weekdays.indices)
+        if (weekdays[i] == day)
             return i
-    throw Exception("Bad")
+    throw Exception("Invalid weekday")
 }
 
 fun editTextWeekdayDialogInject(context: Context?, editText: EditText) {
@@ -83,16 +71,19 @@ fun editTextWeekdayDialogInject(context: Context?, editText: EditText) {
             return@setOnClickListener
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Set your weekday")
-            .setSingleChoiceItems(R.array.weekdays, -1
+            .setSingleChoiceItems(
+                R.array.weekdays, -1
             ) { _, which ->
                 selectedItem = which
             }
-            .setPositiveButton("Ok"
+            .setPositiveButton(
+                "Ok"
             ) { _, _ ->
                 if (selectedItem != null)
-                    editText.setText(intToWeekday(selectedItem!!))
+                    editText.setText(intToWeekday(selectedItem!!, context.resources))
             }
-            .setNegativeButton("Cancel"
+            .setNegativeButton(
+                "Cancel"
             ) { _, _ ->
                 return@setNegativeButton
             }

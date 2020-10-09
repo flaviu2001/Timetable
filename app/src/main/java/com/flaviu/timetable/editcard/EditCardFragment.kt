@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.flaviu.timetable.*
 import com.flaviu.timetable.database.CardDatabase
@@ -26,13 +25,18 @@ class EditCardFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val dataSource = CardDatabase.getInstance(application).cardDatabaseDao
         val arguments = EditCardFragmentArgs.fromBundle(requireArguments())
-        val editCardViewModelFactory = EditCardViewModelFactory(arguments.cardKey, dataSource)
+        val editCardViewModelFactory = EditCardViewModelFactory(arguments.cardKey, dataSource, application)
         viewModel = ViewModelProvider(this, editCardViewModelFactory).get(EditCardViewModel::class.java)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         editTextTimeDialogInject(context, binding.startHourEditText)
         editTextTimeDialogInject(context, binding.endHourEditText)
         editTextWeekdayDialogInject(context, binding.weekdayEditText)
+        binding.clearNotesButton.setOnClickListener{
+            viewModel.clearNotes()
+            this.findNavController().navigateUp()
+            hideKeyboard(activity as MainActivity)
+        }
         setHasOptionsMenu(true)
         return binding.root
     }

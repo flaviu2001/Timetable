@@ -31,54 +31,54 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:textColor="@color/primaryTextColor"
-                android:textSize="16sp"
                 app:timeText="@{card}"
-                tools:text="10-12" />
+                tools:text="Time: 12:00 - 14:00" />
 
             <TextView
                 android:id="@+id/placeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/timeTextView"
-                android:textColor="@color/primaryTextColor"
-                android:textSize="16sp"
                 app:placeText="@{card}"
-                tools:text="Online" />
+                tools:text="Place: Online" />
 
             <TextView
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/placeTextView"
-                android:textColor="@color/primaryTextColor"
-                android:textSize="16sp"
                 app:nameText="@{card}"
-                tools:text="Limba Engleza" />
+                tools:text="Name: English" />
 
             <TextView
                 android:id="@+id/descriptionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="13sp"
+                app:infoText="@{card}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nameTextView"
-                android:textColor="@color/primaryTextColor"
-                android:textSize="16sp"
-                app:infoText="@{card}"
-                tools:text="Seminar - LAZAR Adriana" />
+                tools:text="Description: Seminar - Lazar Adriana" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

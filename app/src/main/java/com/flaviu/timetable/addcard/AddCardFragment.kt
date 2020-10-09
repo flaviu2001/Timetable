@@ -23,7 +23,7 @@ class AddCardFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.add_card_fragment, container, false)
         val application = requireNotNull(this.activity).application
         val dataSource = CardDatabase.getInstance(application).cardDatabaseDao
-        val factory = AddCardViewModelFactory(dataSource)
+        val factory = AddCardViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(this, factory).get(AddCardViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this

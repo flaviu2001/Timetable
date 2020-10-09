@@ -1,5 +1,6 @@
 package com.flaviu.timetable.notes
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.flaviu.timetable.R
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.databinding.NotesCardBinding
-import com.flaviu.timetable.weekdayLongToString
+import com.flaviu.timetable.intToWeekday
 import kotlinx.android.synthetic.main.weekday.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +20,10 @@ import kotlinx.coroutines.withContext
 private const val ITEM_VIEW_TYPE_STRING = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
 
-class NotesAdapter(private val clickListener: NotesCardListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(
+class NotesAdapter(
+    private val resources: Resources,
+    private val clickListener: NotesCardListener,
+) : ListAdapter<DataItem, RecyclerView.ViewHolder>(
     CardDiffCallback()
 ){
     private val adapterScope = CoroutineScope(Dispatchers.Default)
@@ -39,7 +43,7 @@ class NotesAdapter(private val clickListener: NotesCardListener) : ListAdapter<D
             }
             is TextViewHolder -> {
                 val textItem = getItem(position) as DataItem.TextItem
-                holder.itemView.weekday.text= weekdayLongToString(textItem.weekday)
+                holder.itemView.weekday.text= intToWeekday(textItem.weekday, resources)
             }
         }
     }
@@ -64,7 +68,7 @@ class NotesAdapter(private val clickListener: NotesCardListener) : ListAdapter<D
                 if (currWeekday < list[i].weekday)
                     currWeekday = list[i].weekday
                 if (list[i].weekday == currWeekday) {
-                    items.add(DataItem.TextItem(list[i].weekday.toLong()))
+                    items.add(DataItem.TextItem(list[i].weekday))
                     ++currWeekday
                 }
                 items.add(DataItem.CardItem(list[i]))
@@ -122,8 +126,8 @@ sealed class DataItem {
     data class CardItem(val card: Card): DataItem() {
         override val id = Pair(0L, card.cardId)
     }
-    data class TextItem(val weekday: Long): DataItem() {
-        override val id = Pair(1L, weekday)
+    data class TextItem(val weekday: Int): DataItem() {
+        override val id = Pair(1L, weekday.toLong())
     }
     abstract val id: Pair<Long, Long>
 }

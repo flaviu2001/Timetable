@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:text="Modify the notes for your cards to see them here!"
+            android:text="@string/helper_text_notes_screen"
             android:gravity="center"/>
 
         <androidx.recyclerview.widget.RecyclerView

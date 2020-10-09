@@ -30,7 +30,7 @@ class NotesFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory).get(NotesViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        val adapter = NotesAdapter(NotesCardListener { cardKey: Long ->
+        val adapter = NotesAdapter(application.resources, NotesCardListener { cardKey: Long ->
             viewModel.onCardClicked(cardKey)
         })
         binding.cardList.adapter = adapter

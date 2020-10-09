@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:context=".editcard.EditCardFragment">
 
             <EditText
@@ -24,7 +24,9 @@
                 android:inputType="textPersonName"
                 app:infoText="@{viewModel.card}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
-                app:layout_constraintStart_toStartOf="@+id/nameEditText" />
+                app:layout_constraintStart_toStartOf="@+id/nameEditText"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/startHourEditText"
@@ -37,7 +39,9 @@
                 android:focusable="false"
                 app:beginTimeText="@{viewModel.card}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView"
-                app:layout_constraintStart_toEndOf="@+id/textView" />
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/endHourEditText"
@@ -49,7 +53,9 @@
                 android:focusable="false"
                 app:endTimeText="@{viewModel.card}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
-                app:layout_constraintStart_toStartOf="@+id/startHourEditText" />
+                app:layout_constraintStart_toStartOf="@+id/startHourEditText"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/weekdayEditText"
@@ -61,7 +67,9 @@
                 android:focusable="false"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView3"
                 app:layout_constraintStart_toStartOf="@+id/endHourEditText"
-                app:weekdayText="@{viewModel.card}" />
+                app:weekdayText="@{viewModel.card}"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/placeEditText"
@@ -71,7 +79,9 @@
                 android:inputType="textPersonName"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
                 app:layout_constraintStart_toStartOf="@+id/weekdayEditText"
-                app:placeText="@{viewModel.card}" />
+                app:placeText="@{viewModel.card}"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/nameEditText"
@@ -81,7 +91,9 @@
                 android:inputType="textPersonName"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
                 app:layout_constraintStart_toStartOf="@+id/placeEditText"
-                app:nameText="@{viewModel.card}" />
+                app:nameText="@{viewModel.card}"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/labelEditText"
@@ -91,7 +103,9 @@
                 android:inputType="textPersonName"
                 app:labelText="@{viewModel.card}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
-                app:layout_constraintStart_toStartOf="@+id/infoEditText" />
+                app:layout_constraintStart_toStartOf="@+id/infoEditText"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/notesEditText"
@@ -100,9 +114,11 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
-                app:notesText="@{viewModel.card}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
-                app:layout_constraintStart_toStartOf="@+id/labelEditText" />
+                app:layout_constraintStart_toStartOf="@+id/labelEditText"
+                app:notesText="@{viewModel.card}"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <TextView
                 android:id="@+id/textView"
@@ -110,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="40dp"
-                android:text="Staring hour:"
+                android:text="@string/starting_hour"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -120,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Finish hour:"
+                android:text="@string/finish_hour"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -130,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Weekday:"
+                android:text="@string/weekday"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -140,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Place:"
+                android:text="@string/place"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView3"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -150,7 +166,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Name:"
+                android:text="@string/name"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView4"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -160,7 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Description:"
+                android:text="@string/description"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView5"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -170,7 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Label:"
+                android:text="@string/label"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView6"
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -180,10 +196,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Notes:"
+                android:text="@string/notes"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/clear_notes_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:cardBackgroundColor="@color/primaryColor"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/notesEditText">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/clear_notes"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="18sp" />
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -4,53 +4,52 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.flaviu.timetable.database.Card
-import org.w3c.dom.Text
 
 @BindingAdapter("timeText")
 fun TextView.setTimeText(item: Card?) {
     item?.let{
-        var begin = item.timeBegin.toString()
-        var end = item.timeEnd.toString()
+        var begin = item.timeBegin
+        var end = item.timeEnd
         if (begin.length == 1)
             begin = "0$begin"
         if (end.length == 1)
             end = "0$end"
-        text="Time: $begin - $end"
+        text=this.context.resources.getString(R.string.time_parser).format(begin, end)
     }
 }
 
 @BindingAdapter("placeText")
 fun TextView.setPlaceText(item: Card?) {
     item?.let{
-        text="Place: ${item.place}"
+        text=this.context.resources.getString(R.string.place_parser).format(item.place)
     }
 }
 
 @BindingAdapter("nameText")
 fun TextView.setNameText(item: Card?) {
     item?.let{
-        text="Name: ${item.name}"
+        text=this.context.resources.getString(R.string.name_parser).format(item.name)
     }
 }
 
 @BindingAdapter("infoText")
 fun TextView.setInfoText(item: Card?) {
     item?.let{
-        text="Description: ${item.info}"
+        text=this.context.resources.getString(R.string.info_parser).format(item.info)
     }
 }
 
 @BindingAdapter("labelText")
 fun TextView.setLabelText(item: Card?) {
     item?.let{
-        text = "Label: ${item.label}"
+        text=this.context.resources.getString(R.string.label_parser).format(item.label)
     }
 }
 
 @BindingAdapter("notesText")
 fun TextView.setNotesText(item: Card?) {
     item?.let{
-        text="Notes: ${item.notes}"
+        text=this.context.resources.getString(R.string.notes_parser).format(item.notes)
     }
 }
 
@@ -73,7 +72,7 @@ fun EditText.setEndTimeText(item: Card?) {
 @BindingAdapter("weekdayText")
 fun EditText.setWeekdayText(item: Card?) {
     item?.let{
-        setText(intToWeekday(item.weekday))
+        setText(intToWeekday(item.weekday, this.resources))
     }
 }
 

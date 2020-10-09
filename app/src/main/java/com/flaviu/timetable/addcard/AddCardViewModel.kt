@@ -1,14 +1,16 @@
 package com.flaviu.timetable.addcard
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabaseDao
 import com.flaviu.timetable.weekdayToInt
 import kotlinx.coroutines.*
 
 class AddCardViewModel(
-    private val database: CardDatabaseDao
-) : ViewModel() {
+    private val database: CardDatabaseDao,
+    private val viewModelApplication: Application
+) : AndroidViewModel(viewModelApplication) {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -29,7 +31,7 @@ class AddCardViewModel(
         val card = Card(
             timeBegin= start,
             timeEnd = finish,
-            weekday = weekdayToInt(weekday),
+            weekday = weekdayToInt(weekday, viewModelApplication.resources),
             place = place,
             name = name,
             info = info,
