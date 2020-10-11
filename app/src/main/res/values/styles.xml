@@ -7,7 +7,18 @@
         <item name="colorAccent">@color/primaryLightColor</item>
         <item name="android:windowBackground">@drawable/background_gradient</item>
         <item name="actionOverflowMenuStyle">@style/CMOptionsMenu</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
 
+    <style name="BaseEditText">
+        <item name="android:ems">10</item>
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="UneditableEditText" parent="BaseEditText">
+        <item name="android:inputType">none</item>
+        <item name="android:textIsSelectable">false</item>
+        <item name="android:focusable">false</item>
     </style>
 
     <style name="tabAppearance">
