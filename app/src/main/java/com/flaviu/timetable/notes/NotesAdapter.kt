@@ -82,8 +82,8 @@ class NotesAdapter(
     class ViewHolder private constructor(private val binding: NotesCardBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(clickListener: NotesCardListener, item: Card) {
             binding.card = item
-            binding.executePendingBindings()
             binding.clickListener = clickListener
+            binding.executePendingBindings()
         }
 
         companion object {

@@ -1,5 +1,6 @@
 package com.flaviu.timetable.list
 
+import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
@@ -85,8 +86,8 @@ class CardAdapter (
     class ViewHolder private constructor(private val binding: TimetableCardBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(clickListener: CardListener, item: Card) {
             binding.card = item
-            binding.executePendingBindings()
             binding.clickListener = clickListener
+            binding.executePendingBindings()
         }
 
         companion object {
