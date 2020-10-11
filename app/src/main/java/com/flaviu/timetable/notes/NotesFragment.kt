@@ -1,5 +1,6 @@
 package com.flaviu.timetable.notes
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,10 +47,14 @@ class NotesFragment : Fragment() {
                 adapter.addHeaderAndSubmitList(it)
             }
         })
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         viewModel.navigateToEditCard.observe(viewLifecycleOwner, {cardKey ->
             cardKey?.let{
-                this.findNavController().navigate(NotesFragmentDirections.actionNotesFragmentToEditCardFragment(cardKey))
-                viewModel.onEditCardNavigated()
+                val canEdit = sharedPref.getBoolean(getString(R.string.saved_edit_state), true)
+                if (canEdit) {
+                    this.findNavController().navigate(NotesFragmentDirections.actionNotesFragmentToEditCardFragment(cardKey))
+                    viewModel.onEditCardNavigated()
+                }
             }
         })
         return binding.root

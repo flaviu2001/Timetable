@@ -23,6 +23,11 @@
     <string name="info_parser">Description: %1$s</string>
     <string name="label_parser">Label: %1$s</string>
     <string name="notes_parser">Notes: %1$s</string>
+    <string name="saved_edit_state">editState</string>
+    <string name="lock">Lock</string>
+    <string name="unlock">Unlock</string>
+    <string name="yes">yes</string>
+    <string name="no">No</string>
     <string-array name="weekdays">
         <item>Monday</item>
         <item>Tuesday</item>

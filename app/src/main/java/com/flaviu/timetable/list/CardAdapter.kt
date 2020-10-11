@@ -1,6 +1,5 @@
 package com.flaviu.timetable.list
 
-import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View

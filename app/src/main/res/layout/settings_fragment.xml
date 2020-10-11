@@ -7,32 +7,39 @@
             name="viewModel"
             type="com.flaviu.timetable.settings.SettingsViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".settings.SettingsFragment">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/clear_button"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cardBackgroundColor="@color/primaryColor"
-            app:cardCornerRadius="15dp">
-            <TextView
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/toggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
                 android:textColor="@color/primaryTextColor"
-                android:text="@string/clear"
-                android:textSize="20sp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"/>
+                android:textSize="17sp"
+                android:layout_marginBottom="16dp"
+                tools:text="Lock" />
 
-        </androidx.cardview.widget.CardView>
+            <Button
+                android:id="@+id/clear_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:text="@string/clear"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="17sp" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
