@@ -54,4 +54,8 @@
             android:id="@+id/action_notesFragment_to_editCardFragment"
             app:destination="@id/editCardFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.flaviu.timetable.about.AboutFragment"
+        android:label="About" />
 </navigation>
