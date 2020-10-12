@@ -1,8 +1,10 @@
 package com.flaviu.timetable.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -56,6 +58,9 @@ class HomeFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu, menu)
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val canEdit = sharedPref.getBoolean(getString(R.string.saved_edit_state), true)
+        menu[0].isVisible = canEdit
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
