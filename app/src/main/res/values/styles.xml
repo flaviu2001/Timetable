@@ -11,7 +11,7 @@
     </style>
 
     <style name="BaseEditText">
-        <item name="android:ems">10</item>
+        <item name="android:ems">13</item>
         <item name="android:inputType">text</item>
     </style>
 

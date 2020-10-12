@@ -38,7 +38,8 @@ class AddCardFragment : Fragment() {
         binding.colorEditText.setOnClickListener{
             val colorPickerDialog = ColorPickerDialog.newBuilder()
                 .setDialogType(ColorPickerDialog.TYPE_PRESETS)
-                .setColor(ContextCompat.getColor(requireContext(), R.color.primaryDarkColor))
+                .setColor(itemColor)
+                .setPresets(preset_colors)
                 .create()
             colorPickerDialog.setColorPickerDialogListener(object: ColorPickerDialogListener{
                 override fun onColorSelected(dialogId: Int, color: Int) {

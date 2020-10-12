@@ -8,6 +8,24 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 
+val preset_colors: IntArray = listOf(
+    0xFF751600, // My dark red
+    0xFF960B0B, // My red
+    0xFF880E4F, // My red purple
+    0xFF9C27B0, // PURPLE 500
+    0xFF4a148c, // My blue purple
+    0xFF673AB7, // DEEP PURPLE 500
+    0xFF003B8E, // My dark blue
+    0xFF3F51B5, // INDIGO 500
+    0xFF004D40, // My teal
+    0xFF1B5E20, // My dark green
+    0xFF966C05, // My yellow
+    0xFFA54610, // My orange
+    0xFF3E2723, // My ???
+    0xFF444444, // My Grey
+    0xFF000000, // My black
+).map{it.toInt()}.toIntArray()
+
 fun hideKeyboard(activity: Activity) {
     val inputMethodManager =
         activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

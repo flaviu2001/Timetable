@@ -13,7 +13,6 @@ import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.EditCardFragmentBinding
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
-import java.lang.Exception
 
 class EditCardFragment : Fragment() {
 
@@ -29,7 +28,11 @@ class EditCardFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val dataSource = CardDatabase.getInstance(application).cardDatabaseDao
         val arguments = EditCardFragmentArgs.fromBundle(requireArguments())
-        val editCardViewModelFactory = EditCardViewModelFactory(arguments.cardKey, dataSource, application)
+        val editCardViewModelFactory = EditCardViewModelFactory(
+            arguments.cardKey,
+            dataSource,
+            application
+        )
         viewModel = ViewModelProvider(this, editCardViewModelFactory).get(EditCardViewModel::class.java)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -48,13 +51,15 @@ class EditCardFragment : Fragment() {
         binding.colorEditText.setOnClickListener{
             val colorPickerDialog = ColorPickerDialog.newBuilder()
                 .setDialogType(ColorPickerDialog.TYPE_PRESETS)
-                .setColor(ContextCompat.getColor(requireContext(), R.color.primaryDarkColor))
+                .setColor(itemColor)
+                .setPresets(preset_colors)
                 .create()
-            colorPickerDialog.setColorPickerDialogListener(object: ColorPickerDialogListener {
+            colorPickerDialog.setColorPickerDialogListener(object : ColorPickerDialogListener {
                 override fun onColorSelected(dialogId: Int, color: Int) {
                     binding.colorEditText.setTextColor(color)
                     itemColor = color
                 }
+
                 override fun onDialogDismissed(dialogId: Int) {
 
                 }
@@ -81,7 +86,17 @@ class EditCardFragment : Fragment() {
                 val label = binding.labelEditText.text.toString()
                 val notes = binding.notesEditText.text.toString()
                 try {
-                    viewModel.cloneCard(start, finish, weekday, place, name, info, label, notes, itemColor)
+                    viewModel.cloneCard(
+                        start,
+                        finish,
+                        weekday,
+                        place,
+                        name,
+                        info,
+                        label,
+                        notes,
+                        itemColor
+                    )
                     this.findNavController().navigateUp()
                     hideKeyboard(activity as MainActivity)
                 } catch (e: Exception) {
@@ -99,12 +114,23 @@ class EditCardFragment : Fragment() {
                 val info = binding.infoEditText.text.toString()
                 val label = binding.labelEditText.text.toString()
                 val notes = binding.notesEditText.text.toString()
-                try{
-                    viewModel.editCard(start, finish, weekday, place, name, info, label, notes, itemColor)
+                try {
+                    viewModel.editCard(
+                        start,
+                        finish,
+                        weekday,
+                        place,
+                        name,
+                        info,
+                        label,
+                        notes,
+                        itemColor
+                    )
                     this.findNavController().navigateUp()
                     hideKeyboard(activity as MainActivity)
                 } catch (e: Exception) {
-                    Toast.makeText(context, e.localizedMessage!!.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, e.localizedMessage!!.toString(), Toast.LENGTH_SHORT)
+                        .show()
                 }
                 true
             }
