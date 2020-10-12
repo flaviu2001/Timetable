@@ -110,3 +110,10 @@ fun EditText.setNotesText(item: Card?) {
         setText(item.notes)
     }
 }
+
+@BindingAdapter("customBackgroundColor")
+fun androidx.cardview.widget.CardView.setCustomBackgroundColor(item: Card?) {
+    item?.let {
+        setCardBackgroundColor(item.color)
+    }
+}

@@ -3,6 +3,7 @@ package com.flaviu.timetable.editcard
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -10,12 +11,15 @@ import androidx.navigation.fragment.findNavController
 import com.flaviu.timetable.*
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.EditCardFragmentBinding
+import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import java.lang.Exception
 
 class EditCardFragment : Fragment() {
 
     private lateinit var viewModel: EditCardViewModel
     private lateinit var binding: EditCardFragmentBinding
+    private var itemColor = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +41,26 @@ class EditCardFragment : Fragment() {
             this.findNavController().navigateUp()
             hideKeyboard(activity as MainActivity)
         }
+        viewModel.card.observe(viewLifecycleOwner, {
+            itemColor = it.color
+            binding.colorEditText.setTextColor(itemColor)
+        })
+        binding.colorEditText.setOnClickListener{
+            val colorPickerDialog = ColorPickerDialog.newBuilder()
+                .setDialogType(ColorPickerDialog.TYPE_PRESETS)
+                .setColor(ContextCompat.getColor(requireContext(), R.color.primaryDarkColor))
+                .create()
+            colorPickerDialog.setColorPickerDialogListener(object: ColorPickerDialogListener {
+                override fun onColorSelected(dialogId: Int, color: Int) {
+                    binding.colorEditText.setTextColor(color)
+                    itemColor = color
+                }
+                override fun onDialogDismissed(dialogId: Int) {
+
+                }
+            })
+            colorPickerDialog.show(childFragmentManager, "Choose a color")
+        }
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -57,7 +81,7 @@ class EditCardFragment : Fragment() {
                 val label = binding.labelEditText.text.toString()
                 val notes = binding.notesEditText.text.toString()
                 try {
-                    viewModel.cloneCard(start, finish, weekday, place, name, info, label, notes)
+                    viewModel.cloneCard(start, finish, weekday, place, name, info, label, notes, itemColor)
                     this.findNavController().navigateUp()
                     hideKeyboard(activity as MainActivity)
                 } catch (e: Exception) {
@@ -76,7 +100,7 @@ class EditCardFragment : Fragment() {
                 val label = binding.labelEditText.text.toString()
                 val notes = binding.notesEditText.text.toString()
                 try{
-                    viewModel.editCard(start, finish, weekday, place, name, info, label, notes)
+                    viewModel.editCard(start, finish, weekday, place, name, info, label, notes, itemColor)
                     this.findNavController().navigateUp()
                     hideKeyboard(activity as MainActivity)
                 } catch (e: Exception) {

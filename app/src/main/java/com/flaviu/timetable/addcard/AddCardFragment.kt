@@ -3,6 +3,7 @@ package com.flaviu.timetable.addcard
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -10,11 +11,13 @@ import androidx.navigation.fragment.findNavController
 import com.flaviu.timetable.*
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.AddCardFragmentBinding
-
+import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 
 class AddCardFragment : Fragment() {
     private lateinit var binding: AddCardFragmentBinding
     private lateinit var viewModel: AddCardViewModel
+    private var itemColor = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +33,24 @@ class AddCardFragment : Fragment() {
         editTextTimeDialogInject(context, binding.startHourEditText)
         editTextTimeDialogInject(context, binding.endHourEditText)
         editTextWeekdayDialogInject(context, binding.weekdayEditText)
+        itemColor = ContextCompat.getColor(requireContext(), R.color.primaryDarkColor)
+        binding.colorEditText.setTextColor(itemColor)
+        binding.colorEditText.setOnClickListener{
+            val colorPickerDialog = ColorPickerDialog.newBuilder()
+                .setDialogType(ColorPickerDialog.TYPE_PRESETS)
+                .setColor(ContextCompat.getColor(requireContext(), R.color.primaryDarkColor))
+                .create()
+            colorPickerDialog.setColorPickerDialogListener(object: ColorPickerDialogListener{
+                override fun onColorSelected(dialogId: Int, color: Int) {
+                    binding.colorEditText.setTextColor(color)
+                    itemColor = color
+                }
+                override fun onDialogDismissed(dialogId: Int) {
+
+                }
+            })
+            colorPickerDialog.show(childFragmentManager, "Choose a color")
+        }
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -50,7 +71,7 @@ class AddCardFragment : Fragment() {
             val label = binding.labelEditText.text.toString()
             val notes = binding.notesEditText.text.toString()
             try{
-                viewModel.addCard(start, finish, weekday, place, name, info, label, notes)
+                viewModel.addCard(start, finish, weekday, place, name, info, label, notes, itemColor)
                 this.findNavController().navigateUp()
                 hideKeyboard(activity as MainActivity)
             } catch (e: Exception) {

@@ -15,5 +15,6 @@ data class Card (
     var name: String,
     var info: String,
     var label: String,
-    var notes: String
+    var notes: String,
+    var color: Int
 )
