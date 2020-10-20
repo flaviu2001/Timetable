@@ -76,7 +76,7 @@ class HomeFragment : Fragment() {
             if (viewModel.cards.value == null)
                 return@Observer
             binding.pager.adapter = PagerAdapter(
-                requireActivity().supportFragmentManager,
+                childFragmentManager,
                 viewLifecycleOwner.lifecycle,
                 viewModel.tabs
             )

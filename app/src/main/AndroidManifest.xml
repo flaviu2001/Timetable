@@ -11,8 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name="com.flaviu.timetable.MainActivity"
-            android:screenOrientation="portrait">
+        <activity android:name="com.flaviu.timetable.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

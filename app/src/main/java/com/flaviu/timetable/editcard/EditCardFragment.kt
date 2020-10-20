@@ -1,7 +1,6 @@
 package com.flaviu.timetable.editcard
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
