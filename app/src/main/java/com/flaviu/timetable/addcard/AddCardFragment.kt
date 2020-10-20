@@ -18,7 +18,7 @@ class AddCardFragment : Fragment() {
     private lateinit var binding: AddCardFragmentBinding
     private lateinit var viewModel: AddCardViewModel
     private var itemColor = 0
-    private var textColor = 0xFFFFFF
+    private var textColor = 0xFFFFFFFF.toInt()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +57,7 @@ class AddCardFragment : Fragment() {
         binding.textColorEditText.setOnClickListener{
             val colorPickerDialog = ColorPickerDialog.newBuilder()
                 .setDialogType(ColorPickerDialog.TYPE_PRESETS)
-                .setColor(itemColor)
+                .setColor(textColor)
                 .setPresets(text_preset_colors)
                 .create()
             colorPickerDialog.setColorPickerDialogListener(object: ColorPickerDialogListener{
