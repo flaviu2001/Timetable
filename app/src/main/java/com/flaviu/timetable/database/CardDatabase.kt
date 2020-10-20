@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 
-@Database(entities = [Card::class], version = 1, exportSchema = false)
+@Database(entities = [Card::class], version = 6, exportSchema = false)
 abstract class CardDatabase : RoomDatabase() {
 
     abstract val cardDatabaseDao: CardDatabaseDao
@@ -14,6 +16,12 @@ abstract class CardDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: CardDatabase? = null
+
+        private val migration_1_6: Migration = object : Migration(1, 6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE timetable_card_table ADD COLUMN textColor INTEGER DEFAULT 4294967295 NOT NULL")
+            }
+        }
 
         fun getInstance(context: Context): CardDatabase {
             synchronized(this) {
@@ -24,7 +32,7 @@ abstract class CardDatabase : RoomDatabase() {
                         CardDatabase::class.java,
                         "card_database"
                     )
-                        .fallbackToDestructiveMigration()
+                        .addMigrations(migration_1_6)
                         .build()
                     INSTANCE = instance
                 }

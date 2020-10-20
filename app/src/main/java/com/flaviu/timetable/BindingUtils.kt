@@ -15,6 +15,7 @@ fun TextView.setTimeText(item: Card?) {
         if (end.length == 1)
             end = "0$end"
         text=this.context.resources.getString(R.string.time_parser).format(begin, end)
+        setTextColor(item.textColor)
     }
 }
 
@@ -22,6 +23,7 @@ fun TextView.setTimeText(item: Card?) {
 fun TextView.setPlaceText(item: Card?) {
     item?.let{
         text=this.context.resources.getString(R.string.place_parser).format(item.place)
+        setTextColor(item.textColor)
     }
 }
 
@@ -29,6 +31,7 @@ fun TextView.setPlaceText(item: Card?) {
 fun TextView.setNameText(item: Card?) {
     item?.let{
         text=this.context.resources.getString(R.string.name_parser).format(item.name)
+        setTextColor(item.textColor)
     }
 }
 
@@ -36,6 +39,7 @@ fun TextView.setNameText(item: Card?) {
 fun TextView.setInfoText(item: Card?) {
     item?.let{
         text=this.context.resources.getString(R.string.info_parser).format(item.info)
+        setTextColor(item.textColor)
     }
 }
 
@@ -43,6 +47,7 @@ fun TextView.setInfoText(item: Card?) {
 fun TextView.setLabelText(item: Card?) {
     item?.let{
         text=this.context.resources.getString(R.string.label_parser).format(item.label)
+        setTextColor(item.textColor)
     }
 }
 
@@ -50,6 +55,7 @@ fun TextView.setLabelText(item: Card?) {
 fun TextView.setNotesText(item: Card?) {
     item?.let{
         text=this.context.resources.getString(R.string.notes_parser).format(item.notes)
+        setTextColor(item.textColor)
     }
 }
 

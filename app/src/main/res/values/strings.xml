@@ -43,6 +43,7 @@
     <string name="things_you_can_do">Things you can do</string>
     <string name="developer">Developer</string>
     <string name="developer_text">Developed with enthusiasm by Craciun Ioan-Flaviu.\nEmail: jack92657@gmail.com</string>
-    <string name="set_color">Color</string>
+    <string name="set_color">Card color</string>
     <string name="no_need_for_hint">No need for hint</string>
+    <string name="text_color">Text color</string>
 </resources>

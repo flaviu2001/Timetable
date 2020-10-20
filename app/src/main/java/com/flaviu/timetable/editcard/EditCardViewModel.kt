@@ -43,7 +43,8 @@ class EditCardViewModel(
         info: String,
         label: String,
         notes: String,
-        color: Int
+        color: Int,
+        textColor: Int
     ) {
         listOf(start, finish, weekday, place, name, label).forEach{
             if (it.isEmpty())
@@ -59,6 +60,7 @@ class EditCardViewModel(
         newCard.label = label
         newCard.notes = notes
         newCard.color = color
+        newCard.textColor = textColor
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 dataSource.update(newCard)
@@ -75,7 +77,8 @@ class EditCardViewModel(
         info: String,
         label: String,
         notes: String,
-        color: Int
+        color: Int,
+        textColor: Int
     ) {
         listOf(start, finish, weekday, place, name, label).forEach{
             if (it.isEmpty())
@@ -89,7 +92,8 @@ class EditCardViewModel(
             info = info,
             label = label,
             notes = notes,
-            color = color
+            color = color,
+            textColor = textColor
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {

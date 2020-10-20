@@ -126,6 +126,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/notesEditText" />
 
+            <EditText
+                android:id="@+id/textColorEditText"
+                style="@style/UneditableEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:hint="@string/no_need_for_hint"
+                android:importantForAutofill="no"
+                android:text="@string/text_color"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/colorEditText"
+                app:layout_constraintStart_toStartOf="@+id/colorEditText"
+                app:layout_constraintTop_toBottomOf="@+id/colorEditText" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

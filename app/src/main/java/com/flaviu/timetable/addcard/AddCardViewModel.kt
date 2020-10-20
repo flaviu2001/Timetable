@@ -23,7 +23,8 @@ class AddCardViewModel(
         info: String,
         label: String,
         notes: String,
-        color: Int
+        color: Int,
+        textColor: Int
     ) {
         listOf(start, finish, weekday, place, name, label).forEach{
             if (it.isEmpty())
@@ -38,7 +39,8 @@ class AddCardViewModel(
             info = info,
             label = label,
             notes = notes,
-            color = color
+            color = color,
+            textColor = textColor
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {

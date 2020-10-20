@@ -1,6 +1,7 @@
 package com.flaviu.timetable.editcard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -18,6 +19,7 @@ class EditCardFragment : Fragment() {
     private lateinit var viewModel: EditCardViewModel
     private lateinit var binding: EditCardFragmentBinding
     private var itemColor = 0
+    private var textColor = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +47,9 @@ class EditCardFragment : Fragment() {
         }
         viewModel.card.observe(viewLifecycleOwner, {
             itemColor = it.color
+            textColor = it.textColor
             binding.colorEditText.setTextColor(itemColor)
+            binding.textColorEditText.setTextColor(textColor)
         })
         binding.colorEditText.setOnClickListener{
             val colorPickerDialog = ColorPickerDialog.newBuilder()
@@ -57,6 +61,24 @@ class EditCardFragment : Fragment() {
                 override fun onColorSelected(dialogId: Int, color: Int) {
                     binding.colorEditText.setTextColor(color)
                     itemColor = color
+                }
+
+                override fun onDialogDismissed(dialogId: Int) {
+
+                }
+            })
+            colorPickerDialog.show(childFragmentManager, "Choose a color")
+        }
+        binding.textColorEditText.setOnClickListener{
+            val colorPickerDialog = ColorPickerDialog.newBuilder()
+                .setDialogType(ColorPickerDialog.TYPE_PRESETS)
+                .setColor(textColor)
+                .setPresets(text_preset_colors)
+                .create()
+            colorPickerDialog.setColorPickerDialogListener(object : ColorPickerDialogListener {
+                override fun onColorSelected(dialogId: Int, color: Int) {
+                    binding.textColorEditText.setTextColor(color)
+                    textColor = color
                 }
 
                 override fun onDialogDismissed(dialogId: Int) {
@@ -94,7 +116,8 @@ class EditCardFragment : Fragment() {
                         info,
                         label,
                         notes,
-                        itemColor
+                        itemColor,
+                        textColor
                     )
                     this.findNavController().navigateUp()
                     hideKeyboard(activity as MainActivity)
@@ -123,7 +146,8 @@ class EditCardFragment : Fragment() {
                         info,
                         label,
                         notes,
-                        itemColor
+                        itemColor,
+                        textColor
                     )
                     this.findNavController().navigateUp()
                     hideKeyboard(activity as MainActivity)
