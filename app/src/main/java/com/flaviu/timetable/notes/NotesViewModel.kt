@@ -10,7 +10,11 @@ import com.flaviu.timetable.database.CardDatabaseDao
 class NotesViewModel(dataSource: CardDatabaseDao) : ViewModel() {
     var cards: LiveData<List<Card>> = Transformations.map(dataSource.getAllCards()) {
         val data = mutableListOf<Card>()
-        it.forEach{card ->
+        it.sortedWith(compareBy(
+            {card -> card.weekday },
+            {card -> card.timeBegin},
+            {card -> card.timeEnd})
+        ).forEach{ card ->
             if (card.notes.isNotEmpty())
                 data.add(card)
         }
