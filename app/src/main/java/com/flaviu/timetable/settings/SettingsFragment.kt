@@ -10,27 +10,28 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.flaviu.timetable.R
+import com.flaviu.timetable.*
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.SettingsFragmentBinding
 import com.google.android.material.snackbar.Snackbar
+import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: SettingsFragmentBinding
     private lateinit var viewModel: SettingsViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.settings_fragment, container, false)
+    private fun setupViewModel() {
         val application = requireNotNull(this.activity).application
         val dataSource = CardDatabase.getInstance(application).cardDatabaseDao
         val factory = SettingsViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, factory).get(SettingsViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+    }
+
+    private fun setupClickListeners() {
         binding.clearButton.setOnClickListener{ view: View ->
             AlertDialog.Builder(this.context)
                 .setTitle("Are you sure you want to clear all data?")
@@ -61,6 +62,60 @@ class SettingsFragment : Fragment() {
                 apply()
             }
         }
+        binding.setBackgroundButton.setOnClickListener{
+            val colorPickerDialog = ColorPickerDialog.newBuilder()
+                .setDialogType(ColorPickerDialog.TYPE_PRESETS)
+                .setColor(getBackgroundColor(requireActivity()))
+                .setPresets(preset_colors)
+                .create()
+            colorPickerDialog.setColorPickerDialogListener(object: ColorPickerDialogListener {
+                override fun onColorSelected(dialogId: Int, color: Int) {
+                    updateBackgroundColor(requireActivity(), color)
+                    setBackgroundColor(requireActivity())
+                }
+                override fun onDialogDismissed(dialogId: Int) {
+
+                }
+            })
+            colorPickerDialog.show(childFragmentManager, "Choose a color")
+        }
+        binding.setAccentButton.setOnClickListener{
+            val colorPickerDialog = ColorPickerDialog.newBuilder()
+                .setDialogType(ColorPickerDialog.TYPE_PRESETS)
+                .setColor(getAccentColor(requireActivity()))
+                .setPresets(preset_colors)
+                .create()
+            colorPickerDialog.setColorPickerDialogListener(object: ColorPickerDialogListener {
+                override fun onColorSelected(dialogId: Int, color: Int) {
+                    updateAccentColor(requireActivity(), color)
+                    setAccentColor(requireActivity())
+                    refreshButtons()
+                }
+                override fun onDialogDismissed(dialogId: Int) {
+
+                }
+            })
+            colorPickerDialog.show(childFragmentManager, "Choose a color")
+        }
+    }
+
+    fun refreshButtons() {
+        listOf(binding.setAccentButton,
+            binding.setBackgroundButton,
+            binding.clearButton,
+            binding.toggleButton).forEach{
+            setButtonColor(it, requireActivity())
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.settings_fragment, container, false)
+        setupViewModel()
+        setupClickListeners()
+        refreshButtons()
         return binding.root
     }
 }

@@ -3,7 +3,6 @@ package com.flaviu.timetable.addcard
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -34,7 +33,7 @@ class AddCardFragment : Fragment() {
         editTextTimeDialogInject(context, binding.startHourEditText)
         editTextTimeDialogInject(context, binding.endHourEditText)
         editTextWeekdayDialogInject(context, binding.weekdayEditText)
-        itemColor = ContextCompat.getColor(requireContext(), R.color.primaryDarkColor)
+        itemColor = getAccentColor(requireActivity())
         binding.colorEditText.setTextColor(itemColor)
         binding.colorEditText.setOnClickListener{
             val colorPickerDialog = ColorPickerDialog.newBuilder()

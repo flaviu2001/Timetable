@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +40,28 @@
                 android:background="@drawable/rounded_button"
                 android:text="@string/clear"
                 android:textColor="@color/primaryTextColor"
+                android:layout_marginBottom="16dp"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/set_accent_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:text="@string/accent_color"
+                android:textColor="@color/primaryTextColor"
+                android:padding="10dp"
+                android:layout_marginBottom="16dp"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/set_background_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:text="@string/background_color"
+                android:textColor="@color/primaryTextColor"
+                android:padding="10dp"
                 android:textSize="17sp" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

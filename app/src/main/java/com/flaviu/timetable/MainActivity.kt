@@ -14,8 +14,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(binding.toolbar)
+        setBackgroundColor(this)
+        setAccentColor(this)
         NavigationUI.setupActionBarWithNavController(this, this.findNavController(R.id.nav_host_fragment))
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

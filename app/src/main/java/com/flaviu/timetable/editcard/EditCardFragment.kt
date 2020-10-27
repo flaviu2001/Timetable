@@ -86,6 +86,7 @@ class EditCardFragment : Fragment() {
             })
             colorPickerDialog.show(childFragmentManager, "Choose a color")
         }
+        setButtonColor(binding.clearNotesButton, requireActivity())
         setHasOptionsMenu(true)
         return binding.root
     }

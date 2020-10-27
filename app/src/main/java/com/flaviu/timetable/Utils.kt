@@ -4,9 +4,13 @@ import android.app.Activity
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.drawable.ColorDrawable
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import top.defaults.drawabletoolbox.DrawableBuilder
 
 val preset_colors: IntArray = listOf(
     0xFF751600, // My dark red
@@ -31,6 +35,7 @@ val preset_colors: IntArray = listOf(
     0xFF2196F3, // BLUE 500
     0xFF03A9F4, // LIGHT BLUE 500
     0xFF00BCD4, // CYAN 500
+    0xFF90CAF9, // My light blue
     0xFF009688, // TEAL 500
     0xFF4CAF50, // GREEN 500
     0xFF8BC34A, // LIGHT GREEN 500
@@ -65,6 +70,7 @@ val text_preset_colors: IntArray = listOf(
     0xFF2196F3, // BLUE 500
     0xFF03A9F4, // LIGHT BLUE 500
     0xFF00BCD4, // CYAN 500
+    0xFF90CAF9, // My light blue
     0xFF009688, // TEAL 500
     0xFF4CAF50, // GREEN 500
     0xFF8BC34A, // LIGHT GREEN 500
@@ -158,4 +164,50 @@ fun editTextWeekdayDialogInject(context: Context?, editText: EditText) {
         builder.show()
 
     }
+}
+
+fun getBackgroundColor(activity: Activity): Int {
+    val sharedPref = activity.getPreferences(Context.MODE_PRIVATE)
+    return sharedPref.getInt("background_color", ContextCompat.getColor(activity.applicationContext, R.color.secondaryColor))
+}
+
+fun updateBackgroundColor(activity: Activity, color: Int) {
+    val sharedPref = activity.getPreferences(Context.MODE_PRIVATE)
+    with(sharedPref.edit()) {
+        putInt("background_color", color)
+        apply()
+    }
+}
+
+fun setBackgroundColor(activity: Activity) {
+    val bgColor = getBackgroundColor(activity)
+    activity.window.setBackgroundDrawable(ColorDrawable(bgColor))
+    activity.window.navigationBarColor = bgColor
+}
+
+fun getAccentColor(activity: Activity): Int {
+    val sharedPref = activity.getPreferences(Context.MODE_PRIVATE)
+    return sharedPref.getInt("accent_color", ContextCompat.getColor(activity.applicationContext, R.color.primaryDarkColor))
+}
+
+fun updateAccentColor(activity: Activity, color: Int) {
+    val sharedPref = activity.getPreferences(Context.MODE_PRIVATE)
+    with(sharedPref.edit()) {
+        putInt("accent_color", color)
+        apply()
+    }
+}
+
+fun setAccentColor(activity: Activity) {
+    val accentColor = getAccentColor(activity)
+    (activity as MainActivity).binding.toolbar.setBackgroundColor(accentColor)
+    activity.window.statusBarColor = accentColor
+}
+
+fun setButtonColor(button: Button, activity: Activity) {
+    button.background = DrawableBuilder()
+        .rectangle()
+        .solidColor(getAccentColor(activity))
+        .rounded()
+        .build()
 }

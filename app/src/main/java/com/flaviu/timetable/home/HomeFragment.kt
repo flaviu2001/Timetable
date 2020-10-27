@@ -18,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.flaviu.timetable.R
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.HomeFragmentBinding
+import com.flaviu.timetable.getAccentColor
 import com.flaviu.timetable.list.ListFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -85,6 +86,7 @@ class HomeFragment : Fragment() {
                     return@TabLayoutMediator
                 tab.text = viewModel.tabs.value!![position]
             }.attach()
+            binding.mainTabLayout.setSelectedTabIndicatorColor(getAccentColor(requireActivity()))
         })
     }
 
