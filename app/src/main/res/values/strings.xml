@@ -39,7 +39,7 @@
     </string-array>
     <string name="about">About</string>
     <string name="about_text">Thanks for using my timetable app! This is my first project and I worked quite a bit into making it look as neat as possible, however there are many improvements to be made. You can email me at the address below for feedback or suggestions, until then I hope the app will serve you well!</string>
-    <string name="things_to_do">Add cards by pressing the + button in the toolbar.\nEdit cards by tapping them.\nWrite notes for each card and see all notes in the notes menu.\nLock cards to be unable to edit them.\nOrganize your timetable for multiple weeks or multiple people by assigning different labels per card.\nSleep well and don\'t overwork yourself!</string>
+    <string name="things_to_do">Add cards by pressing the + button in the toolbar.\nEdit cards by tapping them.\nWrite notes for each card and see all the notes in the notes menu.\nLock cards to be unable to edit them.\nOrganize your timetable for multiple weeks or multiple people by assigning different labels per card.\nColor your app from the settings page however you like.\nSleep well and don\'t overwork yourself!</string>
     <string name="things_you_can_do">Things you can do</string>
     <string name="developer">Developer</string>
     <string name="developer_text">Developed with enthusiasm by Craciun Ioan-Flaviu.\nEmail: jack92657@gmail.com</string>
