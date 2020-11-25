@@ -7,7 +7,7 @@
         <item name="colorAccent">@color/primaryLightColor</item>
         <item name="actionOverflowMenuStyle">@style/CMOptionsMenu</item>
         <item name="android:statusBarColor">@android:color/white</item>
-        <item name="fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">@string/default_font</item> <!-- can't type sans-serif-medium directly because android 7 crashes on Toast -->
     </style>
 
     <style name="BaseEditText">
