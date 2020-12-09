@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.flaviu.timetable.database.CardDatabaseDao
 import com.flaviu.timetable.database.Subtask
-import com.flaviu.timetable.databinding.SubtaskBinding
+import com.flaviu.timetable.databinding.SubtaskCardBinding
 
 class SubtaskAdapter(private val lifecycleOwner: LifecycleOwner, private val database: CardDatabaseDao) : RecyclerView.Adapter<SubtaskHolder>() {
     var data = listOf<Subtask>()
@@ -29,9 +29,10 @@ class SubtaskAdapter(private val lifecycleOwner: LifecycleOwner, private val dat
     }
 }
 
-class SubtaskHolder private constructor(private val binding: SubtaskBinding): RecyclerView.ViewHolder(binding.root){
+class SubtaskHolder private constructor(private val binding: SubtaskCardBinding): RecyclerView.ViewHolder(binding.root){
     fun bind(subtask: Subtask, lifecycleOwner: LifecycleOwner, database: CardDatabaseDao) {
         binding.subtask = subtask
+//        Log.i("pula", subtask.description)
         database.get(subtask.cardId).observe(lifecycleOwner) {
             if (it != null)
                 binding.card = it
@@ -41,7 +42,7 @@ class SubtaskHolder private constructor(private val binding: SubtaskBinding): Re
     companion object {
         fun from(parent: ViewGroup): SubtaskHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = SubtaskBinding.inflate(layoutInflater, parent, false)
+            val binding = SubtaskCardBinding.inflate(layoutInflater, parent, false)
             return SubtaskHolder(binding)
         }
     }

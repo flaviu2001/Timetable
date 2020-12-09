@@ -30,7 +30,7 @@ class SubtaskFragment : Fragment() {
         binding.subtaskList.adapter = adapter
         viewModel.subtasks.observe(viewLifecycleOwner) {
             adapter.data = it
-//            Log.i("SubtaskFragment", it.size.toString())
+            Log.i("pula", it.size.toString())
         }
         return binding.root
     }
