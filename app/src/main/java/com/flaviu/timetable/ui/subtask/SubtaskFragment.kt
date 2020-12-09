@@ -5,13 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.SubtaskFragmentBinding
-import com.flaviu.timetable.ui.list.CardAdapter
-import com.flaviu.timetable.ui.list.CardListener
 
 class SubtaskFragment : Fragment() {
     private lateinit var binding: SubtaskFragmentBinding
@@ -28,9 +26,9 @@ class SubtaskFragment : Fragment() {
         binding.viewModel = viewModel
         val adapter = SubtaskAdapter(viewLifecycleOwner, database)
         binding.subtaskList.adapter = adapter
+        binding.subtaskList.layoutManager = GridLayoutManager(context, 2)
         viewModel.subtasks.observe(viewLifecycleOwner) {
             adapter.data = it
-            Log.i("pula", it.size.toString())
         }
         return binding.root
     }

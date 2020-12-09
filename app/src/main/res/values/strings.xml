@@ -17,7 +17,6 @@
     <string name="place_parser">Place: %1$s</string>
     <string name="name_parser">Name: %1$s</string>
     <string name="info_parser">Description: %1$s</string>
-    <string name="label_parser">Label: %1$s</string>
     <string name="saved_edit_state">editState</string>
     <string name="lock">Lock</string>
     <string name="unlock">Unlock</string>
@@ -45,4 +44,7 @@
     <string name="accent_color">Accent Color</string>
     <string name="default_font">sans-serif-medium</string>
     <string name="all_subtasks">All Subtasks</string>
+    <string name="subtask_description">TODO: %s</string>
+    <string name="due_date_format">Deadline: %s</string>
+    <string name="unset_format">No deadline set</string>
 </resources>
