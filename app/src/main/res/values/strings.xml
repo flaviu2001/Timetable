@@ -47,4 +47,6 @@
     <string name="subtask_description">TODO: %s</string>
     <string name="due_date_format">Deadline: %s</string>
     <string name="unset_format">No deadline set</string>
+    <string name="one_label">Label:</string>
+    <string name="more_labels">Labels:</string>
 </resources>

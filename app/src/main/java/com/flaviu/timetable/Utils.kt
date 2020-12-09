@@ -10,7 +10,9 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import com.flaviu.timetable.database.Label
 import top.defaults.drawabletoolbox.DrawableBuilder
+import java.lang.StringBuilder
 
 val preset_colors: IntArray = listOf(
     0xFF751600, // My dark red
@@ -210,4 +212,14 @@ fun setButtonColor(button: Button, activity: Activity) {
         .solidColor(getAccentColor(activity))
         .rounded()
         .build()
+}
+
+fun labelsToString(labels: List<Label>): String {
+    if (labels.isEmpty())
+        return ""
+    val toReturn = StringBuilder()
+    toReturn.append(labels[0].name)
+    for (i in 1 until labels.size)
+        toReturn.append(", ").append(labels[i].name)
+    return toReturn.toString()
 }

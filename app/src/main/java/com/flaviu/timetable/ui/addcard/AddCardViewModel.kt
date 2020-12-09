@@ -36,13 +36,12 @@ class AddCardViewModel(
             place = place,
             name = name,
             info = info,
-            label = label,
             color = color,
             textColor = textColor
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                database.insert(card)
+                database.insertCard(card)
             }
         }
     }

@@ -5,9 +5,10 @@ import androidx.lifecycle.ViewModel
 import com.flaviu.timetable.database.CardDatabaseDao
 
 class ListViewModel (
+    label: String,
     database: CardDatabaseDao
 ) : ViewModel() {
-    var cards = database.getAllCards()
+    var cards = database.getCardsWithLabel(label)
 
     var navigateToEditCard = MutableLiveData<Long>()
 

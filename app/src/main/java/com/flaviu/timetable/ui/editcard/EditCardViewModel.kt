@@ -14,12 +14,13 @@ class EditCardViewModel(
 ) : AndroidViewModel(viewModelApplication) {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    val card = dataSource.get(cardKey)
+    val card = dataSource.getCard(cardKey)
+    val labels = dataSource.getLabelsOfCard(cardKey)
 
     fun onDeleteButtonPressed() {
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                card.value?.let { dataSource.delete(it.cardId) }
+                card.value?.let { dataSource.deleteCard(it.cardId) }
             }
         }
     }
@@ -46,12 +47,11 @@ class EditCardViewModel(
         newCard.timeBegin = start
         newCard.timeEnd = finish
         newCard.weekday = weekdayToInt(weekday, viewModelApplication.resources)
-        newCard.label = label
         newCard.color = color
         newCard.textColor = textColor
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                dataSource.update(newCard)
+                dataSource.updateCard(newCard)
             }
         }
     }
@@ -77,13 +77,12 @@ class EditCardViewModel(
             place = place,
             name = name,
             info = info,
-            label = label,
             color = color,
             textColor = textColor
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                dataSource.insert(newCard)
+                dataSource.insertCard(newCard)
             }
         }
     }

@@ -14,7 +14,6 @@ data class Card (
     var place: String,
     var name: String,
     var info: String,
-    var label: String,
     var color: Int,
     var textColor: Int
 )

@@ -20,8 +20,7 @@ import kotlinx.coroutines.withContext
 private const val ITEM_VIEW_TYPE_STRING = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
 
-class CardAdapter (
-    private val label: String,
+class CardAdapter(
     private val resources: Resources,
     private val clickListener: CardListener,
 ) : ListAdapter<DataItem, RecyclerView.ViewHolder>(
@@ -66,8 +65,6 @@ class CardAdapter (
             val items: MutableList<DataItem> = emptyList<DataItem>().toMutableList()
             var currWeekday = 0
             for (i in list.indices) {
-                if (list[i].label != label)
-                    continue
                 if (currWeekday < list[i].weekday)
                     currWeekday = list[i].weekday
                 if (list[i].weekday == currWeekday) {

@@ -26,11 +26,11 @@ class ListFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val dataSource = CardDatabase.getInstance(application).cardDatabaseDao
         val arguments = ListFragmentArgs.fromBundle(requireArguments())
-        val factory = ListViewModelFactory(dataSource)
+        val factory = ListViewModelFactory(arguments.label, dataSource)
         viewModel = ViewModelProvider(this, factory).get(ListViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        val adapter = CardAdapter(arguments.label, resources, CardListener {cardKey: Long ->
+        val adapter = CardAdapter(resources, CardListener { cardKey: Long ->
             viewModel.onCardClicked(cardKey)
         })
         binding.cardList.adapter = adapter

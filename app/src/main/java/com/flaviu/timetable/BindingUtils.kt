@@ -91,13 +91,6 @@ fun EditText.setInfoText(item: Card?) {
     }
 }
 
-@BindingAdapter("labelText")
-fun EditText.setLabelText(item: Card?) {
-    item?.let {
-        setText(item.label)
-    }
-}
-
 @BindingAdapter("customBackgroundColor")
 fun CardView.setCustomBackgroundColor(item: Card?) {
     item?.let {

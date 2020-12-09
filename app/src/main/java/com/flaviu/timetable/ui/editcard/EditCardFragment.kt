@@ -45,6 +45,16 @@ class EditCardFragment : Fragment() {
             binding.colorEditText.setTextColor(itemColor)
             binding.textColorEditText.setTextColor(textColor)
         })
+        viewModel.labels.observe(viewLifecycleOwner) {
+            if (it == null) {
+                binding.labelEditText.setText("")
+            }else {
+                binding.labelEditText.setText(labelsToString(it))
+                if (it.size == 1) {
+                    binding.labelTextView.setText(R.string.one_label)
+                } else binding.labelTextView.setText(R.string.more_labels)
+            }
+        }
         binding.colorEditText.setOnClickListener{
             val colorPickerDialog = ColorPickerDialog.newBuilder()
                 .setDialogType(ColorPickerDialog.TYPE_PRESETS)

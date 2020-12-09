@@ -31,7 +31,7 @@ class SubtaskAdapter(private val lifecycleOwner: LifecycleOwner, private val dat
 class SubtaskHolder private constructor(private val binding: SubtaskCardBinding): RecyclerView.ViewHolder(binding.root){
     fun bind(subtask: Subtask, lifecycleOwner: LifecycleOwner, database: CardDatabaseDao) {
         binding.subtask = subtask
-        database.get(subtask.cardId).observe(lifecycleOwner) {
+        database.getCard(subtask.cardId).observe(lifecycleOwner) {
             if (it != null)
                 binding.card = it
         }
