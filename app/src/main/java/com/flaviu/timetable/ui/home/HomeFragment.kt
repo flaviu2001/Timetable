@@ -1,4 +1,4 @@
-package com.flaviu.timetable.home
+package com.flaviu.timetable.ui.home
 
 import android.content.Context
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -19,7 +20,7 @@ import com.flaviu.timetable.R
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.HomeFragmentBinding
 import com.flaviu.timetable.getAccentColor
-import com.flaviu.timetable.list.ListFragment
+import com.flaviu.timetable.ui.list.ListFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -65,6 +66,10 @@ class HomeFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.subtaskFragment) {
+            this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSubtaskFragment(LongArray(0)))
+            return true
+        }
         return NavigationUI.onNavDestinationSelected(
             item,
             requireView().findNavController()

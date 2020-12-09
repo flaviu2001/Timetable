@@ -17,4 +17,8 @@ interface CardDatabaseDao {
     fun get(key: Long): LiveData<Card>
     @Query("SELECT * FROM timetable_card_table ORDER BY label, weekday, timeBegin, timeEnd")
     fun getAllCards(): LiveData<List<Card>>
+    @Query("SELECT * FROM timetable_subtask_table WHERE subtaskId = :key")
+    fun getSubtasksByCardId(key: Long): LiveData<List<Subtask>>
+    @Query("SELECT * FROM timetable_subtask_table")
+    fun getAllSubtasks(): LiveData<List<Subtask>>
 }

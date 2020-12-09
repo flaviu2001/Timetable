@@ -1,4 +1,4 @@
-package com.flaviu.timetable.editcard
+package com.flaviu.timetable.ui.editcard
 
 import android.os.Bundle
 import android.view.*

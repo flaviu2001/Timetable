@@ -1,4 +1,4 @@
-package com.flaviu.timetable.list
+package com.flaviu.timetable.ui.list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package com.flaviu.timetable.settings
+package com.flaviu.timetable.ui.settings
 
 import android.app.AlertDialog
 import android.content.Context

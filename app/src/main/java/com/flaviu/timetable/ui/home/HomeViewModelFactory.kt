@@ -1,4 +1,4 @@
-package com.flaviu.timetable.home
+package com.flaviu.timetable.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -1,4 +1,4 @@
-package com.flaviu.timetable.about
+package com.flaviu.timetable.ui.about
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

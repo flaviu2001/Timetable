@@ -1,4 +1,4 @@
-package com.flaviu.timetable.list
+package com.flaviu.timetable.ui.list
 
 import android.content.Context
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.flaviu.timetable.R
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.ListFragmentBinding
-import com.flaviu.timetable.home.HomeFragmentDirections
+import com.flaviu.timetable.ui.home.HomeFragmentDirections
 
 class ListFragment : Fragment() {
     private lateinit var binding: ListFragmentBinding

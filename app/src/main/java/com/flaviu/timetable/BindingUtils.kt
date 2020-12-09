@@ -2,8 +2,10 @@ package com.flaviu.timetable
 
 import android.widget.EditText
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import com.flaviu.timetable.database.Card
+import com.flaviu.timetable.database.Subtask
 
 @BindingAdapter("timeText")
 fun TextView.setTimeText(item: Card?) {
@@ -95,8 +97,22 @@ fun EditText.setLabelText(item: Card?) {
 }
 
 @BindingAdapter("customBackgroundColor")
-fun androidx.cardview.widget.CardView.setCustomBackgroundColor(item: Card?) {
+fun CardView.setCustomBackgroundColor(item: Card?) {
     item?.let {
         setCardBackgroundColor(item.color)
+    }
+}
+
+@BindingAdapter("subtaskDescription")
+fun TextView.setSubtaskDescription(item: Subtask?) {
+    item?.let {
+        text = item.description
+    }
+}
+
+@BindingAdapter("subtaskTextColor")
+fun TextView.setSubtaskTextColor(item: Card?) {
+    item?.let {
+        setTextColor(item.textColor)
     }
 }

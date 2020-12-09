@@ -1,4 +1,4 @@
-package com.flaviu.timetable.settings
+package com.flaviu.timetable.ui.settings
 
 import androidx.lifecycle.ViewModel
 import com.flaviu.timetable.database.CardDatabaseDao

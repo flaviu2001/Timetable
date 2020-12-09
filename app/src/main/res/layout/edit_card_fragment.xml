@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.flaviu.timetable.editcard.EditCardViewModel" />
+            type="com.flaviu.timetable.ui.editcard.EditCardViewModel" />
     </data>
 
     <ScrollView
@@ -14,7 +14,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".editcard.EditCardFragment">
+            tools:context=".ui.editcard.EditCardFragment">
 
             <EditText
                 android:id="@+id/startHourEditText"
