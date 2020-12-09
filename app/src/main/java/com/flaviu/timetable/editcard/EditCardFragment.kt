@@ -39,11 +39,6 @@ class EditCardFragment : Fragment() {
         editTextTimeDialogInject(context, binding.startHourEditText)
         editTextTimeDialogInject(context, binding.endHourEditText)
         editTextWeekdayDialogInject(context, binding.weekdayEditText)
-        binding.clearNotesButton.setOnClickListener{
-            viewModel.clearNotes()
-            this.findNavController().navigateUp()
-            hideKeyboard(activity as MainActivity)
-        }
         viewModel.card.observe(viewLifecycleOwner, {
             itemColor = it.color
             textColor = it.textColor
@@ -86,7 +81,6 @@ class EditCardFragment : Fragment() {
             })
             colorPickerDialog.show(childFragmentManager, "Choose a color")
         }
-        setButtonColor(binding.clearNotesButton, requireActivity())
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -105,7 +99,6 @@ class EditCardFragment : Fragment() {
                 val name = binding.nameEditText.text.toString()
                 val info = binding.infoEditText.text.toString()
                 val label = binding.labelEditText.text.toString()
-                val notes = binding.notesEditText.text.toString()
                 try {
                     viewModel.cloneCard(
                         start,
@@ -115,7 +108,6 @@ class EditCardFragment : Fragment() {
                         name,
                         info,
                         label,
-                        notes,
                         itemColor,
                         textColor
                     )
@@ -135,7 +127,6 @@ class EditCardFragment : Fragment() {
                 val name = binding.nameEditText.text.toString()
                 val info = binding.infoEditText.text.toString()
                 val label = binding.labelEditText.text.toString()
-                val notes = binding.notesEditText.text.toString()
                 try {
                     viewModel.editCard(
                         start,
@@ -145,7 +136,6 @@ class EditCardFragment : Fragment() {
                         name,
                         info,
                         label,
-                        notes,
                         itemColor,
                         textColor
                     )

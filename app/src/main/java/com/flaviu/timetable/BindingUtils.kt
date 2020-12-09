@@ -43,22 +43,6 @@ fun TextView.setInfoText(item: Card?) {
     }
 }
 
-@BindingAdapter("labelText")
-fun TextView.setLabelText(item: Card?) {
-    item?.let{
-        text=this.context.resources.getString(R.string.label_parser).format(item.label)
-        setTextColor(item.textColor)
-    }
-}
-
-@BindingAdapter("notesText")
-fun TextView.setNotesText(item: Card?) {
-    item?.let{
-        text=this.context.resources.getString(R.string.notes_parser).format(item.notes)
-        setTextColor(item.textColor)
-    }
-}
-
 @BindingAdapter("beginTimeText")
 fun EditText.setBeginTimeText(item: Card?) {
     item?.let{
@@ -107,13 +91,6 @@ fun EditText.setInfoText(item: Card?) {
 fun EditText.setLabelText(item: Card?) {
     item?.let {
         setText(item.label)
-    }
-}
-
-@BindingAdapter("notesText")
-fun EditText.setNotesText(item: Card?) {
-    item?.let {
-        setText(item.notes)
     }
 }
 

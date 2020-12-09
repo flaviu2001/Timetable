@@ -47,14 +47,6 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/notesFragment"
-        android:name="com.flaviu.timetable.notes.NotesFragment"
-        android:label="Notes" >
-        <action
-            android:id="@+id/action_notesFragment_to_editCardFragment"
-            app:destination="@id/editCardFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/aboutFragment"
         android:name="com.flaviu.timetable.about.AboutFragment"
         android:label="About" />

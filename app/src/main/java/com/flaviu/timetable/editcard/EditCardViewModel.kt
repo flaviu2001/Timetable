@@ -24,16 +24,6 @@ class EditCardViewModel(
         }
     }
 
-    fun clearNotes() {
-        val newCard = card.value ?: throw Exception("Invalid card")
-        newCard.notes = ""
-        uiScope.launch {
-            withContext(Dispatchers.IO) {
-                dataSource.update(newCard)
-            }
-        }
-    }
-
     fun editCard(
         start: String,
         finish: String,
@@ -42,7 +32,6 @@ class EditCardViewModel(
         name: String,
         info: String,
         label: String,
-        notes: String,
         color: Int,
         textColor: Int
     ) {
@@ -58,7 +47,6 @@ class EditCardViewModel(
         newCard.timeEnd = finish
         newCard.weekday = weekdayToInt(weekday, viewModelApplication.resources)
         newCard.label = label
-        newCard.notes = notes
         newCard.color = color
         newCard.textColor = textColor
         uiScope.launch {
@@ -76,7 +64,6 @@ class EditCardViewModel(
         name: String,
         info: String,
         label: String,
-        notes: String,
         color: Int,
         textColor: Int
     ) {
@@ -91,7 +78,6 @@ class EditCardViewModel(
             name = name,
             info = info,
             label = label,
-            notes = notes,
             color = color,
             textColor = textColor
         )

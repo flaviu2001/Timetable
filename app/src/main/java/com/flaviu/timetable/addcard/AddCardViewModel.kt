@@ -22,7 +22,6 @@ class AddCardViewModel(
         name: String,
         info: String,
         label: String,
-        notes: String,
         color: Int,
         textColor: Int
     ) {
@@ -38,7 +37,6 @@ class AddCardViewModel(
             name = name,
             info = info,
             label = label,
-            notes = notes,
             color = color,
             textColor = textColor
         )
