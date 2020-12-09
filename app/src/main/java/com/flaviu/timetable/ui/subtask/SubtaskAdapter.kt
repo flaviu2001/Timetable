@@ -1,5 +1,6 @@
 package com.flaviu.timetable.ui.subtask
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
@@ -30,11 +31,11 @@ class SubtaskAdapter(private val lifecycleOwner: LifecycleOwner, private val dat
 
 class SubtaskHolder private constructor(private val binding: SubtaskBinding): RecyclerView.ViewHolder(binding.root){
     fun bind(subtask: Subtask, lifecycleOwner: LifecycleOwner, database: CardDatabaseDao) {
+        binding.subtask = subtask
         database.get(subtask.cardId).observe(lifecycleOwner) {
             if (it != null)
                 binding.card = it
         }
-        binding.subtask = subtask
     }
 
     companion object {

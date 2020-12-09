@@ -1,5 +1,6 @@
 package com.flaviu.timetable
 
+import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import androidx.cardview.widget.CardView
