@@ -6,11 +6,10 @@ import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = "timetable_subtask_table")
+@Entity(tableName = "timetable_subtask_table", foreignKeys = [ForeignKey(onDelete = CASCADE, entity = Card::class, parentColumns = ["cardId"], childColumns = ["cardId"])])
 data class Subtask(
     @PrimaryKey(autoGenerate = true)
     var subtaskId: Long = 0L,
-    @ForeignKey(onDelete = CASCADE, entity = Card::class, parentColumns = ["cardId"], childColumns = ["cardId"])
     var cardId: Long,
     var description: String,
     var dueDate: Calendar?,
