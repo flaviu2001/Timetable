@@ -9,7 +9,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 
-@Database(entities = [Card::class, Subtask::class, Label::class, CardLabel::class], version = 8)
+@Database(entities = [Card::class, Subtask::class, Label::class, CardLabel::class], version = 7)
 @TypeConverters(Converters::class)
 abstract class CardDatabase : RoomDatabase() {
 
