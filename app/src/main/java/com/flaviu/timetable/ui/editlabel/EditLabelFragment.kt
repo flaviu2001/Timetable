@@ -35,7 +35,7 @@ class EditLabelFragment : Fragment() {
         }
         binding.addLabel.setOnClickListener{
             val layout = layoutInflater.inflate(R.layout.add_label_layout, null)
-            val builder = AlertDialog.Builder(requireContext()).setView(layout).show()
+            val alert = AlertDialog.Builder(requireContext()).setView(layout).show()
             layout.findViewById<Button>(R.id.button).setOnClickListener{
                 val text = layout.findViewById<EditText>(R.id.labelName).text.toString()
                 if (text.isEmpty()) {
@@ -48,11 +48,11 @@ class EditLabelFragment : Fragment() {
                             database.insertLabel(Label(name = text))
                         }
                     }
-                    builder.dismiss()
+                    alert.dismiss()
                 }
             }
             layout.findViewById<Button>(R.id.cancel_button).setOnClickListener {
-                builder.dismiss()
+                alert.dismiss()
             }
             setButtonColor(layout.findViewById(R.id.button), requireActivity())
             setButtonColor(layout.findViewById(R.id.cancel_button), requireActivity())

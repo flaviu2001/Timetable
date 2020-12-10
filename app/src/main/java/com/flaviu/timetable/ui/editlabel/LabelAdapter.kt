@@ -77,6 +77,9 @@ class LabelHolder private constructor(private val binding: LabelCardBinding): Re
                     alert.dismiss()
                 }
             }
+            layout.findViewById<Button>(R.id.cancel_button).setOnClickListener {
+                alert.dismiss()
+            }
         }
     }
 
