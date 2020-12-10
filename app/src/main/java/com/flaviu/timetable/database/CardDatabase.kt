@@ -46,7 +46,7 @@ abstract class CardDatabase : RoomDatabase() {
                 database.execSQL("CREATE TABLE IF NOT EXISTS timetable_label_table (labelId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL)")
                 database.execSQL("CREATE TABLE IF NOT EXISTS timetable_card_label_table (cardId INTEGER NOT NULL, labelId INTEGER NOT NULL, PRIMARY KEY(cardId, labelId))")
                 database.execSQL("INSERT INTO timetable_label_table(name) SELECT DISTINCT label FROM timetable_card_table")
-                database.execSQL("INSERT INTO timetable_card_label_table(cardId, labelId) SELECT C.cardId, L.labelId FROM timetable_card_table C, timetable_label_table L WHERE C.name = L.name")
+                database.execSQL("INSERT INTO timetable_card_label_table(cardId, labelId) SELECT C.cardId, L.labelId FROM timetable_card_table C INNER JOIN timetable_label_table L ON C.label = L.name")
                 //Removing label from card table
                 database.execSQL("CREATE TABLE IF NOT EXISTS timetable_card_table_backup(cardId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, timeBegin TEXT NOT NULL, timeEnd TEXT NOT NULL, weekday INTEGER NOT NULL, place TEXT NOT NULL, name TEXT NOT NULL, info TEXT NOT NULL, color INTEGER NOT NULL, textColor INTEGER NOT NULL)")
                 database.execSQL("INSERT INTO timetable_card_table_backup(cardId, timeBegin, timeEnd, weekday, place, name, info, color, textColor) SELECT cardId, timeBegin, timeEnd, weekday, place, name, info, color, textColor FROM timetable_card_table")
