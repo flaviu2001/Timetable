@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 @Entity(tableName = "timetable_card_label_table", primaryKeys = ["cardId", "labelId"])
 data class CardLabel(
     @ForeignKey(onDelete = ForeignKey.CASCADE, entity = Card::class, parentColumns = ["cardId"], childColumns = ["cardId"])
-    var cardId: Int,
+    var cardId: Long,
     @ForeignKey(onDelete = ForeignKey.CASCADE, entity = Label::class, parentColumns = ["labelId"], childColumns = ["labelId"])
-    var labelId: Int
+    var labelId: Long
 )

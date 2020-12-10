@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabaseDao
+import com.flaviu.timetable.database.Label
 import com.flaviu.timetable.weekdayToInt
 import kotlinx.coroutines.*
 
@@ -21,14 +22,16 @@ class AddCardViewModel(
         place: String,
         name: String,
         info: String,
-        label: String,
         color: Int,
-        textColor: Int
+        textColor: Int,
+        labelList: List<Label>
     ) {
-        listOf(start, finish, weekday, place, name, label).forEach{
+        listOf(start, finish, weekday, place, name).forEach{
             if (it.isEmpty())
                 throw Exception("All fields must be completed.")
         }
+        if (labelList.isEmpty())
+            throw Exception("You must choose at least one label")
         val card = Card(
             timeBegin= start,
             timeEnd = finish,
@@ -41,7 +44,9 @@ class AddCardViewModel(
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                database.insertCard(card)
+                val cardId = database.insertCard(card)
+                for (label in labelList)
+                    database.connectLabelToCard(cardId, label.labelId)
             }
         }
     }

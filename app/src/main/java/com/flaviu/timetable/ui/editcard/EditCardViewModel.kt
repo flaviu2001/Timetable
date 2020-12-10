@@ -2,8 +2,11 @@ package com.flaviu.timetable.ui.editcard
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabaseDao
+import com.flaviu.timetable.database.Label
 import com.flaviu.timetable.weekdayToInt
 import kotlinx.coroutines.*
 
@@ -15,7 +18,22 @@ class EditCardViewModel(
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     val card = dataSource.getCard(cardKey)
-    val labels = dataSource.getLabelsOfCard(cardKey)
+    val labelsOfCard = dataSource.getLabelsOfCard(cardKey)
+    private val allLabels = dataSource.getAllLabels()
+    val mediator = MediatorLiveData<BooleanArray>()
+
+    init {
+        mediator.addSource(allLabels) { _ ->
+            mediator.value = BooleanArray(allLabels.value?.size ?: 0)
+            for (i in mediator.value!!.indices)
+                mediator.value!![i] = labelsOfCard.value?.contains(allLabels.value?.get(i)) == true
+        }
+        mediator.addSource(labelsOfCard) {
+            mediator.value = BooleanArray(allLabels.value?.size ?: 0)
+            for (i in mediator.value!!.indices)
+                mediator.value!![i] = labelsOfCard.value?.contains(allLabels.value?.get(i)) == true
+        }
+    }
 
     fun onDeleteButtonPressed() {
         uiScope.launch {
@@ -32,14 +50,16 @@ class EditCardViewModel(
         place: String,
         name: String,
         info: String,
-        label: String,
         color: Int,
-        textColor: Int
+        textColor: Int,
+        labelList: List<Label>
     ) {
-        listOf(start, finish, weekday, place, name, label).forEach{
+        listOf(start, finish, weekday, place, name).forEach{
             if (it.isEmpty())
                 throw Exception("All fields must be completed.")
         }
+        if (labelList.isEmpty())
+            throw Exception("You must choose at least one label")
         val newCard = card.value ?: throw Exception("Invalid card")
         newCard.place = place
         newCard.info = info
@@ -52,6 +72,9 @@ class EditCardViewModel(
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 dataSource.updateCard(newCard)
+                dataSource.deleteAllLabelsFromCard(newCard.cardId)
+                for (label in labelList)
+                    dataSource.connectLabelToCard(newCard.cardId, label.labelId)
             }
         }
     }
@@ -63,14 +86,16 @@ class EditCardViewModel(
         place: String,
         name: String,
         info: String,
-        label: String,
         color: Int,
-        textColor: Int
+        textColor: Int,
+        labelList: List<Label>
     ) {
-        listOf(start, finish, weekday, place, name, label).forEach{
+        listOf(start, finish, weekday, place, name).forEach{
             if (it.isEmpty())
                 throw Exception("All fields must be completed.")
         }
+        if (labelList.isEmpty())
+            throw Exception("You must choose at least one label")
         val newCard = Card(timeBegin = start,
             timeEnd = finish,
             weekday = weekdayToInt(weekday, viewModelApplication.resources),
@@ -82,7 +107,9 @@ class EditCardViewModel(
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                dataSource.insertCard(newCard)
+                val cardId = dataSource.insertCard(newCard)
+                for (label in labelList)
+                    dataSource.connectLabelToCard(cardId, label.labelId)
             }
         }
     }

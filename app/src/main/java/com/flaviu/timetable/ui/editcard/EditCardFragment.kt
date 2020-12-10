@@ -1,5 +1,6 @@
 package com.flaviu.timetable.ui.editcard
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.flaviu.timetable.*
 import com.flaviu.timetable.database.CardDatabase
+import com.flaviu.timetable.database.Label
 import com.flaviu.timetable.databinding.EditCardFragmentBinding
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
@@ -19,6 +21,8 @@ class EditCardFragment : Fragment() {
     private lateinit var binding: EditCardFragmentBinding
     private var itemColor = 0
     private var textColor = 0
+    private var labelList = mutableListOf<Label>()
+    private var selectedTrueFalse = BooleanArray(0)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,13 +43,39 @@ class EditCardFragment : Fragment() {
         editTextTimeDialogInject(context, binding.startHourEditText)
         editTextTimeDialogInject(context, binding.endHourEditText)
         editTextWeekdayDialogInject(context, binding.weekdayEditText)
+        binding.labelEditText.setOnClickListener{
+            CardDatabase.getInstance(requireContext()).cardDatabaseDao.getAllLabels().observe(viewLifecycleOwner) {labels ->
+                if (selectedTrueFalse.isEmpty())
+                    selectedTrueFalse = BooleanArray(labels.size) {false}
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Choose your labels")
+                    .setMultiChoiceItems(labels.map { it.name }.toTypedArray(), selectedTrueFalse) { _, which, isChecked ->
+                        selectedTrueFalse[which] = isChecked
+                    }.setPositiveButton("Ok"){ _, _ ->
+                        labelList.clear()
+                        for (i in labels.indices)
+                            if (selectedTrueFalse[i])
+                                labelList.add(labels[i])
+                        binding.labelEditText.setText(labelsToString(labelList))
+                    }.setNegativeButton("Cancel") { _, _ ->
+                        return@setNegativeButton
+                    }.create().show()
+            }
+        }
+        viewModel.mediator.observe(viewLifecycleOwner) {
+            selectedTrueFalse = it
+            if (viewModel.labelsOfCard.value != null) {
+                labelList = viewModel.labelsOfCard.value!!.toMutableList()
+                binding.labelEditText.setText(labelsToString(labelList))
+            }
+        }
         viewModel.card.observe(viewLifecycleOwner, {
             itemColor = it.color
             textColor = it.textColor
             binding.colorEditText.setTextColor(itemColor)
             binding.textColorEditText.setTextColor(textColor)
         })
-        viewModel.labels.observe(viewLifecycleOwner) {
+        viewModel.labelsOfCard.observe(viewLifecycleOwner) {
             if (it == null) {
                 binding.labelEditText.setText("")
             }else {
@@ -108,7 +138,6 @@ class EditCardFragment : Fragment() {
                 val place = binding.placeEditText.text.toString()
                 val name = binding.nameEditText.text.toString()
                 val info = binding.infoEditText.text.toString()
-                val label = binding.labelEditText.text.toString()
                 try {
                     viewModel.cloneCard(
                         start,
@@ -117,9 +146,9 @@ class EditCardFragment : Fragment() {
                         place,
                         name,
                         info,
-                        label,
                         itemColor,
-                        textColor
+                        textColor,
+                        labelList
                     )
                     this.findNavController().navigateUp()
                     hideKeyboard(activity as MainActivity)
@@ -136,7 +165,6 @@ class EditCardFragment : Fragment() {
                 val place = binding.placeEditText.text.toString()
                 val name = binding.nameEditText.text.toString()
                 val info = binding.infoEditText.text.toString()
-                val label = binding.labelEditText.text.toString()
                 try {
                     viewModel.editCard(
                         start,
@@ -145,9 +173,9 @@ class EditCardFragment : Fragment() {
                         place,
                         name,
                         info,
-                        label,
                         itemColor,
-                        textColor
+                        textColor,
+                        labelList
                     )
                     this.findNavController().navigateUp()
                     hideKeyboard(activity as MainActivity)

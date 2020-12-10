@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "timetable_label_table")
 data class Label(
     @PrimaryKey(autoGenerate = true)
-    var labelId: Int,
+    var labelId: Long,
     var name: String
 )

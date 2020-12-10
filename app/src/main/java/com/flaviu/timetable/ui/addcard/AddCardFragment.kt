@@ -1,5 +1,6 @@
 package com.flaviu.timetable.ui.addcard
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.flaviu.timetable.*
 import com.flaviu.timetable.database.CardDatabase
+import com.flaviu.timetable.database.Label
 import com.flaviu.timetable.databinding.AddCardFragmentBinding
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
@@ -18,6 +20,8 @@ class AddCardFragment : Fragment() {
     private lateinit var viewModel: AddCardViewModel
     private var itemColor = 0
     private var textColor = 0xFFFFFFFF.toInt()
+    private var labelList = mutableListOf<Label>()
+    private var selectedTrueFalse = BooleanArray(0)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +37,25 @@ class AddCardFragment : Fragment() {
         editTextTimeDialogInject(context, binding.startHourEditText)
         editTextTimeDialogInject(context, binding.endHourEditText)
         editTextWeekdayDialogInject(context, binding.weekdayEditText)
+        binding.labelEditText.setOnClickListener{
+            CardDatabase.getInstance(requireContext()).cardDatabaseDao.getAllLabels().observe(viewLifecycleOwner) {labels ->
+                if (selectedTrueFalse.isEmpty())
+                    selectedTrueFalse = BooleanArray(labels.size) {false}
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Choose your labels")
+                    .setMultiChoiceItems(labels.map { it.name }.toTypedArray(), selectedTrueFalse) { _, which, isChecked ->
+                        selectedTrueFalse[which] = isChecked
+                    }.setPositiveButton("Ok"){ _, _ ->
+                        labelList.clear()
+                        for (i in labels.indices)
+                            if (selectedTrueFalse[i])
+                                labelList.add(labels[i])
+                        binding.labelEditText.setText(labelsToString(labelList))
+                    }.setNegativeButton("Cancel") { _, _ ->
+                        return@setNegativeButton
+                    }.create().show()
+            }
+        }
         itemColor = getAccentColor(requireActivity())
         binding.colorEditText.setTextColor(itemColor)
         binding.colorEditText.setOnClickListener{
@@ -87,9 +110,8 @@ class AddCardFragment : Fragment() {
             val place = binding.placeEditText.text.toString()
             val name = binding.nameEditText.text.toString()
             val info = binding.infoEditText.text.toString()
-            val label = binding.labelEditText.text.toString()
             try{
-                viewModel.addCard(start, finish, weekday, place, name, info, label, itemColor, textColor)
+                viewModel.addCard(start, finish, weekday, place, name, info, itemColor, textColor, labelList)
                 this.findNavController().navigateUp()
                 hideKeyboard(activity as MainActivity)
             } catch (e: Exception) {
