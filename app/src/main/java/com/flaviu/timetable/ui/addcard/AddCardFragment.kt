@@ -32,8 +32,6 @@ class AddCardFragment : Fragment() {
         val dataSource = CardDatabase.getInstance(application).cardDatabaseDao
         val factory = AddCardViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(this, factory).get(AddCardViewModel::class.java)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
         editTextTimeDialogInject(context, binding.startHourEditText)
         editTextTimeDialogInject(context, binding.endHourEditText)
         editTextWeekdayDialogInject(context, binding.weekdayEditText)

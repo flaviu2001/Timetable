@@ -27,8 +27,6 @@ class SettingsFragment : Fragment() {
         val dataSource = CardDatabase.getInstance(application).cardDatabaseDao
         val factory = SettingsViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, factory).get(SettingsViewModel::class.java)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
     }
 
     private fun setupClickListeners() {

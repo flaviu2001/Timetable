@@ -34,12 +34,10 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = HomeFragmentBinding.inflate(inflater)
-        binding.lifecycleOwner = this
         val application = requireNotNull(this.activity).application
         val dataSource = CardDatabase.getInstance(application).cardDatabaseDao
         val homeViewModelFactory = HomeViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
-        binding.viewModel = viewModel
         setupTabLayout()
         setHasOptionsMenu(true)
         return binding.root

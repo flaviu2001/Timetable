@@ -21,6 +21,14 @@ interface CardDatabaseDao {
     suspend fun deleteSubtask(key: Long)
     @Query("DELETE FROM timetable_card_label_table WHERE cardId = :key")
     suspend fun deleteAllLabelsFromCard(key: Long)
+    @Insert
+    suspend fun insertLabel(label: Label)
+    @Query("DELETE FROM timetable_label_table WHERE labelId = :key")
+    suspend fun deleteLabel(key: Long)
+    @Update
+    suspend fun updateLabel(label: Label)
+    @Query("DELETE FROM timetable_card_table WHERE NOT EXISTS (select * from timetable_card_label_table CL WHERE timetable_card_table.cardId = CL.cardId)")
+    suspend fun deleteCardsWithoutLabels()
     @Query("INSERT INTO timetable_card_label_table(cardId, labelId) values(:cardId, :labelId)")
     suspend fun connectLabelToCard(cardId: Long, labelId: Long)
     @Query("SELECT * from timetable_card_table WHERE cardId = :key")
@@ -35,6 +43,8 @@ interface CardDatabaseDao {
     fun getAllSubtasks(): LiveData<List<Subtask>>
     @Query("SELECT * FROM timetable_label_table ORDER BY name")
     fun getAllLabels(): LiveData<List<Label>>
+    @Query("SELECT * FROM timetable_label_table L WHERE EXISTS (select * from timetable_card_label_table CL WHERE L.labelId = CL.labelId) ORDER BY name")
+    fun getNonEmptyLabels(): LiveData<List<Label>>
     @Query("SELECT L.* FROM timetable_card_table C INNER JOIN timetable_card_label_table CL on C.cardId = CL.cardId INNER JOIN timetable_label_table L on CL.labelId = L.labelId WHERE C.cardId = :cardId")
     fun getLabelsOfCard(cardId: Long): LiveData<List<Label>>
 }

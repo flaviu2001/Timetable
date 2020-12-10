@@ -17,12 +17,10 @@ class SubtaskFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = SubtaskFragmentBinding.inflate(inflater)
-        binding.lifecycleOwner = this
         val database = CardDatabase.getInstance(requireContext()).cardDatabaseDao
         val cardIdArray = SubtaskFragmentArgs.fromBundle(requireArguments()).cardId
         val cardId = if (cardIdArray.isEmpty()) null else cardIdArray[0]
         viewModel = ViewModelProvider(this, SubtaskViewModelFactory(cardId, database)).get(SubtaskViewModel::class.java)
-        binding.viewModel = viewModel
         val adapter = SubtaskAdapter(viewLifecycleOwner, database)
         binding.subtaskList.adapter = adapter
         binding.subtaskList.layoutManager = GridLayoutManager(context, 2)

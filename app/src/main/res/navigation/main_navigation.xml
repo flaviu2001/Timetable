@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_homeFragment_to_subtaskFragment"
             app:destination="@id/subtaskFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_editLabelFragment"
+            app:destination="@id/editLabelFragment" />
     </fragment>
     <fragment
         android:id="@+id/addCardFragment"
@@ -61,4 +64,8 @@
             android:name="cardId"
             app:argType="long[]" />
     </fragment>
+    <fragment
+        android:id="@+id/editLabelFragment"
+        android:name="com.flaviu.timetable.ui.editlabel.EditLabelFragment"
+        android:label="Edit Labels" />
 </navigation>

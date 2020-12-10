@@ -49,4 +49,10 @@
     <string name="unset_format">No deadline set</string>
     <string name="one_label">Label:</string>
     <string name="more_labels">Labels:</string>
+    <string name="delete_label">Delete Label</string>
+    <string name="edit_labels">Edit Labels</string>
+    <string name="label_name">Label name:</string>
+    <string name="add_label">Add label</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_label">Edit Label</string>
 </resources>
