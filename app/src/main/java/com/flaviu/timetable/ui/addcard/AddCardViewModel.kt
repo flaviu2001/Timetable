@@ -3,6 +3,7 @@ package com.flaviu.timetable.ui.addcard
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.flaviu.timetable.database.Card
+import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.database.CardDatabaseDao
 import com.flaviu.timetable.database.Label
 import com.flaviu.timetable.weekdayToInt
@@ -14,6 +15,13 @@ class AddCardViewModel(
 ) : AndroidViewModel(viewModelApplication) {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    val allLabels = CardDatabase.getInstance(viewModelApplication.applicationContext).cardDatabaseDao.getAllLabels()
+
+    fun insertLabel(name: String) {
+        uiScope.launch {
+            database.insertLabel(Label(name = name))
+        }
+    }
 
     fun addCard(
         start: String,

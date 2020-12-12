@@ -3,6 +3,8 @@ package com.flaviu.timetable.ui.addcard
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -29,18 +31,17 @@ class AddCardFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.add_card_fragment, container, false)
         val application = requireNotNull(this.activity).application
-        val dataSource = CardDatabase.getInstance(application).cardDatabaseDao
-        val factory = AddCardViewModelFactory(dataSource, application)
+        val database = CardDatabase.getInstance(application).cardDatabaseDao
+        val factory = AddCardViewModelFactory(database, application)
         viewModel = ViewModelProvider(this, factory).get(AddCardViewModel::class.java)
         editTextTimeDialogInject(context, binding.startHourEditText)
         editTextTimeDialogInject(context, binding.endHourEditText)
         editTextWeekdayDialogInject(context, binding.weekdayEditText)
-        binding.labelEditText.setOnClickListener{
-            CardDatabase.getInstance(requireContext()).cardDatabaseDao.getAllLabels().observe(viewLifecycleOwner) {labels ->
-                if (selectedTrueFalse.isEmpty())
+        viewModel.allLabels.observe(viewLifecycleOwner) { labels ->
+            binding.labelEditText.setOnClickListener{
+                if (selectedTrueFalse.size != labels.size)
                     selectedTrueFalse = BooleanArray(labels.size) {false}
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setTitle("Choose your labels")
+                AlertDialog.Builder(requireContext()).setTitle("Choose your labels")
                     .setMultiChoiceItems(labels.map { it.name }.toTypedArray(), selectedTrueFalse) { _, which, isChecked ->
                         selectedTrueFalse[which] = isChecked
                     }.setPositiveButton("Ok"){ _, _ ->
@@ -49,9 +50,25 @@ class AddCardFragment : Fragment() {
                             if (selectedTrueFalse[i])
                                 labelList.add(labels[i])
                         binding.labelEditText.setText(labelsToString(labelList))
-                    }.setNegativeButton("Cancel") { _, _ ->
-                        return@setNegativeButton
-                    }.create().show()
+                    }.setNegativeButton("Cancel", null)
+                    .setNeutralButton("New label"){ _, _ ->
+                        val layout = layoutInflater.inflate(R.layout.add_label_layout, null)
+                        val alert = AlertDialog.Builder(requireContext()).setView(layout).show()
+                        layout.findViewById<Button>(R.id.button).setOnClickListener{
+                            val text = layout.findViewById<EditText>(R.id.labelName).text.toString()
+                            if (text.isEmpty()) {
+                                Toast.makeText(requireContext(), "The label name cannot be empty", Toast.LENGTH_SHORT).show()
+                            }else {
+                                viewModel.insertLabel(text)
+                                alert.dismiss()
+                            }
+                        }
+                        layout.findViewById<Button>(R.id.cancel_button).setOnClickListener {
+                            alert.dismiss()
+                        }
+                        setButtonColor(layout.findViewById(R.id.button), requireActivity())
+                        setButtonColor(layout.findViewById(R.id.cancel_button), requireActivity())
+                    }.show()
             }
         }
         itemColor = getAccentColor(requireActivity())

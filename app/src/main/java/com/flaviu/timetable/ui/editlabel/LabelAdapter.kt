@@ -1,6 +1,5 @@
 package com.flaviu.timetable.ui.editlabel
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -48,7 +47,6 @@ class LabelHolder private constructor(private val binding: LabelCardBinding): Re
                     uiScope.launch {
                         database.deleteLabel(label.labelId)
                         database.deleteCardsWithoutLabels()
-//                database.deleteCardLabelEntriesWithLabelId(label.labelId)
                     }
                 }.setNegativeButton("No") { _, _ ->
 

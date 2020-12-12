@@ -13,7 +13,8 @@ class SettingsViewModel (
     fun clearData() {
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                database.clear()
+                database.clearCards()
+                database.clearLabels()
             }
         }
     }

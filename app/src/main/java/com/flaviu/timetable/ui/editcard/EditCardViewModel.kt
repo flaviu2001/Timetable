@@ -3,7 +3,6 @@ package com.flaviu.timetable.ui.editcard
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabaseDao
 import com.flaviu.timetable.database.Label
@@ -12,18 +11,18 @@ import kotlinx.coroutines.*
 
 class EditCardViewModel(
     cardKey: Long,
-    private var dataSource: CardDatabaseDao,
+    private var database: CardDatabaseDao,
     private val viewModelApplication: Application
 ) : AndroidViewModel(viewModelApplication) {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    val card = dataSource.getCard(cardKey)
-    val labelsOfCard = dataSource.getLabelsOfCard(cardKey)
-    private val allLabels = dataSource.getAllLabels()
+    val allLabels = database.getAllLabels()
+    val card = database.getCard(cardKey)
+    val labelsOfCard = database.getLabelsOfCard(cardKey)
     val mediator = MediatorLiveData<BooleanArray>()
 
     init {
-        mediator.addSource(allLabels) { _ ->
+        mediator.addSource(allLabels) {
             mediator.value = BooleanArray(allLabels.value?.size ?: 0)
             for (i in mediator.value!!.indices)
                 mediator.value!![i] = labelsOfCard.value?.contains(allLabels.value?.get(i)) == true
@@ -38,8 +37,14 @@ class EditCardViewModel(
     fun onDeleteButtonPressed() {
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                card.value?.let { dataSource.deleteCard(it.cardId) }
+                card.value?.let { database.deleteCard(it.cardId) }
             }
+        }
+    }
+
+    fun insertLabel(name: String) {
+        uiScope.launch {
+            database.insertLabel(Label(name = name))
         }
     }
 
@@ -71,10 +76,10 @@ class EditCardViewModel(
         newCard.textColor = textColor
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                dataSource.updateCard(newCard)
-                dataSource.deleteAllLabelsFromCard(newCard.cardId)
+                database.updateCard(newCard)
+                database.deleteAllLabelsFromCard(newCard.cardId)
                 for (label in labelList)
-                    dataSource.connectLabelToCard(newCard.cardId, label.labelId)
+                    database.connectLabelToCard(newCard.cardId, label.labelId)
             }
         }
     }
@@ -107,9 +112,9 @@ class EditCardViewModel(
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                val cardId = dataSource.insertCard(newCard)
+                val cardId = database.insertCard(newCard)
                 for (label in labelList)
-                    dataSource.connectLabelToCard(cardId, label.labelId)
+                    database.connectLabelToCard(cardId, label.labelId)
             }
         }
     }
