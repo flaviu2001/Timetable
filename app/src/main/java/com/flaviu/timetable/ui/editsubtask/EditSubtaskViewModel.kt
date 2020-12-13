@@ -19,7 +19,7 @@ class EditSubtaskViewModel(subtaskId: Long, private val database: CardDatabaseDa
         }
     }
 
-    fun updateSubtask(description: String, deadline: Calendar?, reminder: Calendar?) {
+    fun updateSubtask(description: String, deadline: Calendar?, reminder: Calendar?, reminderId: Int?) {
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 database.updateSubtask(Subtask(subtaskId = subtask.value!!.subtaskId,
@@ -27,7 +27,7 @@ class EditSubtaskViewModel(subtaskId: Long, private val database: CardDatabaseDa
                     description = description,
                     dueDate = deadline,
                     reminderDate = reminder,
-                    reminderId = subtask.value!!.reminderId))
+                    reminderId = reminderId))
             }
         }
     }

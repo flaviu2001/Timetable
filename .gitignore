@@ -11,6 +11,7 @@
 /build
 /app/release
 /app/schemas
+/app/debug
 /captures
 .externalNativeBuild
 .cxx
