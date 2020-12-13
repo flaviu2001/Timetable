@@ -6,7 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".about.AboutFragment"
+        tools:context=".ui.about.AboutFragment"
         android:orientation="vertical">
 
         <TextView

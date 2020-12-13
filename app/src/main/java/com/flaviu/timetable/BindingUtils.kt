@@ -2,8 +2,12 @@ package com.flaviu.timetable
 
 import android.widget.EditText
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import com.flaviu.timetable.database.Card
+import com.flaviu.timetable.database.Subtask
+import java.text.SimpleDateFormat
+import java.util.*
 
 @BindingAdapter("timeText")
 fun TextView.setTimeText(item: Card?) {
@@ -39,22 +43,6 @@ fun TextView.setNameText(item: Card?) {
 fun TextView.setInfoText(item: Card?) {
     item?.let{
         text=this.context.resources.getString(R.string.info_parser).format(item.info)
-        setTextColor(item.textColor)
-    }
-}
-
-@BindingAdapter("labelText")
-fun TextView.setLabelText(item: Card?) {
-    item?.let{
-        text=this.context.resources.getString(R.string.label_parser).format(item.label)
-        setTextColor(item.textColor)
-    }
-}
-
-@BindingAdapter("notesText")
-fun TextView.setNotesText(item: Card?) {
-    item?.let{
-        text=this.context.resources.getString(R.string.notes_parser).format(item.notes)
         setTextColor(item.textColor)
     }
 }
@@ -103,23 +91,32 @@ fun EditText.setInfoText(item: Card?) {
     }
 }
 
-@BindingAdapter("labelText")
-fun EditText.setLabelText(item: Card?) {
-    item?.let {
-        setText(item.label)
-    }
-}
-
-@BindingAdapter("notesText")
-fun EditText.setNotesText(item: Card?) {
-    item?.let {
-        setText(item.notes)
-    }
-}
-
 @BindingAdapter("customBackgroundColor")
-fun androidx.cardview.widget.CardView.setCustomBackgroundColor(item: Card?) {
+fun CardView.setCustomBackgroundColor(item: Card?) {
     item?.let {
         setCardBackgroundColor(item.color)
     }
+}
+
+@BindingAdapter("subtaskDescription")
+fun TextView.setSubtaskDescription(item: Subtask?) {
+    item?.let {
+        text = resources.getString(R.string.subtask_description).format(item.description)
+    }
+}
+
+@BindingAdapter("subtaskTextColor")
+fun TextView.setSubtaskTextColor(item: Card?) {
+    item?.let {
+        setTextColor(item.textColor)
+    }
+}
+
+@BindingAdapter("dueDate")
+fun TextView.setDueDate(item: Subtask?) {
+    if (item == null)
+        return
+    text = if (item.dueDate == null)
+        context.getString(R.string.unset_format)
+    else context.getString(R.string.due_date_format).format(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US).format(Date(item.dueDate!!.timeInMillis)))
 }

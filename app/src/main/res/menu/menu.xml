@@ -12,11 +12,15 @@
         android:id="@+id/settingsFragment"
         android:orderInCategory="2"/>
     <item
-        android:title="@string/all_notes"
-        android:id="@+id/notesFragment"
+        android:title="@string/edit_labels"
+        android:id="@+id/editLabelFragment"
         android:orderInCategory="3"/>
+    <item
+        android:title="@string/all_subtasks"
+        android:id="@+id/subtaskFragment"
+        android:orderInCategory="4"/>
     <item
         android:title="@string/about"
         android:id="@+id/aboutFragment"
-        android:orderInCategory="4"/>
+        android:orderInCategory="5"/>
 </menu>

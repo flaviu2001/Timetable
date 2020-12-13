@@ -2,13 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.flaviu.timetable.addcard.AddCardFragment">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.flaviu.timetable.addcard.AddCardViewModel" />
-    </data>
-
+    tools:context=".ui.addcard.AddCardFragment">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -89,22 +83,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/label"
-                style="@style/BaseEditText"
+                style="@style/UneditableEditText"
                 android:importantForAutofill="no"
                 app:layout_constraintStart_toStartOf="@+id/infoEditText"
                 app:layout_constraintTop_toBottomOf="@+id/infoEditText" />
-
-            <EditText
-                android:id="@+id/notesEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="@string/notes"
-                style="@style/BaseEditText"
-                android:inputType="textMultiLine"
-                android:importantForAutofill="no"
-                app:layout_constraintStart_toStartOf="@+id/labelEditText"
-                app:layout_constraintTop_toBottomOf="@+id/labelEditText" />
 
             <EditText
                 android:id="@+id/colorEditText"
@@ -112,8 +94,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:gravity="center"
                 android:hint="@string/no_need_for_hint"
                 android:importantForAutofill="no"
                 android:text="@string/set_color"
@@ -121,10 +104,9 @@
                 android:textColor="@color/primaryDarkColor"
                 android:textSize="21sp"
                 android:textStyle="bold"
-                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/notesEditText" />
+                app:layout_constraintTop_toBottomOf="@+id/labelEditText" />
 
             <EditText
                 android:id="@+id/textColorEditText"

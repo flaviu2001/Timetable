@@ -2,17 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    
     <data>
         <variable
             name="card"
             type="com.flaviu.timetable.database.Card" />
         <variable
             name="clickListener"
-            type="com.flaviu.timetable.list.CardListener" />
+            type="com.flaviu.timetable.ui.list.CardListener" />
     </data>
+
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:customBackgroundColor="@{card}"

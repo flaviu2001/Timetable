@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.flaviu.timetable.home.HomeFragment"
+        android:name="com.flaviu.timetable.ui.home.HomeFragment"
         android:label="Timetable"
         tools:layout="@layout/home_fragment" >
         <action
@@ -15,10 +15,16 @@
         <action
             android:id="@+id/action_homeFragment_to_editCardFragment"
             app:destination="@id/editCardFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_subtaskFragment"
+            app:destination="@id/subtaskFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_editLabelFragment"
+            app:destination="@id/editLabelFragment" />
     </fragment>
     <fragment
         android:id="@+id/addCardFragment"
-        android:name="com.flaviu.timetable.addcard.AddCardFragment"
+        android:name="com.flaviu.timetable.ui.addcard.AddCardFragment"
         android:label="Timetable"
         tools:layout="@layout/add_card_fragment" >
         <action
@@ -27,35 +33,64 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.flaviu.timetable.settings.SettingsFragment"
+        android:name="com.flaviu.timetable.ui.settings.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/settings_fragment" />
     <fragment
         android:id="@+id/editCardFragment"
-        android:name="com.flaviu.timetable.editcard.EditCardFragment"
+        android:name="com.flaviu.timetable.ui.editcard.EditCardFragment"
         android:label="Timetable" >
         <argument
             android:name="cardKey"
             app:argType="long" />
+        <action
+            android:id="@+id/action_editCardFragment_to_subtaskFragment"
+            app:destination="@id/subtaskFragment" />
     </fragment>
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.flaviu.timetable.list.ListFragment"
+        android:name="com.flaviu.timetable.ui.list.ListFragment"
         android:label="Timetable" >
         <argument
             android:name="label"
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/notesFragment"
-        android:name="com.flaviu.timetable.notes.NotesFragment"
-        android:label="Notes" >
+        android:id="@+id/aboutFragment"
+        android:name="com.flaviu.timetable.ui.about.AboutFragment"
+        android:label="About" />
+    <fragment
+        android:id="@+id/subtaskFragment"
+        android:name="com.flaviu.timetable.ui.subtask.SubtaskFragment"
+        android:label="Subtasks" >
+        <argument
+            android:name="cardId"
+            app:argType="long[]" />
         <action
-            android:id="@+id/action_notesFragment_to_editCardFragment"
-            app:destination="@id/editCardFragment" />
+            android:id="@+id/action_subtaskFragment_to_addSubtaskFragment"
+            app:destination="@id/addSubtaskFragment" />
+        <action
+            android:id="@+id/action_subtaskFragment_to_editSubtaskFragment"
+            app:destination="@id/editSubtaskFragment" />
     </fragment>
     <fragment
-        android:id="@+id/aboutFragment"
-        android:name="com.flaviu.timetable.about.AboutFragment"
-        android:label="About" />
+        android:id="@+id/editLabelFragment"
+        android:name="com.flaviu.timetable.ui.editlabel.EditLabelFragment"
+        android:label="Edit Labels" />
+    <fragment
+        android:id="@+id/addSubtaskFragment"
+        android:name="com.flaviu.timetable.ui.addsubtask.AddSubtaskFragment"
+        android:label="Add Subtask" >
+        <argument
+            android:name="cardId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/editSubtaskFragment"
+        android:name="com.flaviu.timetable.ui.editsubtask.EditSubtaskFragment"
+        android:label="Edit Subtask" >
+        <argument
+            android:name="subtaskId"
+            app:argType="long" />
+    </fragment>
 </navigation>
