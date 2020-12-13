@@ -90,7 +90,7 @@ class EditSubtaskFragment : Fragment() {
                 Toast.makeText(requireContext(), "You must set the reminder in the future", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            scheduleNotification(requireActivity(), cardId, description, viewModel.subtask.value!!.reminderId, reminder)
+            scheduleNotification(requireActivity(), cardId, description, viewModel.subtask.value!!.reminderId!!, reminder)
             viewModel.updateSubtask(description, deadline, reminder)
             this.findNavController().navigateUp()
             hideKeyboard(requireActivity())

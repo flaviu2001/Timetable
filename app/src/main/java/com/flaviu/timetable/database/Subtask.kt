@@ -14,5 +14,5 @@ data class Subtask(
     var description: String,
     var dueDate: Calendar?,
     var reminderDate: Calendar?,
-    var reminderId: Int
+    var reminderId: Int?
 )
