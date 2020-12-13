@@ -118,5 +118,5 @@ fun TextView.setDueDate(item: Subtask?) {
         return
     text = if (item.dueDate == null)
         context.getString(R.string.unset_format)
-    else context.getString(R.string.due_date_format).format(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US).format(item.dueDate))
+    else context.getString(R.string.due_date_format).format(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US).format(Date(item.dueDate!!.timeInMillis)))
 }

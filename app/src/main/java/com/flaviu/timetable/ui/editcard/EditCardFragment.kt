@@ -34,8 +34,9 @@ class EditCardFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val database = CardDatabase.getInstance(application).cardDatabaseDao
         val arguments = EditCardFragmentArgs.fromBundle(requireArguments())
+        val cardId = arguments.cardKey
         val editCardViewModelFactory = EditCardViewModelFactory(
-            arguments.cardKey,
+            cardId,
             database,
             application
         )
@@ -138,6 +139,10 @@ class EditCardFragment : Fragment() {
             })
             colorPickerDialog.show(childFragmentManager, "Choose a color")
         }
+        binding.subtasksButton.setOnClickListener {
+            this.findNavController().navigate(EditCardFragmentDirections.actionEditCardFragmentToSubtaskFragment(LongArray(1){cardId}))
+        }
+        setButtonColor(binding.subtasksButton, requireActivity())
         setHasOptionsMenu(true)
         return binding.root
     }

@@ -43,6 +43,9 @@
         <argument
             android:name="cardKey"
             app:argType="long" />
+        <action
+            android:id="@+id/action_editCardFragment_to_subtaskFragment"
+            app:destination="@id/subtaskFragment" />
     </fragment>
     <fragment
         android:id="@+id/listFragment"
@@ -63,9 +66,31 @@
         <argument
             android:name="cardId"
             app:argType="long[]" />
+        <action
+            android:id="@+id/action_subtaskFragment_to_addSubtaskFragment"
+            app:destination="@id/addSubtaskFragment" />
+        <action
+            android:id="@+id/action_subtaskFragment_to_editSubtaskFragment"
+            app:destination="@id/editSubtaskFragment" />
     </fragment>
     <fragment
         android:id="@+id/editLabelFragment"
         android:name="com.flaviu.timetable.ui.editlabel.EditLabelFragment"
         android:label="Edit Labels" />
+    <fragment
+        android:id="@+id/addSubtaskFragment"
+        android:name="com.flaviu.timetable.ui.addsubtask.AddSubtaskFragment"
+        android:label="Add Subtask" >
+        <argument
+            android:name="cardId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/editSubtaskFragment"
+        android:name="com.flaviu.timetable.ui.editsubtask.EditSubtaskFragment"
+        android:label="EditSubtaskFragment" >
+        <argument
+            android:name="subtaskId"
+            app:argType="long" />
+    </fragment>
 </navigation>

@@ -8,13 +8,13 @@ import java.lang.IllegalArgumentException
 
 class EditCardViewModelFactory (
     private val cardKey: Long,
-    private val dataSource: CardDatabaseDao,
+    private val database: CardDatabaseDao,
     private val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T: ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(EditCardViewModel::class.java)) {
-            return EditCardViewModel(cardKey, dataSource, application) as T
+            return EditCardViewModel(cardKey, database, application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

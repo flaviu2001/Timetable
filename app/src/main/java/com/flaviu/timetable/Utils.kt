@@ -1,8 +1,8 @@
 package com.flaviu.timetable
 
-import android.app.Activity
-import android.app.TimePickerDialog
+import android.app.*
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.drawable.ColorDrawable
 import android.view.inputmethod.InputMethodManager
@@ -10,9 +10,11 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.database.Label
+import kotlinx.coroutines.*
 import top.defaults.drawabletoolbox.DrawableBuilder
-import java.lang.StringBuilder
+import java.util.*
 
 val preset_colors: IntArray = listOf(
     0xFF751600, // My dark red
@@ -222,4 +224,48 @@ fun labelsToString(labels: List<Label>): String {
     for (i in 1 until labels.size)
         toReturn.append(", ").append(labels[i].name)
     return toReturn.toString()
+}
+
+fun prettyTimeString(calendar: Calendar?, noTime: Boolean = false): String {
+    if (calendar == null)
+        return ""
+    var str1 = calendar.get(Calendar.HOUR_OF_DAY).toString()
+    if (str1.length == 1)
+        str1 = "0$str1"
+    var str2 = calendar.get(Calendar.MINUTE).toString()
+    if (str2.length == 1)
+        str2 = "0$str2"
+    if (!noTime)
+        return "${calendar.get(Calendar.DAY_OF_MONTH)}-${calendar.get(Calendar.MONTH)+1}-${calendar.get(Calendar.YEAR)} $str1:$str2"
+    return "${calendar.get(Calendar.DAY_OF_MONTH)}-${calendar.get(Calendar.MONTH)+1}-${calendar.get(Calendar.YEAR)}"
+}
+
+fun scheduleNotification(
+    activity: Activity,
+    cardId: Long,
+    description: String,
+    id: Int,
+    reminder: Calendar?
+) {
+    val job = Job()
+    val uiScope = CoroutineScope(Dispatchers.Main + job)
+    uiScope.launch {
+        withContext(Dispatchers.IO) {
+            val alarmManager = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val notificationIntent = Intent(activity.applicationContext, AlarmReceiver::class.java)
+            val title = CardDatabase.getInstance(activity).cardDatabaseDao.getCardNow(cardId)!!.name
+            notificationIntent.putExtra("title", title)
+            notificationIntent.putExtra("description", description)
+            notificationIntent.putExtra("id", id)
+            val broadcast = PendingIntent.getBroadcast(
+                activity.applicationContext,
+                id,
+                notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+            if (reminder == null) {
+                alarmManager.cancel(broadcast)
+            }else alarmManager.setExact(AlarmManager.RTC_WAKEUP, reminder.timeInMillis, broadcast)
+        }
+    }
 }
