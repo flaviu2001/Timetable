@@ -1,6 +1,7 @@
 package com.flaviu.timetable.ui.editlabel
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,11 @@ class EditLabelFragment : Fragment() {
         viewModel.labels.observe(viewLifecycleOwner){
             adapter.data = it
         }
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val canEdit = sharedPref.getBoolean(getString(R.string.saved_edit_state), true)
+        if (canEdit)
+            binding.addLabel.visibility = Button.VISIBLE
+        else binding.addLabel.visibility = Button.GONE
         binding.addLabel.setOnClickListener{
             val layout = layoutInflater.inflate(R.layout.add_label_layout, null)
             val alert = AlertDialog.Builder(requireContext()).setView(layout).show()

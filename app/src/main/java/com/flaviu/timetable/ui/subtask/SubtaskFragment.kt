@@ -1,5 +1,6 @@
 package com.flaviu.timetable.ui.subtask
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.flaviu.timetable.R
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.SubtaskFragmentBinding
 import com.flaviu.timetable.hideKeyboard
@@ -34,8 +36,12 @@ class SubtaskFragment : Fragment() {
         }
         viewModel = ViewModelProvider(this, SubtaskViewModelFactory(cardId, database)).get(SubtaskViewModel::class.java)
         val adapter = SubtaskAdapter(viewLifecycleOwner, database, SubtaskListener {
-            this.findNavController().navigate(SubtaskFragmentDirections.actionSubtaskFragmentToEditSubtaskFragment(it))
-            hideKeyboard(requireActivity())
+            val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+            val canEdit = sharedPref.getBoolean(getString(R.string.saved_edit_state), true)
+            if (canEdit) {
+                this.findNavController().navigate(SubtaskFragmentDirections.actionSubtaskFragmentToEditSubtaskFragment(it))
+                hideKeyboard(requireActivity())
+            }
         })
         binding.subtaskList.adapter = adapter
         binding.subtaskList.layoutManager = GridLayoutManager(context, 2)

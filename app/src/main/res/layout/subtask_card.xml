@@ -30,7 +30,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/cardNameTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="10dp"
@@ -38,12 +38,13 @@
                 android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:nameText="@{card}"
                 tools:text="Name: English" />
             <TextView
                 android:id="@+id/subtaskDescriptionTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="5dp"
@@ -53,14 +54,16 @@
                 app:subtaskDescription="@{subtask}"
                 app:subtaskTextColor="@{card}"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardNameTextView"
                 tools:text="Description: Assignment 3" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/subtaskDescriptionTextView"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:dueDate="@{subtask}"
                 app:subtaskTextColor="@{card}"
