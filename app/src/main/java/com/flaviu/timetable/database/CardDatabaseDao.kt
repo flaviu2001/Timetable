@@ -29,29 +29,29 @@ interface CardDatabaseDao {
     suspend fun deleteLabel(key: Long)
     @Update
     suspend fun updateLabel(label: Label)
-    @Query("DELETE FROM timetable_card_table WHERE NOT EXISTS (select * from timetable_card_label_table CL WHERE timetable_card_table.cardId = CL.cardId)")
+    @Query("DELETE FROM timetable_card_table WHERE NOT EXISTS (SELECT * FROM timetable_card_label_table CL WHERE timetable_card_table.cardId = CL.cardId)")
     suspend fun deleteCardsWithoutLabels()
-    @Query("INSERT INTO timetable_card_label_table(cardId, labelId) values(:cardId, :labelId)")
+    @Query("INSERT INTO timetable_card_label_table(cardId, labelId) VALUES(:cardId, :labelId)")
     suspend fun connectLabelToCard(cardId: Long, labelId: Long)
-    @Query("SELECT * from timetable_card_table WHERE cardId = :key")
+    @Query("SELECT * FROM timetable_card_table WHERE cardId = :key")
     fun getCard(key: Long): LiveData<Card>
-    @Query("SELECT * from timetable_card_table WHERE cardId = :key")
+    @Query("SELECT * FROM timetable_card_table WHERE cardId = :key")
     suspend fun getCardNow(key: Long): Card?
-    @Query("SELECT C.* FROM timetable_card_table C INNER JOIN timetable_card_label_table CL on C.cardId = CL.cardId INNER JOIN timetable_label_table L on CL.labelId = L.labelId WHERE L.name = :label ORDER BY weekday, timeBegin, timeEnd")
+    @Query("SELECT C.* FROM timetable_card_table C INNER JOIN timetable_card_label_table CL ON C.cardId = CL.cardId INNER JOIN timetable_label_table L ON CL.labelId = L.labelId WHERE L.name = :label ORDER BY weekday, timeBegin, timeEnd")
     fun getCardsWithLabel(label: String): LiveData<List<Card>>
     @Query("SELECT * FROM timetable_card_table")
     fun getAllCards(): LiveData<List<Card>>
-    @Query("SELECT * FROM timetable_subtask_table WHERE cardId = :key")
+    @Query("SELECT * FROM timetable_subtask_table WHERE cardId = :key ORDER BY CASE WHEN dueDate IS NULL THEN 1 ELSE 0 END, dueDate, CASE WHEN reminderDate IS NULL THEN 1 ELSE 0 END, reminderDate")
     fun getSubtasksByCardId(key: Long): LiveData<List<Subtask>>
     @Query("SELECT * FROM timetable_subtask_table WHERE subtaskId = :key")
     fun getSubtask(key: Long): LiveData<Subtask>
-    @Query("SELECT * FROM timetable_subtask_table")
+    @Query("SELECT * FROM timetable_subtask_table ORDER BY CASE WHEN dueDate IS NULL THEN 1 ELSE 0 END, dueDate, CASE WHEN reminderDate IS NULL THEN 1 ELSE 0 END, reminderDate")
     fun getAllSubtasks(): LiveData<List<Subtask>>
     @Query("SELECT * FROM timetable_label_table ORDER BY name")
     fun getAllLabels(): LiveData<List<Label>>
-    @Query("SELECT * FROM timetable_label_table L WHERE EXISTS (select * from timetable_card_label_table CL WHERE L.labelId = CL.labelId) ORDER BY name")
+    @Query("SELECT * FROM timetable_label_table L WHERE EXISTS (SELECT * FROM timetable_card_label_table CL WHERE L.labelId = CL.labelId) ORDER BY name")
     fun getNonEmptyLabels(): LiveData<List<Label>>
-    @Query("SELECT L.* FROM timetable_card_table C INNER JOIN timetable_card_label_table CL on C.cardId = CL.cardId INNER JOIN timetable_label_table L on CL.labelId = L.labelId WHERE C.cardId = :cardId ORDER BY L.name")
+    @Query("SELECT L.* FROM timetable_card_table C INNER JOIN timetable_card_label_table CL ON C.cardId = CL.cardId INNER JOIN timetable_label_table L ON CL.labelId = L.labelId WHERE C.cardId = :cardId ORDER BY L.name")
     fun getLabelsOfCard(cardId: Long): LiveData<List<Label>>
     @Query("SELECT * FROM timetable_subtask_table WHERE reminderId = :key")
     suspend fun getSubtaskByReminder(key: Int): Subtask?

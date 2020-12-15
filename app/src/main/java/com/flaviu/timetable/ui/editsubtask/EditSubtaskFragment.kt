@@ -91,7 +91,8 @@ class EditSubtaskFragment : Fragment() {
                 return@setOnClickListener
             }
             scheduleNotification(requireActivity(), cardId, description, viewModel.subtask.value!!.reminderId!!, reminder)
-            viewModel.updateSubtask(description, deadline, reminder)
+            val reminderId = viewModel.subtask.value!!.reminderId ?: NotificationIdManipulator.generateId(requireActivity())
+            viewModel.updateSubtask(description, deadline, reminder, reminderId)
             this.findNavController().navigateUp()
             hideKeyboard(requireActivity())
         }
