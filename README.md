@@ -4,5 +4,6 @@ Timetable app for Android. It supports multiple tabs (specify tab name in "label
 
 Download it from [Google Play](https://play.google.com/store/apps/details?id=com.flaviu.timetable)!
 
-![Timetable](https://user-images.githubusercontent.com/56861796/99391705-3cf04a80-28e3-11eb-8964-a8789fbc00fe.png)
+![App photo](https://user-images.githubusercontent.com/56861796/102729332-06ba4680-4339-11eb-8a0e-7862d0c7516c.png)
+
 
