@@ -110,8 +110,7 @@ fun editTextTimeDialogInject(context: Context?, editText: EditText) {
     editText.setOnClickListener{
         val hour = 0
         val minute = 0
-        val timePicker: TimePickerDialog
-        timePicker = TimePickerDialog(
+        val timePicker = TimePickerDialog(
             context,
             { _, selectedHour, selectedMinute ->
                 editText.setText(
@@ -261,11 +260,11 @@ fun scheduleNotification(
                 activity.applicationContext,
                 id,
                 notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_CANCEL_CURRENT
             )
             if (reminder == null) {
                 alarmManager.cancel(broadcast)
-            }else alarmManager.setExact(AlarmManager.RTC_WAKEUP, reminder.timeInMillis, broadcast)
+            }else alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminder.timeInMillis, broadcast)
         }
     }
 }

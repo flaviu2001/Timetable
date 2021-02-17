@@ -143,6 +143,7 @@ class EditCardFragment : Fragment() {
             this.findNavController().navigate(EditCardFragmentDirections.actionEditCardFragmentToSubtaskFragment(LongArray(1){cardId}))
         }
         setButtonColor(binding.subtasksButton, requireActivity())
+        setButtonColor(binding.notificationButton, requireActivity())
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -160,6 +161,7 @@ class EditCardFragment : Fragment() {
                 val place = binding.placeEditText.text.toString()
                 val name = binding.nameEditText.text.toString()
                 val info = binding.infoEditText.text.toString()
+                val reminderId = NotificationIdManipulator.generateId(requireActivity())
                 try {
                     viewModel.cloneCard(
                         start,
@@ -170,7 +172,9 @@ class EditCardFragment : Fragment() {
                         info,
                         itemColor,
                         textColor,
-                        labelList
+                        labelList,
+                        null,
+                        reminderId
                     )
                     this.findNavController().navigateUp()
                     hideKeyboard(activity as MainActivity)
@@ -187,6 +191,8 @@ class EditCardFragment : Fragment() {
                 val place = binding.placeEditText.text.toString()
                 val name = binding.nameEditText.text.toString()
                 val info = binding.infoEditText.text.toString()
+                val reminderDate = viewModel.card.value?.reminderDate
+                val reminderId = viewModel.card.value?.reminderId
                 try {
                     viewModel.editCard(
                         start,
@@ -197,7 +203,9 @@ class EditCardFragment : Fragment() {
                         info,
                         itemColor,
                         textColor,
-                        labelList
+                        labelList,
+                        reminderDate,
+                        reminderId
                     )
                     this.findNavController().navigateUp()
                     hideKeyboard(activity as MainActivity)
