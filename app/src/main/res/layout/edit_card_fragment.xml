@@ -122,6 +122,10 @@
                 android:textAllCaps="true"
                 android:textColor="@color/primaryDarkColor"
                 android:textStyle="bold"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="1.6"
+                android:shadowDy="1.6"
+                android:shadowRadius="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/labelTextView"
                 app:layout_constraintTop_toBottomOf="@+id/labelEditText" />
@@ -139,6 +143,10 @@
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="1.6"
+                android:shadowDy="1.6"
+                android:shadowRadius="2"
                 app:layout_constraintEnd_toEndOf="@+id/colorEditText"
                 app:layout_constraintStart_toStartOf="@+id/colorEditText"
                 app:layout_constraintTop_toBottomOf="@+id/colorEditText" />
@@ -224,23 +232,35 @@
                 android:text="@string/subtasks"
                 android:textColor="@color/primaryTextColor"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/notification_button"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textColorEditText" />
+                app:layout_constraintTop_toBottomOf="@+id/notification_button" />
 
             <Button
                 android:id="@+id/notification_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/set_reminder"
+                android:layout_marginTop="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
+                android:text="@string/set_reminder"
                 android:textColor="@color/primaryTextColor"
-                app:layout_constraintBaseline_toBaselineOf="@+id/subtasks_button"
+                app:layout_constraintEnd_toStartOf="@+id/reset_notification"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textColorEditText" />
+
+            <Button
+                android:id="@+id/reset_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/reset_reminder"
+                android:textColor="@color/primaryTextColor"
+                app:layout_constraintBaseline_toBaselineOf="@+id/notification_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/subtasks_button" />
+                app:layout_constraintStart_toEndOf="@+id/notification_button" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

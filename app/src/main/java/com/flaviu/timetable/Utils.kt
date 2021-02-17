@@ -242,7 +242,7 @@ fun prettyTimeString(calendar: Calendar?, noTime: Boolean = false): String {
 fun scheduleNotification(
     activity: Activity,
     cardId: Long,
-    description: String,
+    description: String?,
     id: Int,
     reminder: Calendar?
 ) {
@@ -254,7 +254,7 @@ fun scheduleNotification(
             val notificationIntent = Intent(activity.applicationContext, AlarmReceiver::class.java)
             val title = CardDatabase.getInstance(activity).cardDatabaseDao.getCardNow(cardId)!!.name
             notificationIntent.putExtra("title", title)
-            notificationIntent.putExtra("description", description)
+            description?.let{notificationIntent.putExtra("description", it)}
             notificationIntent.putExtra("id", id)
             val broadcast = PendingIntent.getBroadcast(
                 activity.applicationContext,

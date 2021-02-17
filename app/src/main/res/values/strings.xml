@@ -61,4 +61,8 @@
     <string name="reminder">Reminder:</string>
     <string name="reset">Reset</string>
     <string name="set_reminder">Set Reminder</string>
+    <string name="time_error">A date and time in the future is required</string>
+    <string name="reset_reminder">Reset Reminder</string>
+    <string name="reset_alert">You have removed the reminder for the card</string>
+    <string name="notification_alert">You have set a reminder</string>
 </resources>

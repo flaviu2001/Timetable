@@ -55,4 +55,6 @@ interface CardDatabaseDao {
     fun getLabelsOfCard(cardId: Long): LiveData<List<Label>>
     @Query("SELECT * FROM timetable_subtask_table WHERE reminderId = :key")
     suspend fun getSubtaskByReminder(key: Int): Subtask?
+    @Query("SELECT * FROM timetable_card_table WHERE reminderId = :key")
+    suspend fun getCardByReminder(key: Int): Card?
 }
