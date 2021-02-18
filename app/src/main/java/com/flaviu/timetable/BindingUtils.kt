@@ -120,3 +120,13 @@ fun TextView.setDueDate(item: Subtask?) {
         context.getString(R.string.unset_format)
     else context.getString(R.string.due_date_format).format(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US).format(Date(item.dueDate!!.timeInMillis)))
 }
+
+@BindingAdapter("reminderText")
+fun TextView.setReminderText(item: Card?) {
+    if (item?.reminderDate == null || item.reminderDate!! < Calendar.getInstance())
+        visibility = TextView.GONE
+    else {
+        visibility = TextView.VISIBLE
+        text = context.getString(R.string.reminder_format).format(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US).format(Date(item.reminderDate!!.timeInMillis)))
+    }
+}
