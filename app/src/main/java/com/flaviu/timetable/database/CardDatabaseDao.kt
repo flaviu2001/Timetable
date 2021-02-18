@@ -41,12 +41,16 @@ interface CardDatabaseDao {
     fun getCardsWithLabel(label: String): LiveData<List<Card>>
     @Query("SELECT * FROM timetable_card_table")
     fun getAllCards(): LiveData<List<Card>>
+    @Query("SELECT * FROM timetable_card_table")
+    suspend fun getAllCardsNow(): List<Card>
     @Query("SELECT * FROM timetable_subtask_table WHERE cardId = :key ORDER BY CASE WHEN dueDate IS NULL THEN 1 ELSE 0 END, dueDate, CASE WHEN reminderDate IS NULL THEN 1 ELSE 0 END, reminderDate")
     fun getSubtasksByCardId(key: Long): LiveData<List<Subtask>>
     @Query("SELECT * FROM timetable_subtask_table WHERE subtaskId = :key")
     fun getSubtask(key: Long): LiveData<Subtask>
     @Query("SELECT * FROM timetable_subtask_table ORDER BY CASE WHEN dueDate IS NULL THEN 1 ELSE 0 END, dueDate, CASE WHEN reminderDate IS NULL THEN 1 ELSE 0 END, reminderDate")
     fun getAllSubtasks(): LiveData<List<Subtask>>
+    @Query("SELECT * FROM timetable_subtask_table ORDER BY CASE WHEN dueDate IS NULL THEN 1 ELSE 0 END, dueDate, CASE WHEN reminderDate IS NULL THEN 1 ELSE 0 END, reminderDate")
+    suspend fun getAllSubtasksNow(): List<Subtask>
     @Query("SELECT * FROM timetable_label_table ORDER BY name")
     fun getAllLabels(): LiveData<List<Label>>
     @Query("SELECT * FROM timetable_label_table L WHERE EXISTS (SELECT * FROM timetable_card_label_table CL WHERE L.labelId = CL.labelId) ORDER BY name")

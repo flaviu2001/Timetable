@@ -240,7 +240,7 @@ fun prettyTimeString(calendar: Calendar?, noTime: Boolean = false): String {
 }
 
 fun scheduleNotification(
-    activity: Activity,
+    context: Context,
     cardId: Long,
     description: String?,
     id: Int,
@@ -250,14 +250,14 @@ fun scheduleNotification(
     val uiScope = CoroutineScope(Dispatchers.Main + job)
     uiScope.launch {
         withContext(Dispatchers.IO) {
-            val alarmManager = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val notificationIntent = Intent(activity.applicationContext, AlarmReceiver::class.java)
-            val title = CardDatabase.getInstance(activity).cardDatabaseDao.getCardNow(cardId)!!.name
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val notificationIntent = Intent(context, AlarmReceiver::class.java)
+            val title = CardDatabase.getInstance(context).cardDatabaseDao.getCardNow(cardId)!!.name
             notificationIntent.putExtra("title", title)
             description?.let{notificationIntent.putExtra("description", it)}
             notificationIntent.putExtra("id", id)
             val broadcast = PendingIntent.getBroadcast(
-                activity.applicationContext,
+                context,
                 id,
                 notificationIntent,
                 PendingIntent.FLAG_CANCEL_CURRENT
