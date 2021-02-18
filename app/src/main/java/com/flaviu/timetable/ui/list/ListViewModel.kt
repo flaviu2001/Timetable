@@ -11,7 +11,7 @@ class ListViewModel (
     var cards = database.getCardsWithLabel(label)
 //    var cards = database.getAllCards()
 
-    var navigateToEditCard = MutableLiveData<Long>()
+    var navigateToEditCard = MutableLiveData<Long?>()
 
     fun onCardClicked(cardKey: Long) {
         navigateToEditCard.value = cardKey

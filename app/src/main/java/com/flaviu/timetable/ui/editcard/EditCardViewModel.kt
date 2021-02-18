@@ -8,6 +8,7 @@ import com.flaviu.timetable.database.CardDatabaseDao
 import com.flaviu.timetable.database.Label
 import com.flaviu.timetable.weekdayToInt
 import kotlinx.coroutines.*
+import java.util.*
 
 class EditCardViewModel(
     cardKey: Long,
@@ -57,7 +58,9 @@ class EditCardViewModel(
         info: String,
         color: Int,
         textColor: Int,
-        labelList: List<Label>
+        labelList: List<Label>,
+        reminderDate: Calendar?,
+        reminderId: Int?
     ) {
         listOf(start, finish, weekday, place, name).forEach{
             if (it.isEmpty())
@@ -74,6 +77,8 @@ class EditCardViewModel(
         newCard.weekday = weekdayToInt(weekday, viewModelApplication.resources)
         newCard.color = color
         newCard.textColor = textColor
+        newCard.reminderDate = reminderDate
+        newCard.reminderId = reminderId
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 database.updateCard(newCard)
@@ -93,7 +98,9 @@ class EditCardViewModel(
         info: String,
         color: Int,
         textColor: Int,
-        labelList: List<Label>
+        labelList: List<Label>,
+        reminderDate: Calendar?,
+        reminderId: Int?
     ) {
         listOf(start, finish, weekday, place, name).forEach{
             if (it.isEmpty())
@@ -108,7 +115,9 @@ class EditCardViewModel(
             name = name,
             info = info,
             color = color,
-            textColor = textColor
+            textColor = textColor,
+            reminderDate = reminderDate,
+            reminderId = reminderId
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {

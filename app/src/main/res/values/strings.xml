@@ -45,7 +45,8 @@
     <string name="default_font">sans-serif-medium</string>
     <string name="all_subtasks">All Subtasks</string>
     <string name="subtask_description">TODO: %s</string>
-    <string name="due_date_format">Deadline: %s</string>
+    <string name="due_date_format">Deadline: %s</string>'
+    <string name="reminder_format">There is a reminder set at %s</string>
     <string name="unset_format">No deadline set</string>
     <string name="one_label">Label:</string>
     <string name="more_labels">Labels:</string>
@@ -60,4 +61,9 @@
     <string name="deadline">Deadline:</string>
     <string name="reminder">Reminder:</string>
     <string name="reset">Reset</string>
+    <string name="set_reminder">Set Reminder</string>
+    <string name="time_error">A date and time in the future is required</string>
+    <string name="reset_reminder">Reset Reminder</string>
+    <string name="reset_alert">You have removed the reminder for the card</string>
+    <string name="notification_alert">You have set a reminder</string>
 </resources>

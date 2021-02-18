@@ -104,6 +104,10 @@
                 android:textColor="@color/primaryDarkColor"
                 android:textSize="21sp"
                 android:textStyle="bold"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="1.6"
+                android:shadowDy="1.6"
+                android:shadowRadius="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/labelEditText" />
@@ -122,6 +126,10 @@
                 android:textColor="@android:color/white"
                 android:textSize="21sp"
                 android:textStyle="bold"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="1.6"
+                android:shadowDy="1.6"
+                android:shadowRadius="2"
                 app:layout_constraintEnd_toEndOf="@+id/colorEditText"
                 app:layout_constraintStart_toStartOf="@+id/colorEditText"
                 app:layout_constraintTop_toBottomOf="@+id/colorEditText" />

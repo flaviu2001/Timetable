@@ -2,6 +2,7 @@ package com.flaviu.timetable.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 
 @Entity(tableName = "timetable_card_table")
@@ -15,5 +16,7 @@ data class Card (
     var name: String,
     var info: String,
     var color: Int,
-    var textColor: Int
+    var textColor: Int,
+    var reminderDate: Calendar?,
+    var reminderId: Int?
 )

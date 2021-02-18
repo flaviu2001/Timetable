@@ -8,6 +8,7 @@ import com.flaviu.timetable.database.CardDatabaseDao
 import com.flaviu.timetable.database.Label
 import com.flaviu.timetable.weekdayToInt
 import kotlinx.coroutines.*
+import java.util.*
 
 class AddCardViewModel(
     private val database: CardDatabaseDao,
@@ -32,8 +33,10 @@ class AddCardViewModel(
         info: String,
         color: Int,
         textColor: Int,
-        labelList: List<Label>
-    ) {
+        labelList: List<Label>,
+        reminderDate: Calendar?,
+        reminderId: Int?
+        ) {
         listOf(start, finish, weekday, place, name).forEach{
             if (it.isEmpty())
                 throw Exception("All fields must be completed.")
@@ -48,7 +51,9 @@ class AddCardViewModel(
             name = name,
             info = info,
             color = color,
-            textColor = textColor
+            textColor = textColor,
+            reminderDate = reminderDate,
+            reminderId = reminderId
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {
