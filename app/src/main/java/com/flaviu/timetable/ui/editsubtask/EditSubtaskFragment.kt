@@ -32,31 +32,39 @@ class EditSubtaskFragment : Fragment() {
         viewModel = ViewModelProvider(this, EditSubtaskViewModelFactory(subtaskId, database)).get(EditSubtaskViewModel::class.java)
         binding.deadlineEditText.setOnClickListener {
             val calendar = Calendar.getInstance()
-            DatePickerDialog(
+            val datePickerDialog = DatePickerDialog(
                 requireContext(),
                 { _, year, month, day ->
                     val c = Calendar.getInstance()
-                    TimePickerDialog(requireContext(), { _, hour, minute ->
+                    val timePickerDialog = TimePickerDialog(requireContext(), { _, hour, minute ->
                         deadline = Calendar.getInstance()
                         deadline!!.set(year, month, day, hour, minute, 0)
                         binding.deadlineEditText.setText(prettyTimeString(deadline))
-                    }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),true).show()
+                    }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),true)
+                    timePickerDialog.updateTime(0, 0)
+                    timePickerDialog.show()
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            )
+            datePickerDialog.datePicker.minDate = Calendar.getInstance().timeInMillis
+            datePickerDialog.show()
         }
         binding.reminderEditText.setOnClickListener {
             val calendar = Calendar.getInstance()
-            DatePickerDialog(
+            val datePickerDialog = DatePickerDialog(
                 requireContext(),
                 { _, year, month, day ->
                     val c = Calendar.getInstance()
-                    TimePickerDialog(requireContext(), { _, hour, minute ->
+                    val timePickerDialog = TimePickerDialog(requireContext(), { _, hour, minute ->
                         reminder = Calendar.getInstance()
                         reminder!!.set(year, month, day, hour, minute, 0)
                         binding.reminderEditText.setText(prettyTimeString(reminder))
-                    }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),true).show()
+                    }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),true)
+                    timePickerDialog.updateTime(0, 0)
+                    timePickerDialog.show()
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            )
+            datePickerDialog.datePicker.minDate = Calendar.getInstance().timeInMillis
+            datePickerDialog.show()
         }
         binding.resetDeadlineButton.setOnClickListener {
             deadline = null

@@ -147,11 +147,11 @@ class EditCardFragment : Fragment() {
         }
         binding.notificationButton.setOnClickListener {
             val calendar = Calendar.getInstance()
-            DatePickerDialog(
+            val datePickerDialog = DatePickerDialog(
                 requireContext(),
                 { _, year, month, day ->
                     val c = Calendar.getInstance()
-                    TimePickerDialog(requireContext(), { _, hour, minute ->
+                    val timePickerDialog = TimePickerDialog(requireContext(), { _, hour, minute ->
                         val reminderDate = Calendar.getInstance()
                         reminderDate.set(year, month, day, hour, minute, 0)
                         if (reminderDate < Calendar.getInstance()) {
@@ -166,9 +166,13 @@ class EditCardFragment : Fragment() {
                         viewModel.editCard(card.timeBegin, card.timeEnd,
                             resources.getStringArray(R.array.weekdays)[card.weekday], card.place, card.name, card.info, card.color, card.textColor, labelList, reminderDate, reminderId)
                         Toast.makeText(requireContext(), requireContext().getText(R.string.notification_alert), Toast.LENGTH_SHORT).show()
-                    }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),true).show()
+                    }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),true)
+                    timePickerDialog.updateTime(0, 0)
+                    timePickerDialog.show()
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            )
+            datePickerDialog.datePicker.minDate = Calendar.getInstance().timeInMillis
+            datePickerDialog.show()
         }
         binding.resetNotification.setOnClickListener {
             var reminderId = viewModel.card.value?.reminderId
