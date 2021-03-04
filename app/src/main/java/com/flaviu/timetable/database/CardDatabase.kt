@@ -9,7 +9,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 
-@Database(entities = [Card::class, Subtask::class, Label::class, CardLabel::class], version = 8)
+@Database(entities = [Card::class, Subtask::class, Label::class, CardLabel::class], version = 9)
 @TypeConverters(Converters::class)
 abstract class CardDatabase : RoomDatabase() {
 
@@ -64,6 +64,17 @@ abstract class CardDatabase : RoomDatabase() {
             }
         }
 
+        private val migration_8_9: Migration = object : Migration(8, 9) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE IF NOT EXISTS timetable_label_table_backup (labelId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, visible INTEGER NOT NULL, name TEXT NOT NULL)")
+                database.execSQL("INSERT INTO timetable_label_table_backup (labelId, visible, name) SELECT labelId, 1,  name FROM timetable_label_table")
+                database.execSQL("DROP TABLE timetable_label_table")
+                database.execSQL("CREATE TABLE IF NOT EXISTS timetable_label_table (labelId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, visible INTEGER NOT NULL, name TEXT NOT NULL)")
+                database.execSQL("INSERT INTO timetable_label_table (labelId, visible, name) SELECT labelId, visible, name FROM timetable_label_table_backup")
+                database.execSQL("DROP TABLE timetable_label_table_backup")
+            }
+        }
+
         fun getInstance(context: Context): CardDatabase {
             synchronized(this) {
                 var instance = INSTANCE
@@ -75,6 +86,7 @@ abstract class CardDatabase : RoomDatabase() {
                         .addMigrations(migration_1_6)
                         .addMigrations(migration_6_7)
                         .addMigrations(migration_7_8)
+                        .addMigrations(migration_8_9)
                         .build()
                     INSTANCE = instance
                 }

@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class Label(
     @PrimaryKey(autoGenerate = true)
     var labelId: Long = 0L,
+    var visible: Int = 1, //1 means visible
     var name: String
 )

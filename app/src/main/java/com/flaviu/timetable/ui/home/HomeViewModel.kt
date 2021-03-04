@@ -6,5 +6,5 @@ import com.flaviu.timetable.database.CardDatabaseDao
 class HomeViewModel(
     database: CardDatabaseDao
 ) : ViewModel() {
-    var labels = database.getNonEmptyLabels()
+    var labels = database.getNonEmptyAndVisibleLabels()
 }

@@ -6,7 +6,6 @@ import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.Subtask
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 

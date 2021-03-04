@@ -53,8 +53,8 @@ interface CardDatabaseDao {
     suspend fun getAllSubtasksNow(): List<Subtask>
     @Query("SELECT * FROM timetable_label_table ORDER BY name")
     fun getAllLabels(): LiveData<List<Label>>
-    @Query("SELECT * FROM timetable_label_table L WHERE EXISTS (SELECT * FROM timetable_card_label_table CL WHERE L.labelId = CL.labelId) ORDER BY name")
-    fun getNonEmptyLabels(): LiveData<List<Label>>
+    @Query("SELECT * FROM timetable_label_table L WHERE EXISTS (SELECT * FROM timetable_card_label_table CL WHERE L.labelId = CL.labelId) AND visible=1 ORDER BY name")
+    fun getNonEmptyAndVisibleLabels(): LiveData<List<Label>>
     @Query("SELECT L.* FROM timetable_card_table C INNER JOIN timetable_card_label_table CL ON C.cardId = CL.cardId INNER JOIN timetable_label_table L ON CL.labelId = L.labelId WHERE C.cardId = :cardId ORDER BY L.name")
     fun getLabelsOfCard(cardId: Long): LiveData<List<Label>>
     @Query("SELECT * FROM timetable_subtask_table WHERE reminderId = :key")
