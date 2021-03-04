@@ -57,7 +57,7 @@
             android:layout_marginBottom="32dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="@string/edit"
+            android:text="@string/update"
             android:textColor="@color/primaryTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
