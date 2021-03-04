@@ -68,4 +68,5 @@
     <string name="notification_alert">You have set a reminder</string>
     <string name="update">Update</string>
     <string name="weekday_format">Day of week: %s</string>
+    <string name="visibility">Visibility</string>
 </resources>

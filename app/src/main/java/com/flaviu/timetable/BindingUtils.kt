@@ -1,12 +1,13 @@
 package com.flaviu.timetable
 
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import com.flaviu.timetable.database.Card
+import com.flaviu.timetable.database.Label
 import com.flaviu.timetable.database.Subtask
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -137,5 +138,14 @@ fun TextView.setReminderText(item: Card?) {
     else {
         visibility = TextView.VISIBLE
         text = context.getString(R.string.reminder_format).format(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US).format(Date(item.reminderDate!!.timeInMillis)))
+    }
+}
+
+@BindingAdapter("labelVisibility")
+fun ImageView.setLabelVisibility(item: Label?) {
+    item?.let {
+        if (item.visible == 1)
+            setImageResource(R.drawable.baseline_visibility_24)
+        else setImageResource(R.drawable.baseline_visibility_off_24)
     }
 }
