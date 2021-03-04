@@ -21,8 +21,8 @@ android {
         applicationId "com.flaviu.timetable"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 9
-        versionName "1.2"
+        versionCode 10
+        versionName "1.2.1"
 
         javaCompileOptions {
             annotationProcessorOptions {
