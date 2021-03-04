@@ -43,9 +43,13 @@ class LabelHolder private constructor(private val binding: LabelCardBinding): Re
         binding.label = label
         val sharedPref = fragment.requireActivity().getPreferences(Context.MODE_PRIVATE)
         val canEdit = sharedPref.getBoolean(fragment.getString(R.string.saved_edit_state), true)
-        if (canEdit)
+        if (canEdit) {
             binding.delete.visibility = ImageView.VISIBLE
-        else binding.delete.visibility = ImageView.GONE
+            binding.visibleIcon.visibility = ImageView.VISIBLE
+        } else {
+            binding.delete.visibility = ImageView.GONE
+            binding.visibleIcon.visibility = ImageView.GONE
+        }
         binding.delete.setOnClickListener{
             AlertDialog.Builder(fragment.requireContext()).setMessage("Are you sure you want to delete the label? It will also delete all cards which do not have other labels than this one")
                 .setPositiveButton("Yes") { _, _ ->
@@ -56,6 +60,15 @@ class LabelHolder private constructor(private val binding: LabelCardBinding): Re
                         database.deleteCardsWithoutLabels()
                     }
                 }.setNegativeButton("No", null).show()
+        }
+        binding.visibleIcon.setOnClickListener{
+            val job = Job()
+            val uiScope = CoroutineScope(Dispatchers.Main + job)
+            uiScope.launch {
+                withContext(Dispatchers.IO) {
+                    database.switchLabelVisibility(label.labelId)
+                }
+            }
         }
         binding.card.setCardBackgroundColor(getAccentColor(fragment.requireActivity()))
         binding.card.setOnClickListener{

@@ -63,4 +63,6 @@ interface CardDatabaseDao {
     suspend fun getCardByReminder(key: Int): Card?
     @Query("SELECT C.* FROM timetable_card_table C JOIN timetable_subtask_table S ON S.cardId = C.cardId WHERE S.subtaskId = :key")
     fun getCardOfSubtask(key: Long): LiveData<Card>
+    @Query("UPDATE timetable_label_table SET visible = 1-visible WHERE labelId = :key")
+    suspend fun switchLabelVisibility(key: Long)
 }
