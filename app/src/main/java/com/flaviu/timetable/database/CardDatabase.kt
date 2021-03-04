@@ -66,6 +66,7 @@ abstract class CardDatabase : RoomDatabase() {
 
         private val migration_8_9: Migration = object : Migration(8, 9) {
             override fun migrate(database: SupportSQLiteDatabase) {
+                //Adding visibility to label
                 database.execSQL("CREATE TABLE IF NOT EXISTS timetable_label_table_backup (labelId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, visible INTEGER NOT NULL, name TEXT NOT NULL)")
                 database.execSQL("INSERT INTO timetable_label_table_backup (labelId, visible, name) SELECT labelId, 1,  name FROM timetable_label_table")
                 database.execSQL("DROP TABLE timetable_label_table")
