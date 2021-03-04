@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -27,9 +28,14 @@ class EditSubtaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = EditSubtaskFragmentBinding.inflate(inflater)
+        cardId = EditSubtaskFragmentArgs.fromBundle(requireArguments()).cardId
         val subtaskId = EditSubtaskFragmentArgs.fromBundle(requireArguments()).subtaskId
         val database = CardDatabase.getInstance(requireContext()).cardDatabaseDao
-        viewModel = ViewModelProvider(this, EditSubtaskViewModelFactory(subtaskId, database)).get(EditSubtaskViewModel::class.java)
+        viewModel = ViewModelProvider(this, EditSubtaskViewModelFactory(cardId, subtaskId, database)).get(EditSubtaskViewModel::class.java)
+        viewModel.card.observe(viewLifecycleOwner){
+            binding.card = it
+        }
+        binding.cardLayout.weekdaysTextView.visibility = TextView.VISIBLE
         binding.deadlineEditText.setOnClickListener {
             val calendar = Calendar.getInstance()
             val datePickerDialog = DatePickerDialog(
@@ -81,7 +87,6 @@ class EditSubtaskFragment : Fragment() {
         viewModel.subtask.observe(viewLifecycleOwner) {
             deadline = it.dueDate
             reminder = it.reminderDate
-            cardId = it.cardId
             binding.descriptionEditText.setText(it.description)
             if (deadline != null)
                 binding.deadlineEditText.setText(prettyTimeString(deadline))

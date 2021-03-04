@@ -39,8 +39,10 @@ class SubtaskFragment : Fragment() {
             val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
             val canEdit = sharedPref.getBoolean(getString(R.string.saved_edit_state), true)
             if (canEdit) {
-                this.findNavController().navigate(SubtaskFragmentDirections.actionSubtaskFragmentToEditSubtaskFragment(it))
-                hideKeyboard(requireActivity())
+                database.getCardOfSubtask(it).observe(viewLifecycleOwner) { card ->
+                    this.findNavController().navigate(SubtaskFragmentDirections.actionSubtaskFragmentToEditSubtaskFragment(it, card.cardId))
+                    hideKeyboard(requireActivity())
+                }
             }
         })
         binding.subtaskList.adapter = adapter

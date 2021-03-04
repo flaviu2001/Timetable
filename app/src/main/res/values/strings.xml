@@ -67,4 +67,5 @@
     <string name="reset_alert">You have removed the reminder for the card</string>
     <string name="notification_alert">You have set a reminder</string>
     <string name="update">Update</string>
+    <string name="weekday_format">Day of week: %s</string>
 </resources>

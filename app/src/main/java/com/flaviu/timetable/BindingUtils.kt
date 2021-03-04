@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.Subtask
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,6 +44,14 @@ fun TextView.setNameText(item: Card?) {
 fun TextView.setInfoText(item: Card?) {
     item?.let{
         text=this.context.resources.getString(R.string.info_parser).format(item.info)
+        setTextColor(item.textColor)
+    }
+}
+
+@BindingAdapter("weekdaysText")
+fun TextView.setWeekdaysText(item: Card?) {
+    item?.let {
+        text = context.getString(R.string.weekday_format).format(resources.getStringArray(R.array.weekdays)[item.weekday])
         setTextColor(item.textColor)
     }
 }

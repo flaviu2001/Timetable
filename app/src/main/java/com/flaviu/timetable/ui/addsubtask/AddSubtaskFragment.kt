@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -27,8 +28,12 @@ class AddSubtaskFragment : Fragment() {
     ): View {
         binding = AddSubtaskFragmentBinding.inflate(inflater)
         val database = CardDatabase.getInstance(requireContext()).cardDatabaseDao
-        viewModel = ViewModelProvider(this, AddSubtaskViewModelFactory(database)).get(AddSubtaskViewModel::class.java)
         val cardId = AddSubtaskFragmentArgs.fromBundle(requireArguments()).cardId
+        viewModel = ViewModelProvider(this, AddSubtaskViewModelFactory(database, cardId)).get(AddSubtaskViewModel::class.java)
+        viewModel.card.observe(viewLifecycleOwner){
+            binding.card = it
+        }
+        binding.cardLayout.weekdaysTextView.visibility = TextView.VISIBLE
         binding.deadlineEditText.setOnClickListener {
             val calendar = Calendar.getInstance()
             val datePickerDialog = DatePickerDialog(

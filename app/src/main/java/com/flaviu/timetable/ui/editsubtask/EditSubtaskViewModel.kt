@@ -6,10 +6,11 @@ import com.flaviu.timetable.database.Subtask
 import kotlinx.coroutines.*
 import java.util.*
 
-class EditSubtaskViewModel(subtaskId: Long, private val database: CardDatabaseDao) : ViewModel() {
+class EditSubtaskViewModel(cardId: Long, subtaskId: Long, private val database: CardDatabaseDao) : ViewModel() {
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
     val subtask = database.getSubtask(subtaskId)
+    val card = database.getCard(cardId)
 
     fun deleteSubtask() {
         uiScope.launch {

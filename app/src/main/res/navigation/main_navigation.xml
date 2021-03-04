@@ -92,5 +92,8 @@
         <argument
             android:name="subtaskId"
             app:argType="long" />
+        <argument
+            android:name="cardId"
+            app:argType="long" />
     </fragment>
 </navigation>
