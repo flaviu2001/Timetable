@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -46,6 +47,7 @@ class EditSubtaskFragment : Fragment() {
                         deadline = Calendar.getInstance()
                         deadline!!.set(year, month, day, hour, minute, 0)
                         binding.deadlineEditText.setText(prettyTimeString(deadline))
+                        binding.resetDeadlineButton.visibility = Button.VISIBLE
                     }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),true)
                     timePickerDialog.updateTime(0, 0)
                     timePickerDialog.show()
@@ -64,6 +66,7 @@ class EditSubtaskFragment : Fragment() {
                         reminder = Calendar.getInstance()
                         reminder!!.set(year, month, day, hour, minute, 0)
                         binding.reminderEditText.setText(prettyTimeString(reminder))
+                        binding.resetReminderButton.visibility = Button.VISIBLE
                     }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),true)
                     timePickerDialog.updateTime(0, 0)
                     timePickerDialog.show()
@@ -75,10 +78,12 @@ class EditSubtaskFragment : Fragment() {
         binding.resetDeadlineButton.setOnClickListener {
             deadline = null
             binding.deadlineEditText.setText("")
+            binding.resetDeadlineButton.visibility = Button.GONE
         }
         binding.resetReminderButton.setOnClickListener {
             reminder = null
             binding.reminderEditText.setText("")
+            binding.resetReminderButton.visibility = Button.GONE
         }
         setButtonColor(binding.deleteButton, requireActivity())
         setButtonColor(binding.editSubtaskButton, requireActivity())
@@ -88,10 +93,14 @@ class EditSubtaskFragment : Fragment() {
             deadline = it.dueDate
             reminder = it.reminderDate
             binding.descriptionEditText.setText(it.description)
-            if (deadline != null)
+            if (deadline != null) {
                 binding.deadlineEditText.setText(prettyTimeString(deadline))
-            if (reminder != null)
+                binding.resetDeadlineButton.visibility = Button.VISIBLE
+            } else binding.resetDeadlineButton.visibility = Button.GONE
+            if (reminder != null && reminder!! > Calendar.getInstance()) {
                 binding.reminderEditText.setText(prettyTimeString(reminder))
+                binding.resetReminderButton.visibility = Button.VISIBLE
+            } else binding.resetReminderButton.visibility = Button.GONE
         }
         binding.editSubtaskButton.setOnClickListener {
             val description = binding.descriptionEditText.text.toString()

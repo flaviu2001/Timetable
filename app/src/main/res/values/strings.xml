@@ -60,7 +60,6 @@
     <string name="subtasks">Subtasks</string>
     <string name="deadline">Deadline:</string>
     <string name="reminder">Reminder:</string>
-    <string name="reset">Reset</string>
     <string name="set_reminder">Set Reminder</string>
     <string name="time_error">A date and time in the future is required</string>
     <string name="reset_reminder">Reset Reminder</string>
@@ -69,4 +68,6 @@
     <string name="update">Update</string>
     <string name="weekday_format">Day of week: %s</string>
     <string name="visibility">Visibility</string>
+    <string name="reset_deadline">Reset Deadline</string>
+    <string name="complete">Complete</string>
 </resources>

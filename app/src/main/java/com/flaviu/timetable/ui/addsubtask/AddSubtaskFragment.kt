@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -44,6 +45,7 @@ class AddSubtaskFragment : Fragment() {
                         deadline = Calendar.getInstance()
                         deadline!!.set(year, month, day, hour, minute, 0)
                         binding.deadlineEditText.setText(prettyTimeString(deadline))
+                        binding.resetDeadlineButton.visibility = Button.VISIBLE
                     }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),true)
                     timePickerDialog.updateTime(0, 0)
                     timePickerDialog.show()
@@ -62,6 +64,7 @@ class AddSubtaskFragment : Fragment() {
                         reminder = Calendar.getInstance()
                         reminder!!.set(year, month, day, hour, minute, 0)
                         binding.reminderEditText.setText(prettyTimeString(reminder))
+                        binding.resetReminderButton.visibility = Button.VISIBLE
                     }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),true)
                     timePickerDialog.updateTime(0, 0)
                     timePickerDialog.show()
@@ -73,10 +76,12 @@ class AddSubtaskFragment : Fragment() {
         binding.resetDeadlineButton.setOnClickListener {
             deadline = null
             binding.deadlineEditText.setText("")
+            binding.resetDeadlineButton.visibility = Button.GONE
         }
         binding.resetReminderButton.setOnClickListener {
             reminder = null
             binding.reminderEditText.setText("")
+            binding.resetReminderButton.visibility = Button.GONE
         }
         setButtonColor(binding.addSubtaskButton, requireActivity())
         setButtonColor(binding.resetDeadlineButton, requireActivity())
