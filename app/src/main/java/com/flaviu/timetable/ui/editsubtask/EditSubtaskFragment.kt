@@ -92,6 +92,8 @@ class EditSubtaskFragment : Fragment() {
         viewModel.subtask.observe(viewLifecycleOwner) {
             deadline = it.dueDate
             reminder = it.reminderDate
+            if (reminder != null && reminder!! < Calendar.getInstance())
+                reminder = null
             binding.descriptionEditText.setText(it.description)
             if (deadline != null) {
                 binding.deadlineEditText.setText(prettyTimeString(deadline))
