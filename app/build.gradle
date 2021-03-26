@@ -21,7 +21,7 @@ android {
         applicationId "com.flaviu.timetable"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 14
+        versionCode 15
         versionName "1.2.5"
 
         javaCompileOptions {
@@ -36,7 +36,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
