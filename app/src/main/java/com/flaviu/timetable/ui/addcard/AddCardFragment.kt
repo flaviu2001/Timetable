@@ -1,6 +1,8 @@
 package com.flaviu.timetable.ui.addcard
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
@@ -16,6 +18,7 @@ import com.flaviu.timetable.database.Label
 import com.flaviu.timetable.databinding.AddCardFragmentBinding
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
+import java.util.*
 
 class AddCardFragment : Fragment() {
     private lateinit var binding: AddCardFragmentBinding
@@ -24,6 +27,7 @@ class AddCardFragment : Fragment() {
     private var textColor = 0xFFFFFFFF.toInt()
     private var labelList = mutableListOf<Label>()
     private var selectedTrueFalse = BooleanArray(0)
+    private var expirationDate: Calendar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +41,43 @@ class AddCardFragment : Fragment() {
         editTextTimeDialogInject(context, binding.startHourEditText)
         editTextTimeDialogInject(context, binding.endHourEditText)
         editTextWeekdayDialogInject(context, binding.weekdayEditText)
+        setButtonColor(binding.resetExpiration, requireActivity())
+        binding.expirationPicker.setOnClickListener{
+            val calendar = Calendar.getInstance()
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
+                { _, year, month, day ->
+                    val c = Calendar.getInstance()
+                    val timePickerDialog = TimePickerDialog(requireContext(), { _, hour, minute ->
+                        val expirationDate = Calendar.getInstance()
+                        expirationDate.set(year, month, day, hour, minute, 0)
+                        if (expirationDate < Calendar.getInstance()) {
+                            Toast.makeText(
+                                requireContext(),
+                                requireContext().getText(R.string.time_error),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@TimePickerDialog
+                        }
+                        binding.resetExpiration.visibility = Button.VISIBLE
+                        binding.expirationPicker.setText(prettyTimeString(expirationDate))
+                        this.expirationDate = expirationDate
+                    }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true)
+                    timePickerDialog.updateTime(0, 0)
+                    timePickerDialog.show()
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+            datePickerDialog.datePicker.minDate = Calendar.getInstance().timeInMillis
+            datePickerDialog.show()
+        }
+        binding.resetExpiration.setOnClickListener{
+            this.expirationDate = null
+            binding.resetExpiration.visibility = Button.GONE
+            binding.expirationPicker.setText("")
+        }
         viewModel.allLabels.observe(viewLifecycleOwner) { labels ->
             binding.labelEditText.setOnClickListener{
                 if (selectedTrueFalse.size != labels.size)
@@ -126,8 +167,9 @@ class AddCardFragment : Fragment() {
             val name = binding.nameEditText.text.toString()
             val info = binding.infoEditText.text.toString()
             val reminderId = NotificationIdManipulator.generateId(requireActivity())
+            val expirationId = NotificationIdManipulator.generateId(requireActivity())
             try{
-                viewModel.addCard(start, finish, weekday, place, name, info, itemColor, textColor, labelList, null, reminderId)
+                viewModel.addCard(start, finish, weekday, place, name, info, itemColor, textColor, labelList, null, reminderId, expirationDate, expirationId)
                 this.findNavController().navigateUp()
                 hideKeyboard(activity as MainActivity)
             } catch (e: Exception) {

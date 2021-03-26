@@ -268,3 +268,30 @@ fun scheduleNotification(
         }
     }
 }
+
+fun scheduleDeletion(
+    context: Context,
+    cardId: Long,
+    id: Int,
+    expirationDate: Calendar?
+) {
+    val job = Job()
+    val uiScope = CoroutineScope(Dispatchers.Main + job)
+    uiScope.launch {
+        withContext(Dispatchers.IO) {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val notificationIntent = Intent(context, DeletionReceiver::class.java)
+            notificationIntent.putExtra("id", id)
+            notificationIntent.putExtra("cardId", cardId)
+            val broadcast = PendingIntent.getBroadcast(
+                context,
+                id,
+                notificationIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT
+            )
+            if (expirationDate == null) {
+                alarmManager.cancel(broadcast)
+            }else alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, expirationDate.timeInMillis, broadcast)
+        }
+    }
+}

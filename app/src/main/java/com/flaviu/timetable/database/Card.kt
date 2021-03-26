@@ -18,5 +18,7 @@ data class Card (
     var color: Int,
     var textColor: Int,
     var reminderDate: Calendar?,
-    var reminderId: Int?
+    var reminderId: Int?,
+    var expirationDate: Calendar?,
+    var expirationId: Int?
 )

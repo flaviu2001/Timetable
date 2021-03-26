@@ -1,11 +1,13 @@
 package com.flaviu.timetable.ui.addcard
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.database.CardDatabaseDao
 import com.flaviu.timetable.database.Label
+import com.flaviu.timetable.scheduleDeletion
 import com.flaviu.timetable.weekdayToInt
 import kotlinx.coroutines.*
 import java.util.*
@@ -35,7 +37,9 @@ class AddCardViewModel(
         textColor: Int,
         labelList: List<Label>,
         reminderDate: Calendar?,
-        reminderId: Int?
+        reminderId: Int?,
+        expirationDate: Calendar?,
+        expirationId: Int?
         ) {
         listOf(start, finish, weekday, place, name).forEach{
             if (it.isEmpty())
@@ -53,13 +57,17 @@ class AddCardViewModel(
             color = color,
             textColor = textColor,
             reminderDate = reminderDate,
-            reminderId = reminderId
+            reminderId = reminderId,
+            expirationDate = expirationDate,
+            expirationId = expirationId
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 val cardId = database.insertCard(card)
                 for (label in labelList)
                     database.connectLabelToCard(cardId, label.labelId)
+                if (expirationDate != null)
+                    scheduleDeletion(viewModelApplication.baseContext, cardId, expirationId!!, expirationDate)
             }
         }
     }

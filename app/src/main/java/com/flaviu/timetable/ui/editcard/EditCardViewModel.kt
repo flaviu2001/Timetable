@@ -6,6 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabaseDao
 import com.flaviu.timetable.database.Label
+import com.flaviu.timetable.scheduleDeletion
 import com.flaviu.timetable.weekdayToInt
 import kotlinx.coroutines.*
 import java.util.*
@@ -60,7 +61,9 @@ class EditCardViewModel(
         textColor: Int,
         labelList: List<Label>,
         reminderDate: Calendar?,
-        reminderId: Int?
+        reminderId: Int?,
+        expirationDate: Calendar?,
+        expirationId: Int?
     ) {
         listOf(start, finish, weekday, place, name).forEach{
             if (it.isEmpty())
@@ -79,12 +82,16 @@ class EditCardViewModel(
         newCard.textColor = textColor
         newCard.reminderDate = reminderDate
         newCard.reminderId = reminderId
+        newCard.expirationDate = expirationDate
+        newCard.expirationId = expirationId
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 database.updateCard(newCard)
                 database.deleteAllLabelsFromCard(newCard.cardId)
                 for (label in labelList)
                     database.connectLabelToCard(newCard.cardId, label.labelId)
+                if (expirationDate != null)
+                    scheduleDeletion(viewModelApplication.baseContext, newCard.cardId, expirationId!!, expirationDate)
             }
         }
     }
@@ -100,7 +107,9 @@ class EditCardViewModel(
         textColor: Int,
         labelList: List<Label>,
         reminderDate: Calendar?,
-        reminderId: Int?
+        reminderId: Int?,
+        expirationDate: Calendar?,
+        expirationId: Int?
     ) {
         listOf(start, finish, weekday, place, name).forEach{
             if (it.isEmpty())
@@ -117,13 +126,17 @@ class EditCardViewModel(
             color = color,
             textColor = textColor,
             reminderDate = reminderDate,
-            reminderId = reminderId
+            reminderId = reminderId,
+            expirationDate = expirationDate,
+            expirationId = expirationId
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 val cardId = database.insertCard(newCard)
                 for (label in labelList)
                     database.connectLabelToCard(cardId, label.labelId)
+                if (expirationDate != null)
+                    scheduleDeletion(viewModelApplication.baseContext, cardId, expirationId!!, expirationDate)
             }
         }
     }

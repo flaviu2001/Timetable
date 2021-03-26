@@ -99,18 +99,19 @@
                 android:gravity="center"
                 android:hint="@string/no_need_for_hint"
                 android:importantForAutofill="no"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="1.6"
+                android:shadowDy="1.6"
+                android:shadowRadius="2"
                 android:text="@string/set_color"
                 android:textAllCaps="true"
                 android:textColor="@color/primaryDarkColor"
                 android:textSize="21sp"
                 android:textStyle="bold"
-                android:shadowColor="@android:color/black"
-                android:shadowDx="1.6"
-                android:shadowDy="1.6"
-                android:shadowRadius="2"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/labelEditText" />
+                app:layout_constraintTop_toBottomOf="@+id/expiration_picker" />
 
             <EditText
                 android:id="@+id/textColorEditText"
@@ -133,6 +134,33 @@
                 app:layout_constraintEnd_toEndOf="@+id/colorEditText"
                 app:layout_constraintStart_toStartOf="@+id/colorEditText"
                 app:layout_constraintTop_toBottomOf="@+id/colorEditText" />
+
+            <EditText
+                android:id="@+id/expiration_picker"
+                style="@style/UneditableEditText"
+                android:ems="10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/expiration_date"
+                android:importantForAutofill="no"
+                app:layout_constraintStart_toStartOf="@+id/labelEditText"
+                app:layout_constraintTop_toBottomOf="@+id/labelEditText" />
+
+            <Button
+                android:id="@+id/reset_expiration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/reset"
+                android:textColor="@color/primaryTextColor"
+                android:visibility="gone"
+                app:layout_constraintBaseline_toBaselineOf="@+id/expiration_picker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/expiration_picker" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

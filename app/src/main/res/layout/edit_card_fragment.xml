@@ -22,7 +22,7 @@
                 style="@style/UneditableEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginEnd="16dp"
                 android:importantForAutofill="no"
                 app:beginTimeText="@{viewModel.card}"
@@ -118,17 +118,17 @@
                 android:gravity="center"
                 android:hint="@string/no_need_for_hint"
                 android:importantForAutofill="no"
-                android:text="@string/set_color"
-                android:textAllCaps="true"
-                android:textColor="@color/primaryDarkColor"
-                android:textStyle="bold"
                 android:shadowColor="@android:color/black"
                 android:shadowDx="1.6"
                 android:shadowDy="1.6"
                 android:shadowRadius="2"
+                android:text="@string/set_color"
+                android:textAllCaps="true"
+                android:textColor="@color/primaryDarkColor"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/labelTextView"
-                app:layout_constraintTop_toBottomOf="@+id/labelEditText" />
+                app:layout_constraintTop_toBottomOf="@+id/expiration_picker2" />
 
             <EditText
                 android:id="@+id/textColorEditText"
@@ -139,14 +139,14 @@
                 android:gravity="center"
                 android:hint="@string/no_need_for_hint"
                 android:importantForAutofill="no"
-                android:text="@string/text_color"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
                 android:shadowColor="@android:color/black"
                 android:shadowDx="1.6"
                 android:shadowDy="1.6"
                 android:shadowRadius="2"
+                android:text="@string/text_color"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/colorEditText"
                 app:layout_constraintStart_toStartOf="@+id/colorEditText"
                 app:layout_constraintTop_toBottomOf="@+id/colorEditText" />
@@ -229,10 +229,10 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:visibility="gone"
-                app:reminderText="@{viewModel.card}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textColorEditText" />
+                app:layout_constraintTop_toBottomOf="@+id/textColorEditText"
+                app:reminderText="@{viewModel.card}" />
 
             <Button
                 android:id="@+id/subtasks_button"
@@ -243,7 +243,8 @@
                 android:paddingRight="16dp"
                 android:text="@string/subtasks"
                 android:textColor="@color/primaryTextColor"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/clone_card"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/notification_button" />
 
@@ -273,6 +274,55 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/notification_button" />
+
+            <Button
+                android:id="@+id/clone_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/clone_card"
+                android:textColor="@color/primaryTextColor"
+                app:layout_constraintBaseline_toBaselineOf="@+id/subtasks_button"
+                app:layout_constraintEnd_toStartOf="@+id/reset_expiration2"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/subtasks_button" />
+
+            <EditText
+                android:id="@+id/expiration_picker2"
+                style="@style/UneditableEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView11"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/labelEditText"
+                tools:ignore="LabelFor" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/expiration_date"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/labelTextView"
+                app:layout_constraintTop_toBottomOf="@+id/labelTextView" />
+
+            <Button
+                android:id="@+id/reset_expiration2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/reset_expiration"
+                android:textColor="@color/primaryTextColor"
+                app:layout_constraintBaseline_toBaselineOf="@+id/clone_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/clone_card" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

@@ -70,4 +70,8 @@
     <string name="visibility">Visibility</string>
     <string name="reset_deadline">Reset Deadline</string>
     <string name="complete">Complete</string>
+    <string name="clone_card">Clone card</string>
+    <string name="expiration_date">Expiration date:</string>
+    <string name="reset">Reset</string>
+    <string name="reset_expiration">Reset Expiration</string>
 </resources>

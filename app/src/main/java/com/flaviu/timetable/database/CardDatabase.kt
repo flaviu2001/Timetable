@@ -9,7 +9,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 
-@Database(entities = [Card::class, Subtask::class, Label::class, CardLabel::class], version = 9)
+@Database(entities = [Card::class, Subtask::class, Label::class, CardLabel::class], version = 10)
 @TypeConverters(Converters::class)
 abstract class CardDatabase : RoomDatabase() {
 
@@ -76,6 +76,18 @@ abstract class CardDatabase : RoomDatabase() {
             }
         }
 
+        private val migration_9_10: Migration = object : Migration(9, 10) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                //Adding expirationDate and expirationId to card
+                database.execSQL("CREATE TABLE IF NOT EXISTS timetable_card_table_backup (cardId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, timeBegin TEXT NOT NULL, timeEnd TEXT NOT NULL, weekday INTEGER NOT NULL, place TEXT NOT NULL, name TEXT NOT NULL, info TEXT NOT NULL, color INTEGER NOT NULL, textColor INTEGER NOT NULL, reminderDate INTEGER, reminderId INTEGER, expirationDate INTEGER, expirationId INTEGER)")
+                database.execSQL("INSERT INTO timetable_card_table_backup (cardId, timeBegin, timeEnd, weekday, place, name, info, color, textColor, reminderDate, reminderId) SELECT cardId, timeBegin, timeEnd, weekday, place, name, info, color, textColor, reminderDate, reminderId FROM timetable_card_table")
+                database.execSQL("DROP TABLE timetable_card_table")
+                database.execSQL("CREATE TABLE IF NOT EXISTS timetable_card_table (cardId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, timeBegin TEXT NOT NULL, timeEnd TEXT NOT NULL, weekday INTEGER NOT NULL, place TEXT NOT NULL, name TEXT NOT NULL, info TEXT NOT NULL, color INTEGER NOT NULL, textColor INTEGER NOT NULL, reminderDate INTEGER, reminderId INTEGER, expirationDate INTEGER, expirationId INTEGER)")
+                database.execSQL("INSERT INTO timetable_card_table (cardId, timeBegin, timeEnd, weekday, place, name, info, color, textColor, reminderDate, reminderId) SELECT cardId, timeBegin, timeEnd, weekday, place, name, info, color, textColor, reminderDate, reminderId FROM timetable_card_table_backup")
+                database.execSQL("DROP TABLE timetable_card_table_backup")
+            }
+        }
+
         fun getInstance(context: Context): CardDatabase {
             synchronized(this) {
                 var instance = INSTANCE
@@ -88,6 +100,7 @@ abstract class CardDatabase : RoomDatabase() {
                         .addMigrations(migration_6_7)
                         .addMigrations(migration_7_8)
                         .addMigrations(migration_8_9)
+                        .addMigrations(migration_9_10)
                         .build()
                     INSTANCE = instance
                 }
