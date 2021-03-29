@@ -25,18 +25,22 @@ class DeletionReceiver : BroadcastReceiver() {
                 val job = Job()
                 val scope = CoroutineScope(Dispatchers.Main + job)
                 scope.launch {
-                    val dao = CardDatabase.getInstance(context).cardDatabaseDao
-                    val cards = dao.getAllCardsNow()
-                    val currentTime = Calendar.getInstance()
-                    currentTime.add(Calendar.MINUTE, -10)
-                    for (card in cards)
-                        if (card.reminderDate != null && card.reminderDate!! > currentTime)
-                            scheduleDeletion(
-                                context,
-                                card.cardId,
-                                card.expirationId!!,
-                                card.reminderDate
-                            )
+                    withContext(Dispatchers.IO) {
+                        val dao = CardDatabase.getInstance(context).cardDatabaseDao
+                        val cards = dao.getAllCardsNow()
+                        val currentTime = Calendar.getInstance()
+                        for (card in cards)
+                            if (card.expirationDate != null && card.expirationDate!! > currentTime)
+                                scheduleDeletion(
+                                    context,
+                                    card.cardId,
+                                    card.expirationId!!,
+                                    card.expirationDate
+                                )
+                            else if (card.expirationDate != null && card.expirationDate!! <= currentTime) {
+                                dao.deleteCard(card.cardId)
+                            }
+                    }
                 }
             }
         }

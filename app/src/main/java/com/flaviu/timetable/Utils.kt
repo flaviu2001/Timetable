@@ -10,7 +10,6 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.database.Label
 import kotlinx.coroutines.*
 import top.defaults.drawabletoolbox.DrawableBuilder
@@ -241,7 +240,6 @@ fun prettyTimeString(calendar: Calendar?, noTime: Boolean = false): String {
 
 fun scheduleNotification(
     context: Context,
-    cardId: Long,
     description: String?,
     id: Int,
     reminder: Calendar?
@@ -252,8 +250,6 @@ fun scheduleNotification(
         withContext(Dispatchers.IO) {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val notificationIntent = Intent(context, AlarmReceiver::class.java)
-            val title = CardDatabase.getInstance(context).cardDatabaseDao.getCardNow(cardId)!!.name
-            notificationIntent.putExtra("title", title)
             description?.let{notificationIntent.putExtra("description", it)}
             notificationIntent.putExtra("id", id)
             val broadcast = PendingIntent.getBroadcast(

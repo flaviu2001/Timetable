@@ -27,7 +27,10 @@ fun TextView.setTimeText(item: Card?) {
 
 @BindingAdapter("placeText")
 fun TextView.setPlaceText(item: Card?) {
-    item?.let{
+    if (item == null || item.place == "") {
+        visibility = TextView.GONE
+    } else {
+        visibility = TextView.VISIBLE
         text=this.context.resources.getString(R.string.place_parser).format(item.place)
         setTextColor(item.textColor)
     }
@@ -35,7 +38,10 @@ fun TextView.setPlaceText(item: Card?) {
 
 @BindingAdapter("nameText")
 fun TextView.setNameText(item: Card?) {
-    item?.let{
+    if (item == null || item.name == "") {
+        visibility = TextView.GONE
+    } else {
+        visibility = TextView.VISIBLE
         text=this.context.resources.getString(R.string.name_parser).format(item.name)
         setTextColor(item.textColor)
     }
@@ -43,7 +49,10 @@ fun TextView.setNameText(item: Card?) {
 
 @BindingAdapter("infoText")
 fun TextView.setInfoText(item: Card?) {
-    item?.let{
+    if (item == null || item.info == "") {
+        visibility = TextView.GONE
+    } else {
+        visibility = TextView.VISIBLE
         text=this.context.resources.getString(R.string.info_parser).format(item.info)
         setTextColor(item.textColor)
     }

@@ -1,5 +1,6 @@
 package com.flaviu.timetable.ui.editsubtask
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -114,16 +115,25 @@ class EditSubtaskFragment : Fragment() {
                 Toast.makeText(requireContext(), "You must set the reminder in the future", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            scheduleNotification(requireActivity(), cardId, description, viewModel.subtask.value!!.reminderId!!, reminder)
+            scheduleNotification(
+                requireActivity(),
+                description,
+                viewModel.subtask.value!!.reminderId!!,
+                reminder
+            )
             val reminderId = viewModel.subtask.value!!.reminderId ?: NotificationIdManipulator.generateId(requireActivity())
             viewModel.updateSubtask(description, deadline, reminder, reminderId)
             this.findNavController().navigateUp()
             hideKeyboard(requireActivity())
         }
         binding.deleteButton.setOnClickListener {
-            viewModel.deleteSubtask()
-            this.findNavController().navigateUp()
-            hideKeyboard(requireActivity())
+            AlertDialog.Builder(requireContext()).setTitle("Are you sure you wish to delete the subtask?")
+                .setPositiveButton("Yes") { _, _ ->
+                    this.findNavController().navigateUp()
+                    hideKeyboard(requireActivity())
+                    viewModel.deleteSubtask()
+                }.setNegativeButton("No", null)
+                .create().show()
         }
         return binding.root
     }

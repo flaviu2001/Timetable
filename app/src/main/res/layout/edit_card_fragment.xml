@@ -305,11 +305,11 @@
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/expiration_date"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/labelTextView"
-                app:layout_constraintTop_toBottomOf="@+id/labelTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/labelEditText" />
 
             <Button
                 android:id="@+id/reset_expiration2"

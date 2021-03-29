@@ -19,7 +19,6 @@ import com.flaviu.timetable.databinding.EditCardFragmentBinding
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import java.util.*
-import kotlin.math.exp
 
 class EditCardFragment : Fragment() {
 
@@ -224,7 +223,6 @@ class EditCardFragment : Fragment() {
                         val card = viewModel.card.value!!
                         scheduleNotification(
                             requireActivity(),
-                            cardId,
                             null,
                             reminderId,
                             reminderDate
@@ -265,7 +263,7 @@ class EditCardFragment : Fragment() {
             if (reminderId == null)
                 reminderId = NotificationIdManipulator.generateId(requireActivity())
             val card = viewModel.card.value!!
-            scheduleNotification(requireActivity(), cardId, null, reminderId!!, null)
+            scheduleNotification(requireActivity(), null, reminderId!!, null)
             viewModel.editCard(
                 card.timeBegin,
                 card.timeEnd,
@@ -373,9 +371,13 @@ class EditCardFragment : Fragment() {
                 true
             }
             R.id.delete -> {
-                viewModel.onDeleteButtonPressed()
-                this.findNavController().navigateUp()
-                hideKeyboard(activity as MainActivity)
+                AlertDialog.Builder(requireContext()).setTitle("Are you sure you wish to delete the card?")
+                    .setPositiveButton("Yes") { _, _ ->
+                        this.findNavController().navigateUp()
+                        hideKeyboard(activity as MainActivity)
+                        viewModel.onDeleteButtonPressed()
+                    }.setNegativeButton("No", null)
+                    .create().show()
                 true
             }
             else -> super.onOptionsItemSelected(item)

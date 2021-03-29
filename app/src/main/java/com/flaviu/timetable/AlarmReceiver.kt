@@ -15,7 +15,6 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         when(intent.action) {
             null -> {
-                val title = intent.getStringExtra("title")
                 val description = intent.getStringExtra("description")
                 val id = intent.getIntExtra("id", 0)
                 val job = Job()
@@ -27,6 +26,11 @@ class AlarmReceiver : BroadcastReceiver() {
                         val task = dao.getCardByReminder(id)
                         // Bit of a dirty hack, not exactly well thought but I check whether the id is found in either cards or subtasks. This way I don't have to make two alarm receivers
                         if (subtask != null || task != null) {
+                            var title = ""
+                            if (subtask != null)
+                                title = dao.getCardOfSubtaskNow(subtask.subtaskId)!!.name
+                            if (task != null)
+                                title = task.name
                             @Suppress("DEPRECATION")
                             val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) Notification.Builder(context, CHANNEL_ID)
                             else Notification.Builder(context)
@@ -62,10 +66,20 @@ class AlarmReceiver : BroadcastReceiver() {
                         currentTime.add(Calendar.MINUTE, -10)
                         for (card in cards)
                             if (card.reminderDate != null && card.reminderDate!! > currentTime)
-                                scheduleNotification(context, card.cardId, null, card.reminderId!!, card.reminderDate)
+                                scheduleNotification(
+                                    context,
+                                    null,
+                                    card.reminderId!!,
+                                    card.reminderDate
+                                )
                         for (subtask in subtasks)
                             if (subtask.reminderDate != null && subtask.reminderDate!! > currentTime)
-                                scheduleNotification(context, subtask.cardId, subtask.description, subtask.reminderId!!, subtask.reminderDate)
+                                scheduleNotification(
+                                    context,
+                                    subtask.description,
+                                    subtask.reminderId!!,
+                                    subtask.reminderDate
+                                )
                     }
                 }
             }

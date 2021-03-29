@@ -41,9 +41,9 @@ class AddCardViewModel(
         expirationDate: Calendar?,
         expirationId: Int?
         ) {
-        listOf(start, finish, weekday, place, name).forEach{
+        listOf(start, finish, weekday).forEach{
             if (it.isEmpty())
-                throw Exception("All fields must be completed.")
+                throw Exception("Start, finish and weekday fields must be completed.")
         }
         if (labelList.isEmpty())
             throw Exception("You must choose at least one label")
