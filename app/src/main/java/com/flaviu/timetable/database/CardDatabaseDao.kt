@@ -39,9 +39,9 @@ interface CardDatabaseDao {
     suspend fun getCardNow(key: Long): Card?
     @Query("SELECT C.* FROM timetable_card_table C INNER JOIN timetable_card_label_table CL ON C.cardId = CL.cardId INNER JOIN timetable_label_table L ON CL.labelId = L.labelId WHERE L.name = :label ORDER BY weekday, timeBegin, timeEnd")
     fun getCardsWithLabel(label: String): LiveData<List<Card>>
-    @Query("SELECT * FROM timetable_card_table")
+    @Query("SELECT * FROM timetable_card_table ORDER BY weekday, timeBegin, timeEnd")
     fun getAllCards(): LiveData<List<Card>>
-    @Query("SELECT * FROM timetable_card_table")
+    @Query("SELECT * FROM timetable_card_table ORDER BY weekday, timeBegin, timeEnd")
     suspend fun getAllCardsNow(): List<Card>
     @Query("SELECT * FROM timetable_subtask_table WHERE cardId = :key ORDER BY CASE WHEN dueDate IS NULL THEN 1 ELSE 0 END, dueDate, CASE WHEN reminderDate IS NULL THEN 1 ELSE 0 END, reminderDate")
     fun getSubtasksByCardId(key: Long): LiveData<List<Subtask>>
