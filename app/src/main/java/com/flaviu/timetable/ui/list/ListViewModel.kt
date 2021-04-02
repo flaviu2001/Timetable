@@ -9,7 +9,6 @@ class ListViewModel (
     database: CardDatabaseDao
 ) : ViewModel() {
     var cards = database.getCardsWithLabel(label)
-//    var cards = database.getAllCards()
 
     var navigateToEditCard = MutableLiveData<Long?>()
 

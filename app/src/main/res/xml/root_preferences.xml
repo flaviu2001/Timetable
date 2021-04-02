@@ -1,0 +1,26 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreferenceCompat
+        app:key="editState"
+        app:title="@string/lock"
+        app:summaryOff="You will not be able to modify the data in your app"
+        app:summaryOn="You will be able to modify the data in your app"
+        app:defaultValue="false"/>
+    <SwitchPreferenceCompat
+        app:key="singleLabelMode"
+        android:title="Single Label Mode"
+        app:summaryOn="The timetable won't differentiate between labels and all cards will collapse onto one page"
+        app:summaryOff="The timetable will behave normally and show cards in pages per label"
+        app:defaultValue="false"/>
+    <Preference
+        app:key="clear_data"
+        app:title="Clear Data"
+        app:summary="Clicking this will delete all of your data"/>
+    <Preference
+        app:key="bgd_color"
+        app:title="Choose the backround color"/>
+    <Preference
+        app:key="accent_color"
+        app:title="Choose the accent color"/>
+</PreferenceScreen>

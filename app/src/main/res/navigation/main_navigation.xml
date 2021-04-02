@@ -32,11 +32,6 @@
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.flaviu.timetable.ui.settings.SettingsFragment"
-        android:label="Settings"
-        tools:layout="@layout/settings_fragment" />
-    <fragment
         android:id="@+id/editCardFragment"
         android:name="com.flaviu.timetable.ui.editcard.EditCardFragment"
         android:label="Timetable" >
@@ -96,4 +91,8 @@
             android:name="cardId"
             app:argType="long" />
     </fragment>
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:name="com.flaviu.timetable.PreferencesFragment"
+        android:label="Settings" />
 </navigation>

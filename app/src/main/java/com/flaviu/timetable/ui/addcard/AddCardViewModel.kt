@@ -1,7 +1,6 @@
 package com.flaviu.timetable.ui.addcard
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabase
@@ -45,8 +44,8 @@ class AddCardViewModel(
             if (it.isEmpty())
                 throw Exception("Start, finish and weekday fields must be completed.")
         }
-        if (labelList.isEmpty())
-            throw Exception("You must choose at least one label")
+//        if (labelList.isEmpty())
+//            throw Exception("You must choose at least one label")
         val card = Card(
             timeBegin= start,
             timeEnd = finish,

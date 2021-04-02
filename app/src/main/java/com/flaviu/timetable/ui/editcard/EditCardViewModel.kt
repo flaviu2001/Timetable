@@ -69,8 +69,8 @@ class EditCardViewModel(
             if (it.isEmpty())
                 throw Exception("Start, finish and weekday fields must be completed.")
         }
-        if (labelList.isEmpty())
-            throw Exception("You must choose at least one label")
+//        if (labelList.isEmpty())
+//            throw Exception("You must choose at least one label")
         val newCard = card.value ?: throw Exception("Invalid card")
         newCard.place = place
         newCard.info = info
@@ -115,8 +115,8 @@ class EditCardViewModel(
             if (it.isEmpty())
                 throw Exception("Start, finish and weekday fields must be completed.")
         }
-        if (labelList.isEmpty())
-            throw Exception("You must choose at least one label")
+//        if (labelList.isEmpty())
+//            throw Exception("You must choose at least one label")
         val newCard = Card(timeBegin = start,
             timeEnd = finish,
             weekday = weekdayToInt(weekday, viewModelApplication.resources),

@@ -1,6 +1,5 @@
 package com.flaviu.timetable.ui.list
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.flaviu.timetable.R
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.databinding.ListFragmentBinding
@@ -33,16 +33,18 @@ class ListFragment : Fragment() {
         })
         binding.cardList.adapter = adapter
         viewModel.cards.observe(viewLifecycleOwner, {
-            it?.let{
+            it?.let {
                 adapter.addHeaderAndSubmitList(it)
             }
         })
-        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        viewModel.navigateToEditCard.observe(viewLifecycleOwner, {cardKey ->
-            cardKey?.let{
-                val canEdit = sharedPref.getBoolean(getString(R.string.saved_edit_state), true)
-                if (canEdit) {
-                    this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToEditCardFragment(cardKey))
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+        viewModel.navigateToEditCard.observe(viewLifecycleOwner, { cardKey ->
+            cardKey?.let {
+                val isLocked = sharedPref.getBoolean(getString(R.string.saved_edit_state), false)
+                if (!isLocked) {
+                    this.findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToEditCardFragment(cardKey)
+                    )
                     viewModel.onEditCardNavigated()
                 }
             }

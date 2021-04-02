@@ -9,7 +9,7 @@
         android:orderInCategory="1"/>
     <item
         android:title="@string/settings"
-        android:id="@+id/settingsFragment"
+        android:id="@+id/preferencesFragment"
         android:orderInCategory="2"/>
     <item
         android:title="@string/edit_labels"

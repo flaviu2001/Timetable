@@ -46,8 +46,4 @@ class DeletionReceiver : BroadcastReceiver() {
         }
 
     }
-
-    companion object {
-        private const val CHANNEL_ID = "com.flaviu.timetable.channelId"
-    }
 }

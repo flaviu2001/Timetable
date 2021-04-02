@@ -1,6 +1,5 @@
 package com.flaviu.timetable.ui.subtask
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.flaviu.timetable.R
 import com.flaviu.timetable.database.CardDatabase
@@ -20,8 +20,10 @@ class SubtaskFragment : Fragment() {
     private lateinit var binding: SubtaskFragmentBinding
     private lateinit var viewModel: SubtaskViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = SubtaskFragmentBinding.inflate(inflater)
         val database = CardDatabase.getInstance(requireContext()).cardDatabaseDao
         val cardIdArray = SubtaskFragmentArgs.fromBundle(requireArguments()).cardId
@@ -30,17 +32,27 @@ class SubtaskFragment : Fragment() {
             binding.addSubtaskButton.visibility = Button.VISIBLE
             setButtonColor(binding.addSubtaskButton, requireActivity())
             binding.addSubtaskButton.setOnClickListener {
-                this.findNavController().navigate(SubtaskFragmentDirections.actionSubtaskFragmentToAddSubtaskFragment(cardId))
+                this.findNavController().navigate(
+                    SubtaskFragmentDirections.actionSubtaskFragmentToAddSubtaskFragment(cardId)
+                )
                 hideKeyboard(requireActivity())
             }
         }
-        viewModel = ViewModelProvider(this, SubtaskViewModelFactory(cardId, database)).get(SubtaskViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            SubtaskViewModelFactory(cardId, database)
+        ).get(SubtaskViewModel::class.java)
         val adapter = SubtaskAdapter(viewLifecycleOwner, database, SubtaskListener {
-            val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-            val canEdit = sharedPref.getBoolean(getString(R.string.saved_edit_state), true)
-            if (canEdit) {
+            val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+            val isLocked = sharedPref.getBoolean(getString(R.string.saved_edit_state), false)
+            if (!isLocked) {
                 database.getCardOfSubtask(it).observe(viewLifecycleOwner) { card ->
-                    this.findNavController().navigate(SubtaskFragmentDirections.actionSubtaskFragmentToEditSubtaskFragment(it, card.cardId))
+                    this.findNavController().navigate(
+                        SubtaskFragmentDirections.actionSubtaskFragmentToEditSubtaskFragment(
+                            it,
+                            card.cardId
+                        )
+                    )
                     hideKeyboard(requireActivity())
                 }
             }
