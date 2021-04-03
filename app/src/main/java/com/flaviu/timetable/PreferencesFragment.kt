@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreferenceCompat
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.database.CardDatabaseDao
 import com.google.android.material.snackbar.Snackbar
