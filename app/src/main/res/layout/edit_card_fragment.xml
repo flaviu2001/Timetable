@@ -128,7 +128,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/labelTextView"
-                app:layout_constraintTop_toBottomOf="@+id/expiration_picker2" />
+                app:layout_constraintTop_toBottomOf="@+id/reminder_edit_text" />
 
             <EditText
                 android:id="@+id/textColorEditText"
@@ -156,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/starting_hour"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -222,18 +222,6 @@
                 app:layout_constraintStart_toStartOf="@+id/textView6"
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textColorEditText"
-                app:reminderText="@{viewModel.card}" />
-
             <Button
                 android:id="@+id/subtasks_button"
                 android:layout_width="wrap_content"
@@ -246,34 +234,21 @@
                 app:layout_constraintEnd_toStartOf="@+id/clone_card"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/notification_button" />
-
-            <Button
-                android:id="@+id/notification_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:text="@string/set_reminder"
-                android:textColor="@color/primaryTextColor"
-                app:layout_constraintEnd_toStartOf="@+id/reset_notification"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                app:layout_constraintTop_toBottomOf="@+id/textColorEditText" />
 
             <Button
                 android:id="@+id/reset_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:text="@string/reset_reminder"
                 android:textColor="@color/primaryTextColor"
-                app:layout_constraintBaseline_toBaselineOf="@+id/notification_button"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/reset_expiration2"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/notification_button" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subtasks_button" />
 
             <Button
                 android:id="@+id/clone_card"
@@ -284,7 +259,7 @@
                 android:text="@string/clone_card"
                 android:textColor="@color/primaryTextColor"
                 app:layout_constraintBaseline_toBaselineOf="@+id/subtasks_button"
-                app:layout_constraintEnd_toStartOf="@+id/reset_expiration2"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/subtasks_button" />
 
@@ -295,7 +270,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:importantForAutofill="no"
-                android:inputType="textPersonName"
+                android:inputType="none"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView11"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/labelEditText"
@@ -315,14 +290,37 @@
                 android:id="@+id/reset_expiration2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:text="@string/reset_expiration"
                 android:textColor="@color/primaryTextColor"
-                app:layout_constraintBaseline_toBaselineOf="@+id/clone_card"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/clone_card" />
+                app:layout_constraintStart_toEndOf="@+id/reset_notification"
+                app:layout_constraintTop_toBottomOf="@+id/clone_card" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/reminder_date"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/textView11"
+                app:layout_constraintTop_toBottomOf="@+id/expiration_picker2" />
+
+            <EditText
+                android:id="@+id/reminder_edit_text"
+                style="@style/UneditableEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="none"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView12"
+                app:layout_constraintEnd_toEndOf="@+id/expiration_picker2"
+                app:layout_constraintStart_toStartOf="@+id/expiration_picker2"
+                tools:ignore="LabelFor" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

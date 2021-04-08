@@ -29,8 +29,9 @@ class AddSubtaskFragment : Fragment() {
     ): View {
         binding = AddSubtaskFragmentBinding.inflate(inflater)
         val database = CardDatabase.getInstance(requireContext()).cardDatabaseDao
+        val application = requireNotNull(this.activity).application
         val cardId = AddSubtaskFragmentArgs.fromBundle(requireArguments()).cardId
-        viewModel = ViewModelProvider(this, AddSubtaskViewModelFactory(database, cardId)).get(AddSubtaskViewModel::class.java)
+        viewModel = ViewModelProvider(this, AddSubtaskViewModelFactory(database, application, cardId)).get(AddSubtaskViewModel::class.java)
         viewModel.card.observe(viewLifecycleOwner){
             binding.card = it
         }
@@ -96,9 +97,7 @@ class AddSubtaskFragment : Fragment() {
                 Toast.makeText(requireContext(), "You must set the reminder in the future", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val reminderId = NotificationIdManipulator.generateId(requireActivity())
-            scheduleNotification(requireActivity(), description, reminderId, reminder)
-            viewModel.addSubtask(cardId, description, deadline, reminder, reminderId)
+            viewModel.addSubtask(cardId, description, deadline, reminder)
             this.findNavController().navigateUp()
             hideKeyboard(requireActivity())
         }

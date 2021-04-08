@@ -23,6 +23,7 @@ class EditSubtaskFragment : Fragment() {
     private lateinit var viewModel: EditSubtaskViewModel
     private var deadline: Calendar? = null
     private var reminder: Calendar? = null
+    private var reminderId: Int? = null
     private var cardId = 0L
 
     override fun onCreateView(
@@ -33,7 +34,8 @@ class EditSubtaskFragment : Fragment() {
         cardId = EditSubtaskFragmentArgs.fromBundle(requireArguments()).cardId
         val subtaskId = EditSubtaskFragmentArgs.fromBundle(requireArguments()).subtaskId
         val database = CardDatabase.getInstance(requireContext()).cardDatabaseDao
-        viewModel = ViewModelProvider(this, EditSubtaskViewModelFactory(cardId, subtaskId, database)).get(EditSubtaskViewModel::class.java)
+        val application = requireActivity().application
+        viewModel = ViewModelProvider(this, EditSubtaskViewModelFactory(cardId, subtaskId, database, application)).get(EditSubtaskViewModel::class.java)
         viewModel.card.observe(viewLifecycleOwner){
             binding.card = it
         }
@@ -93,6 +95,7 @@ class EditSubtaskFragment : Fragment() {
         viewModel.subtask.observe(viewLifecycleOwner) {
             deadline = it.dueDate
             reminder = it.reminderDate
+            reminderId = it.reminderId
             if (reminder != null && reminder!! < Calendar.getInstance())
                 reminder = null
             binding.descriptionEditText.setText(it.description)
@@ -115,13 +118,6 @@ class EditSubtaskFragment : Fragment() {
                 Toast.makeText(requireContext(), "You must set the reminder in the future", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            scheduleNotification(
-                requireActivity(),
-                description,
-                viewModel.subtask.value!!.reminderId!!,
-                reminder
-            )
-            val reminderId = viewModel.subtask.value!!.reminderId ?: NotificationIdManipulator.generateId(requireActivity())
             viewModel.updateSubtask(description, deadline, reminder, reminderId)
             this.findNavController().navigateUp()
             hideKeyboard(requireActivity())

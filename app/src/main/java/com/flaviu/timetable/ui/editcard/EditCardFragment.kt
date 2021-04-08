@@ -29,13 +29,14 @@ class EditCardFragment : Fragment() {
     private var textColor = 0
     private var labelList = mutableListOf<Label>()
     private var selectedTrueFalse = BooleanArray(0)
+    private var reminderDate: Calendar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.edit_card_fragment, container, false)
-        val application = requireNotNull(this.activity).application
+        val application = requireActivity().application
         val database = CardDatabase.getInstance(application).cardDatabaseDao
         val arguments = EditCardFragmentArgs.fromBundle(requireArguments())
         val cardId = arguments.cardKey
@@ -103,6 +104,7 @@ class EditCardFragment : Fragment() {
             itemColor = it.color
             textColor = it.textColor
             expirationDate = it.expirationDate
+            reminderDate = it.reminderDate
             binding.colorEditText.setTextColor(itemColor)
             binding.textColorEditText.setTextColor(textColor)
             if (expirationDate != null) {
@@ -111,6 +113,13 @@ class EditCardFragment : Fragment() {
             } else {
                 binding.expirationPicker2.setText("")
                 binding.resetExpiration2.visibility = Button.GONE
+            }
+            if (reminderDate != null) {
+                binding.reminderEditText.setText(prettyTimeString(reminderDate))
+                binding.resetNotification.visibility = Button.VISIBLE
+            } else {
+                binding.reminderEditText.setText("")
+                binding.resetNotification.visibility = Button.GONE
             }
         })
         viewModel.labelsOfCard.observe(viewLifecycleOwner) {
@@ -200,7 +209,7 @@ class EditCardFragment : Fragment() {
                 EditCardFragmentDirections.actionEditCardFragmentToSubtaskFragment(LongArray(1) { cardId })
             )
         }
-        binding.notificationButton.setOnClickListener {
+        binding.reminderEditText.setOnClickListener {
             val calendar = Calendar.getInstance()
             val datePickerDialog = DatePickerDialog(
                 requireContext(),
@@ -217,36 +226,9 @@ class EditCardFragment : Fragment() {
                             ).show()
                             return@TimePickerDialog
                         }
-                        var reminderId = viewModel.card.value?.reminderId
-                        if (reminderId == null)
-                            reminderId = NotificationIdManipulator.generateId(requireActivity())
-                        val card = viewModel.card.value!!
-                        scheduleNotification(
-                            requireActivity(),
-                            null,
-                            reminderId,
-                            reminderDate
-                        )
-                        viewModel.editCard(
-                            card.timeBegin,
-                            card.timeEnd,
-                            resources.getStringArray(R.array.weekdays)[card.weekday],
-                            card.place,
-                            card.name,
-                            card.info,
-                            card.color,
-                            card.textColor,
-                            labelList,
-                            reminderDate,
-                            reminderId,
-                            card.expirationDate,
-                            card.expirationId
-                        )
-                        Toast.makeText(
-                            requireContext(),
-                            requireContext().getText(R.string.notification_alert),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        this.reminderDate = reminderDate
+                        binding.reminderEditText.setText(prettyTimeString(reminderDate))
+                        binding.resetNotification.visibility = Button.VISIBLE
                     }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true)
                     timePickerDialog.updateTime(0, 0)
                     timePickerDialog.show()
@@ -259,31 +241,9 @@ class EditCardFragment : Fragment() {
             datePickerDialog.show()
         }
         binding.resetNotification.setOnClickListener {
-            var reminderId = viewModel.card.value?.reminderId
-            if (reminderId == null)
-                reminderId = NotificationIdManipulator.generateId(requireActivity())
-            val card = viewModel.card.value!!
-            scheduleNotification(requireActivity(), null, reminderId!!, null)
-            viewModel.editCard(
-                card.timeBegin,
-                card.timeEnd,
-                resources.getStringArray(R.array.weekdays)[card.weekday],
-                card.place,
-                card.name,
-                card.info,
-                card.color,
-                card.textColor,
-                labelList,
-                null,
-                reminderId,
-                card.expirationDate,
-                card.expirationId
-            )
-            Toast.makeText(
-                requireContext(),
-                requireContext().getText(R.string.reset_alert),
-                Toast.LENGTH_SHORT
-            ).show()
+            reminderDate = null
+            binding.reminderEditText.setText("")
+            binding.resetNotification.visibility = Button.GONE
         }
         binding.cloneCard.setOnClickListener {
             val start = binding.startHourEditText.text.toString()
@@ -292,8 +252,6 @@ class EditCardFragment : Fragment() {
             val place = binding.placeEditText.text.toString()
             val name = binding.nameEditText.text.toString()
             val info = binding.infoEditText.text.toString()
-            val reminderId = NotificationIdManipulator.generateId(requireActivity())
-            val expirationId = NotificationIdManipulator.generateId(requireActivity())
             try {
                 viewModel.cloneCard(
                     start,
@@ -305,10 +263,8 @@ class EditCardFragment : Fragment() {
                     itemColor,
                     textColor,
                     labelList,
-                    null,
-                    reminderId,
+                    reminderDate,
                     expirationDate,
-                    expirationId
                 )
                 this.findNavController().navigateUp()
                 hideKeyboard(activity as MainActivity)
@@ -318,7 +274,6 @@ class EditCardFragment : Fragment() {
             }
         }
         setButtonColor(binding.subtasksButton, requireActivity())
-        setButtonColor(binding.notificationButton, requireActivity())
         setButtonColor(binding.resetNotification, requireActivity())
         setButtonColor(binding.cloneCard, requireActivity())
         setButtonColor(binding.resetExpiration2, requireActivity())
@@ -340,12 +295,10 @@ class EditCardFragment : Fragment() {
                 val place = binding.placeEditText.text.toString()
                 val name = binding.nameEditText.text.toString()
                 val info = binding.infoEditText.text.toString()
-                val reminderDate = viewModel.card.value?.reminderDate
+                val reminderDate = this.reminderDate
                 val reminderId = viewModel.card.value?.reminderId
                 val expirationDate = this.expirationDate
-                var expirationId = viewModel.card.value?.expirationId
-                if (expirationId == null)
-                    expirationId = NotificationIdManipulator.generateId(requireActivity())
+                val expirationId = viewModel.card.value?.expirationId
                 try {
                     viewModel.editCard(
                         start,

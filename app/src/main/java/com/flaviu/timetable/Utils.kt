@@ -47,7 +47,7 @@ val preset_colors: IntArray = listOf(
     0xFFFFC107, // AMBER 500
     0xFFFFEB3B, // YELLOW 500
     0xFFFFFFFF, // My white
-).map{it.toInt()}.toIntArray()
+).map { it.toInt() }.toIntArray()
 
 val text_preset_colors: IntArray = listOf(
     0xFFFFFFFF, // My white
@@ -106,7 +106,7 @@ fun timeFormatter(hour: Int, minutes: Int): String {
 }
 
 fun editTextTimeDialogInject(context: Context?, editText: EditText) {
-    editText.setOnClickListener{
+    editText.setOnClickListener {
         val hour = 0
         val minute = 0
         val timePicker = TimePickerDialog(
@@ -139,7 +139,7 @@ fun weekdayToInt(day: String, resources: Resources): Int {
 }
 
 fun editTextWeekdayDialogInject(context: Context?, editText: EditText) {
-    editText.setOnClickListener{
+    editText.setOnClickListener {
         var selectedItem: Int? = null
         if (context == null)
             return@setOnClickListener
@@ -170,7 +170,10 @@ fun editTextWeekdayDialogInject(context: Context?, editText: EditText) {
 
 fun getBackgroundColor(activity: Activity): Int {
     val sharedPref = activity.getPreferences(Context.MODE_PRIVATE)
-    return sharedPref.getInt("background_color", ContextCompat.getColor(activity.applicationContext, R.color.secondaryColor))
+    return sharedPref.getInt(
+        "background_color",
+        ContextCompat.getColor(activity.applicationContext, R.color.secondaryColor)
+    )
 }
 
 fun updateBackgroundColor(activity: Activity, color: Int) {
@@ -189,7 +192,10 @@ fun setBackgroundColor(activity: Activity) {
 
 fun getAccentColor(activity: Activity): Int {
     val sharedPref = activity.getPreferences(Context.MODE_PRIVATE)
-    return sharedPref.getInt("accent_color", ContextCompat.getColor(activity.applicationContext, R.color.primaryDarkColor))
+    return sharedPref.getInt(
+        "accent_color",
+        ContextCompat.getColor(activity.applicationContext, R.color.primaryDarkColor)
+    )
 }
 
 fun updateAccentColor(activity: Activity, color: Int) {
@@ -233,14 +239,31 @@ fun prettyTimeString(calendar: Calendar?, noTime: Boolean = false): String {
     var str2 = calendar.get(Calendar.MINUTE).toString()
     if (str2.length == 1)
         str2 = "0$str2"
+    val monthString = mapOf(
+        0 to "january",
+        1 to "february",
+        2 to "march",
+        3 to "april",
+        4 to "may",
+        5 to "june",
+        6 to "july",
+        7 to "august",
+        8 to "september",
+        9 to "october",
+        10 to "november",
+        11 to "december"
+    )[calendar.get(Calendar.MONTH)]
     if (!noTime)
-        return "${calendar.get(Calendar.DAY_OF_MONTH)}-${calendar.get(Calendar.MONTH)+1}-${calendar.get(Calendar.YEAR)} $str1:$str2"
-    return "${calendar.get(Calendar.DAY_OF_MONTH)}-${calendar.get(Calendar.MONTH)+1}-${calendar.get(Calendar.YEAR)}"
+        return "${calendar.get(Calendar.DAY_OF_MONTH)}-${monthString}-${
+            calendar.get(
+                Calendar.YEAR
+            )
+        } $str1:$str2"
+    return "${calendar.get(Calendar.DAY_OF_MONTH)}-${monthString}-${calendar.get(Calendar.YEAR)}"
 }
 
 fun scheduleNotification(
     context: Context,
-    description: String?,
     id: Int,
     reminder: Calendar?
 ) {
@@ -250,7 +273,6 @@ fun scheduleNotification(
         withContext(Dispatchers.IO) {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val notificationIntent = Intent(context, AlarmReceiver::class.java)
-            description?.let{notificationIntent.putExtra("description", it)}
             notificationIntent.putExtra("id", id)
             val broadcast = PendingIntent.getBroadcast(
                 context,
@@ -260,7 +282,11 @@ fun scheduleNotification(
             )
             if (reminder == null) {
                 alarmManager.cancel(broadcast)
-            }else alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminder.timeInMillis, broadcast)
+            } else alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                reminder.timeInMillis,
+                broadcast
+            )
         }
     }
 }
@@ -287,7 +313,11 @@ fun scheduleDeletion(
             )
             if (expirationDate == null) {
                 alarmManager.cancel(broadcast)
-            }else alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, expirationDate.timeInMillis, broadcast)
+            } else alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                expirationDate.timeInMillis,
+                broadcast
+            )
         }
     }
 }

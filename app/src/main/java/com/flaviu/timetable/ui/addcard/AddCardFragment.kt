@@ -166,10 +166,8 @@ class AddCardFragment : Fragment() {
             val place = binding.placeEditText.text.toString()
             val name = binding.nameEditText.text.toString()
             val info = binding.infoEditText.text.toString()
-            val reminderId = NotificationIdManipulator.generateId(requireActivity())
-            val expirationId = NotificationIdManipulator.generateId(requireActivity())
             try{
-                viewModel.addCard(start, finish, weekday, place, name, info, itemColor, textColor, labelList, null, reminderId, expirationDate, expirationId)
+                viewModel.addCard(start, finish, weekday, place, name, info, itemColor, textColor, labelList, null, expirationDate)
                 this.findNavController().navigateUp()
                 hideKeyboard(activity as MainActivity)
             } catch (e: Exception) {

@@ -12,7 +12,7 @@
         android:title="Single Label Mode"
         app:summaryOn="The timetable won't differentiate between labels and all cards will collapse onto one page"
         app:summaryOff="The timetable will behave normally and show cards in pages per label"
-        app:defaultValue="false"/>
+        app:defaultValue="true"/>
     <Preference
         app:key="clear_data"
         app:title="Clear Data"

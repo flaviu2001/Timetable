@@ -2,6 +2,7 @@ package com.flaviu.timetable.ui.addcard
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.flaviu.timetable.NotificationIdManipulator
 import com.flaviu.timetable.database.Card
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.database.CardDatabaseDao
@@ -36,16 +37,12 @@ class AddCardViewModel(
         textColor: Int,
         labelList: List<Label>,
         reminderDate: Calendar?,
-        reminderId: Int?,
         expirationDate: Calendar?,
-        expirationId: Int?
         ) {
         listOf(start, finish, weekday).forEach{
             if (it.isEmpty())
                 throw Exception("Start, finish and weekday fields must be completed.")
         }
-//        if (labelList.isEmpty())
-//            throw Exception("You must choose at least one label")
         val card = Card(
             timeBegin= start,
             timeEnd = finish,
@@ -56,17 +53,19 @@ class AddCardViewModel(
             color = color,
             textColor = textColor,
             reminderDate = reminderDate,
-            reminderId = reminderId,
+            reminderId = null,
             expirationDate = expirationDate,
-            expirationId = expirationId
+            expirationId = null
         )
         uiScope.launch {
             withContext(Dispatchers.IO) {
+                card.reminderId = NotificationIdManipulator.generateId(viewModelApplication.applicationContext)
+                card.expirationId = NotificationIdManipulator.generateId(viewModelApplication.applicationContext)
                 val cardId = database.insertCard(card)
                 for (label in labelList)
                     database.connectLabelToCard(cardId, label.labelId)
                 if (expirationDate != null)
-                    scheduleDeletion(viewModelApplication.baseContext, cardId, expirationId!!, expirationDate)
+                    scheduleDeletion(viewModelApplication.baseContext, cardId, card.expirationId!!, expirationDate)
             }
         }
     }

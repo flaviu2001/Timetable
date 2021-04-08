@@ -44,8 +44,8 @@ class LabelHolder private constructor(private val binding: LabelCardBinding) :
     fun bind(label: Label, database: CardDatabaseDao, fragment: Fragment) {
         binding.label = label
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(fragment.context)
-        val canEdit = sharedPref.getBoolean(fragment.getString(R.string.saved_edit_state), true)
-        if (canEdit) {
+        val isLocked = sharedPref.getBoolean(fragment.getString(R.string.saved_edit_state), true)
+        if (!isLocked) {
             binding.delete.visibility = ImageView.VISIBLE
             binding.visibleIcon.visibility = ImageView.VISIBLE
         } else {
@@ -75,7 +75,7 @@ class LabelHolder private constructor(private val binding: LabelCardBinding) :
         }
         binding.card.setCardBackgroundColor(getAccentColor(fragment.requireActivity()))
         binding.card.setOnClickListener {
-            if (canEdit) {
+            if (isLocked) {
                 val layout = fragment.layoutInflater.inflate(R.layout.edit_label_layout, null)
                 val alert = AlertDialog.Builder(fragment.requireContext()).setView(layout).show()
                 setButtonColor(layout.findViewById(R.id.button), fragment.requireActivity())
