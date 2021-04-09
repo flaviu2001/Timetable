@@ -102,11 +102,17 @@ class EditSubtaskFragment : Fragment() {
             if (deadline != null) {
                 binding.deadlineEditText.setText(prettyTimeString(deadline))
                 binding.resetDeadlineButton.visibility = Button.VISIBLE
-            } else binding.resetDeadlineButton.visibility = Button.GONE
+            } else {
+                binding.deadlineEditText.setText("")
+                binding.resetDeadlineButton.visibility = Button.GONE
+            }
             if (reminder != null && reminder!! > Calendar.getInstance()) {
                 binding.reminderEditText.setText(prettyTimeString(reminder))
                 binding.resetReminderButton.visibility = Button.VISIBLE
-            } else binding.resetReminderButton.visibility = Button.GONE
+            } else {
+                binding.reminderEditText.setText("")
+                binding.resetReminderButton.visibility = Button.GONE
+            }
         }
         binding.editSubtaskButton.setOnClickListener {
             val description = binding.descriptionEditText.text.toString()
