@@ -50,7 +50,7 @@ class AlarmReceiver : BroadcastReceiver() {
                             description =
                                 "Card: ${dao.getCardOfSubtaskNow(subtask.subtaskId)!!.name}"
                             description += if (subtask.reminderDate != null)
-                                "\nYour deadline is ${prettyTimeString(subtask.reminderDate)}"
+                                "\nYour deadline is ${prettyTimeString(subtask.dueDate)}"
                             else
                                 "\nYou have set no deadline"
                             bundle.putLong("cardId", subtask.cardId)
