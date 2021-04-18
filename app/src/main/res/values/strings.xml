@@ -31,7 +31,7 @@
     </string-array>
     <string name="about">About</string>
     <string name="about_text">Thanks for using my timetable app! This is my first project and I worked quite a bit into making it look as neat as possible, however there are many improvements to be made. You can email me at the address below for feedback or suggestions, until then I hope the app will serve you well!</string>
-    <string name="things_to_do">1. Add cards by pressing the + button in the toolbar.\n\n2. Edit cards by tapping them.\nAdd subtasks for each card and see all the subtasks in the subtask menu.\n\n3. Lock cards to be unable to edit them.\n\n4. Organize your timetable for multiple weeks or multiple people by assigning different labels per card (or don\'t and disregard labels for simplicity).\n\n5. Color your app from the settings page however you like.\n\n6. Set reminders for your cards or subtasks.\n\n7. Sleep well and don\'t overwork yourself!</string>
+    <string name="things_to_do">1. Add cards by pressing the + button in the toolbar.\n\n2. Edit cards by tapping them.\n\n3. Add subtasks for each card and see all the subtasks in the subtask menu.\n\n4. Lock cards to be unable to edit them.\n\n5. Organize your timetable for multiple weeks or multiple people by assigning different labels per card (or don\'t and disregard labels for simplicity).\n\n6. Color your app from the settings page however you like.\n\n7. Set reminders for your cards or subtasks.\n\n8. Sleep well and don\'t overwork yourself!</string>
     <string name="things_you_can_do">Things you can do</string>
     <string name="developer">Developer</string>
     <string name="developer_text">Developed with enthusiasm by Craciun Ioan-Flaviu.\nEmail: jack92657@gmail.com</string>
