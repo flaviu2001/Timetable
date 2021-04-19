@@ -77,6 +77,9 @@ interface CardDatabaseDao {
     @Query("SELECT * FROM timetable_label_table ORDER BY name")
     fun getAllLabels(): LiveData<List<Label>>
 
+    @Query("SELECT * FROM timetable_label_table ORDER BY name")
+    fun getAllLabelsNow(): List<Label>
+
     @Query("SELECT * FROM timetable_label_table L WHERE EXISTS (SELECT * FROM timetable_card_label_table CL WHERE L.labelId = CL.labelId) AND visible=1 ORDER BY name")
     fun getNonEmptyAndVisibleLabels(): LiveData<List<Label>>
 
@@ -94,6 +97,9 @@ interface CardDatabaseDao {
 
     @Query("SELECT C.* FROM timetable_card_table C JOIN timetable_subtask_table S ON S.cardId = C.cardId WHERE S.subtaskId = :key")
     suspend fun getCardOfSubtaskNow(key: Long): Card?
+
+    @Query("SELECT * FROM timetable_card_label_table")
+    suspend fun getCardLabelsNow(): List<CardLabel>
 
     @Query("UPDATE timetable_label_table SET visible = 1-visible WHERE labelId = :key")
     suspend fun switchLabelVisibility(key: Long)

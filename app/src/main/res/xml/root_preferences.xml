@@ -18,6 +18,14 @@
         app:title="Clear Data"
         app:summary="Clicking this will delete all of your data"/>
     <Preference
+        android:key="save_data"
+        android:title="Save the data to a file"
+        android:summary="The name of the file will contain the current date and time"/>
+    <Preference
+        android:key="load_data"
+        android:title="Load the data from a file"
+        android:summary="Pick a valid file to load data from"/>
+    <Preference
         app:key="bgd_color"
         app:title="Choose the backround color"/>
     <Preference

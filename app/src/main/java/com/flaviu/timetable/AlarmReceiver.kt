@@ -38,6 +38,8 @@ class AlarmReceiver : BroadcastReceiver() {
                         var description = ""
                         if (card != null) {
                             title = "Card: ${card.name}"
+                            if (card.name == "")
+                                title = "Unnamed Card"
                             description = "Your activity starts at ${card.timeBegin} on ${
                                 context.resources.getStringArray(R.array.weekdays)[card.weekday]
                             }"
@@ -47,8 +49,11 @@ class AlarmReceiver : BroadcastReceiver() {
                             dao.updateCard(card)
                         } else if (subtask != null) {
                             title = "Subtask: ${subtask.description}"
-                            description =
-                                "Card: ${dao.getCardOfSubtaskNow(subtask.subtaskId)!!.name}"
+                            val cardOfSubtask = dao.getCardOfSubtaskNow(subtask.subtaskId)!!
+                            description = if (cardOfSubtask.name != "")
+                                "Card: ${cardOfSubtask.name}"
+                            else
+                                "Unnamed Card"
                             description += if (subtask.dueDate != null)
                                 "\nYour deadline is ${prettyTimeString(subtask.dueDate)}"
                             else

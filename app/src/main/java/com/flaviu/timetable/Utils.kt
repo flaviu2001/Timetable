@@ -5,14 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import com.flaviu.timetable.database.Label
+import com.flaviu.timetable.database.*
 import kotlinx.coroutines.*
 import top.defaults.drawabletoolbox.DrawableBuilder
+import java.io.*
 import java.util.*
 
 val preset_colors: IntArray = listOf(
@@ -262,6 +264,29 @@ fun prettyTimeString(calendar: Calendar?, noTime: Boolean = false): String {
     return "${calendar.get(Calendar.DAY_OF_MONTH)}-${monthString}-${calendar.get(Calendar.YEAR)}"
 }
 
+fun scheduleNotificationOnIO(
+    context: Context,
+    id: Int,
+    reminder: Calendar?
+) {
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val notificationIntent = Intent(context, AlarmReceiver::class.java)
+    notificationIntent.putExtra("id", id)
+    val broadcast = PendingIntent.getBroadcast(
+        context,
+        id,
+        notificationIntent,
+        PendingIntent.FLAG_CANCEL_CURRENT
+    )
+    if (reminder == null) {
+        alarmManager.cancel(broadcast)
+    } else alarmManager.setExactAndAllowWhileIdle(
+        AlarmManager.RTC_WAKEUP,
+        reminder.timeInMillis,
+        broadcast
+    )
+}
+
 fun scheduleNotification(
     context: Context,
     id: Int,
@@ -271,24 +296,34 @@ fun scheduleNotification(
     val uiScope = CoroutineScope(Dispatchers.Main + job)
     uiScope.launch {
         withContext(Dispatchers.IO) {
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val notificationIntent = Intent(context, AlarmReceiver::class.java)
-            notificationIntent.putExtra("id", id)
-            val broadcast = PendingIntent.getBroadcast(
-                context,
-                id,
-                notificationIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT
-            )
-            if (reminder == null) {
-                alarmManager.cancel(broadcast)
-            } else alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                reminder.timeInMillis,
-                broadcast
-            )
+            scheduleNotificationOnIO(context, id, reminder)
         }
     }
+}
+
+fun scheduleDeletionOnIO(
+    context: Context,
+    cardId: Long,
+    id: Int,
+    expirationDate: Calendar?
+) {
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val notificationIntent = Intent(context, DeletionReceiver::class.java)
+    notificationIntent.putExtra("id", id)
+    notificationIntent.putExtra("cardId", cardId)
+    val broadcast = PendingIntent.getBroadcast(
+        context,
+        id,
+        notificationIntent,
+        PendingIntent.FLAG_CANCEL_CURRENT
+    )
+    if (expirationDate == null) {
+        alarmManager.cancel(broadcast)
+    } else alarmManager.setExactAndAllowWhileIdle(
+        AlarmManager.RTC_WAKEUP,
+        expirationDate.timeInMillis,
+        broadcast
+    )
 }
 
 fun scheduleDeletion(
@@ -301,23 +336,264 @@ fun scheduleDeletion(
     val uiScope = CoroutineScope(Dispatchers.Main + job)
     uiScope.launch {
         withContext(Dispatchers.IO) {
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val notificationIntent = Intent(context, DeletionReceiver::class.java)
-            notificationIntent.putExtra("id", id)
-            notificationIntent.putExtra("cardId", cardId)
-            val broadcast = PendingIntent.getBroadcast(
-                context,
-                id,
-                notificationIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT
-            )
-            if (expirationDate == null) {
-                alarmManager.cancel(broadcast)
-            } else alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                expirationDate.timeInMillis,
-                broadcast
-            )
+            scheduleDeletionOnIO(context, cardId, id, expirationDate)
         }
     }
+}
+
+suspend fun clearDataFromDatabase(context: Context, cardDatabaseDao: CardDatabaseDao) {
+    for (card in cardDatabaseDao.getAllCardsNow()) {
+        if (card.reminderId != null)
+            scheduleNotificationOnIO(context, card.reminderId!!, null)
+        if (card.expirationId != null)
+            scheduleDeletionOnIO(context, card.cardId, card.expirationId!!, null)
+    }
+    for (subtask in cardDatabaseDao.getAllSubtasksNow())
+        if (subtask.reminderId != null)
+            scheduleNotificationOnIO(context, subtask.reminderId!!, null)
+    cardDatabaseDao.clearCards()
+    cardDatabaseDao.clearLabels()
+}
+
+suspend fun getTextFromDB(cardDatabaseDao: CardDatabaseDao): String {
+    var toReturn =
+        "this string is here so that you can't mistake files for the valid ones. Don't try to pass files with this string, you'll likely crash the app\n"
+    val listOfLabels = cardDatabaseDao.getAllLabelsNow()
+    toReturn += "labels ${listOfLabels.size}\n"
+    for (label in listOfLabels) {
+        toReturn += "labelId\n${label.labelId}\n"
+        toReturn += "name\n${label.name}\n"
+        toReturn += "visible\n${label.visible}\n"
+        toReturn += "end\n"
+    }
+    val listOfCards = cardDatabaseDao.getAllCardsNow()
+    toReturn += "cards ${listOfCards.size}\n"
+    for (card in listOfCards) {
+        toReturn += "cardId\n${card.cardId}\n"
+        toReturn += "timeBegin\n${card.timeBegin}\n"
+        toReturn += "timeEnd\n${card.timeEnd}\n"
+        toReturn += "weekday\n${card.weekday}\n"
+        toReturn += "place\n${card.place}\n"
+        toReturn += "name\n${card.name}\n"
+        toReturn += "info\n${card.info}\n"
+        toReturn += "color\n${card.color}\n"
+        toReturn += "textColor\n${card.textColor}\n"
+        if (card.reminderDate != null)
+            toReturn += "reminderDate\n${card.reminderDate!!.timeInMillis}\n"
+        if (card.reminderId != null)
+            toReturn += "reminderId\n${card.reminderId}\n"
+        if (card.expirationDate != null)
+            toReturn += "expirationDate\n${card.expirationDate!!.timeInMillis}\n"
+        if (card.expirationId != null)
+            toReturn += "expirationId\n${card.expirationId}\n"
+        toReturn += "end\n"
+    }
+    val listOfCardLabels = cardDatabaseDao.getCardLabelsNow()
+    toReturn += "cardLabels ${listOfCardLabels.size}\n"
+    for (cardLabel in listOfCardLabels) {
+        toReturn += "cardId\n${cardLabel.cardId}\n"
+        toReturn += "labelId\n${cardLabel.labelId}\n"
+        toReturn += "end\n"
+    }
+    val subtasks = cardDatabaseDao.getAllSubtasksNow()
+    toReturn += "subtasks ${subtasks.size}\n"
+    for (subtask in subtasks) {
+        toReturn += "subtaskId\n${subtask.subtaskId}\n"
+        toReturn += "cardId\n${subtask.cardId}\n"
+        toReturn += "description\n${subtask.description}\n"
+        if (subtask.dueDate != null)
+            toReturn += "dueDate\n${subtask.dueDate!!.timeInMillis}\n"
+        if (subtask.reminderDate != null)
+            toReturn += "reminderDate\n${subtask.reminderDate!!.timeInMillis}\n"
+        if (subtask.reminderId != null)
+            toReturn += "reminderId\n${subtask.reminderId}\n"
+        toReturn += "end\n"
+    }
+    toReturn += "end\n"
+    return toReturn
+}
+
+suspend fun loadDataFromFile(fileName: Uri, context: Context): Boolean {
+    val cardDatabaseDao: CardDatabaseDao = CardDatabase.getInstance(context).cardDatabaseDao
+    val contentResolver = context.contentResolver
+    val header =
+        "this string is here so that you can't mistake files for the valid ones. Don't try to pass files with this string, you'll likely crash the app"
+    val labels = mutableListOf<Label>()
+    val cards = mutableListOf<Card>()
+    val cardLabels = mutableListOf<CardLabel>()
+    val subtasks = mutableListOf<Subtask>()
+    @Suppress("BlockingMethodInNonBlockingContext")
+    contentResolver.openInputStream(fileName)?.use { inputStream ->
+        BufferedReader(InputStreamReader(inputStream)).use { reader ->
+            var line: String? = reader.readLine()
+            if (line != header)
+                return false
+            while (true) {
+                val lines: List<String> = reader.readLine().split(" ")
+                if (lines[0] == "end")
+                    break
+                when (lines[0]) {
+                    "labels" -> {
+                        for (i in 1..lines[1].toInt()) {
+                            var labelId = 0L
+                            var visible = 1
+                            var name = ""
+                            while (true) {
+                                line = reader.readLine()
+                                if (line == "end")
+                                    break
+                                when (line) {
+                                    "labelId" -> labelId = reader.readLine().toLong()
+                                    "name" -> name = reader.readLine()
+                                    "visible" -> visible = reader.readLine().toInt()
+                                }
+                            }
+                            labels.add(Label(labelId, visible, name))
+                        }
+                    }
+                    "cards" -> {
+                        for (i in 1..lines[1].toInt()) {
+                            var cardId = 0L
+                            var timeBegin = ""
+                            var timeEnd = ""
+                            var weekday = -1
+                            var place = ""
+                            var name = ""
+                            var info = ""
+                            var color = 0
+                            var textColor = 0
+                            var reminderDate: Calendar? = null
+                            var reminderId: Int? = null
+                            var expirationDate: Calendar? = null
+                            var expirationId: Int? = null
+                            while (true) {
+                                line = reader.readLine()
+                                if (line == "end")
+                                    break
+                                when (line) {
+                                    "cardId" -> cardId = reader.readLine().toLong()
+                                    "timeBegin" -> timeBegin = reader.readLine()
+                                    "timeEnd" -> timeEnd = reader.readLine()
+                                    "weekday" -> weekday = reader.readLine().toInt()
+                                    "place" -> place = reader.readLine()
+                                    "name" -> name = reader.readLine()
+                                    "info" -> info = reader.readLine()
+                                    "color" -> color = reader.readLine().toInt()
+                                    "textColor" -> textColor = reader.readLine().toInt()
+                                    "reminderDate" -> {
+                                        val now = Calendar.getInstance()
+                                        now.timeInMillis = reader.readLine().toLong()
+                                        reminderDate = now
+                                    }
+                                    "reminderId" -> reminderId = reader.readLine().toInt()
+                                    "expirationDate" -> {
+                                        val now = Calendar.getInstance()
+                                        now.timeInMillis = reader.readLine().toLong()
+                                        expirationDate = now
+                                    }
+                                    "expirationId" -> expirationId = reader.readLine().toInt()
+                                }
+                            }
+                            cards.add(
+                                Card(
+                                    cardId,
+                                    timeBegin,
+                                    timeEnd,
+                                    weekday,
+                                    place,
+                                    name,
+                                    info,
+                                    color,
+                                    textColor,
+                                    reminderDate,
+                                    reminderId,
+                                    expirationDate,
+                                    expirationId
+                                )
+                            )
+                        }
+                    }
+                    "cardLabels" -> {
+                        for (i in 1..lines[1].toInt()) {
+                            var cardId = 0L
+                            var labelId = 0L
+                            while (true) {
+                                line = reader.readLine()
+                                if (line == "end")
+                                    break
+                                when (line) {
+                                    "cardId" -> cardId = reader.readLine().toLong()
+                                    "labelId" -> labelId = reader.readLine().toLong()
+                                }
+                            }
+                            cardLabels.add(CardLabel(cardId, labelId))
+                        }
+                    }
+                    "subtasks" -> {
+                        for (i in 1..lines[1].toInt()) {
+                            var subtaskId = 0L
+                            var cardId = 0L
+                            var description = ""
+                            var dueDate: Calendar? = null
+                            var reminderDate: Calendar? = null
+                            var reminderId: Int? = null
+                            while (true) {
+                                line = reader.readLine()
+                                if (line == "end")
+                                    break
+                                when (line) {
+                                    "subtaskId" -> subtaskId = reader.readLine().toLong()
+                                    "cardId" -> cardId = reader.readLine().toLong()
+                                    "description" -> description = reader.readLine()
+                                    "dueDate" -> {
+                                        val now = Calendar.getInstance()
+                                        now.timeInMillis = reader.readLine().toLong()
+                                        dueDate = now
+                                    }
+                                    "reminderDate" -> {
+                                        val now = Calendar.getInstance()
+                                        now.timeInMillis = reader.readLine().toLong()
+                                        reminderDate = now
+                                    }
+                                    "reminderId" -> reminderId = reader.readLine().toInt()
+                                }
+                            }
+                            subtasks.add(
+                                Subtask(
+                                    subtaskId,
+                                    cardId,
+                                    description,
+                                    dueDate,
+                                    reminderDate,
+                                    reminderId
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+    clearDataFromDatabase(context, cardDatabaseDao)
+    val nopes = mutableSetOf<Long>()
+    for (label in labels)
+        cardDatabaseDao.insertLabel(label)
+    for (card in cards)
+        if (card.expirationId == null || card.expirationDate == null || card.expirationDate!! > Calendar.getInstance()) {
+            cardDatabaseDao.insertCard(card)
+            if (card.reminderId != null && card.reminderDate != null)
+                scheduleNotificationOnIO(context, card.reminderId!!, card.reminderDate)
+            if (card.expirationId != null && card.expirationDate != null)
+                scheduleDeletionOnIO(context, card.cardId, card.expirationId!!, card.expirationDate)
+        } else nopes.add(card.cardId)
+    for (cardLabel in cardLabels)
+        if (!nopes.contains(cardLabel.cardId))
+            cardDatabaseDao.connectLabelToCard(cardLabel.cardId, cardLabel.labelId)
+    for (subtask in subtasks)
+        if (!nopes.contains(subtask.cardId)) {
+            cardDatabaseDao.insertSubtask(subtask)
+            if (subtask.reminderId != null && subtask.reminderDate != null)
+                scheduleNotificationOnIO(context, subtask.reminderId!!, subtask.reminderDate)
+        }
+    return true
 }
