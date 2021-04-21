@@ -16,6 +16,7 @@ import com.flaviu.timetable.*
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.database.Label
 import com.flaviu.timetable.databinding.EditCardFragmentBinding
+import com.flaviu.timetable.ui.MainActivity
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import java.util.*

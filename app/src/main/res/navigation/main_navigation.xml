@@ -93,6 +93,6 @@
     </fragment>
     <fragment
         android:id="@+id/preferencesFragment"
-        android:name="com.flaviu.timetable.PreferencesFragment"
+        android:name="com.flaviu.timetable.ui.PreferencesFragment"
         android:label="Settings" />
 </navigation>

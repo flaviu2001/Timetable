@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.navigation.NavDeepLinkBuilder
 import com.flaviu.timetable.database.CardDatabase
+import com.flaviu.timetable.ui.MainActivity
 import kotlinx.coroutines.*
 
 class AlarmReceiver : BroadcastReceiver() {

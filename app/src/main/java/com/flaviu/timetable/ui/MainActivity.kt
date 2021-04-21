@@ -1,11 +1,15 @@
-package com.flaviu.timetable
+package com.flaviu.timetable.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.flaviu.timetable.R
 import com.flaviu.timetable.databinding.ActivityMainBinding
+import com.flaviu.timetable.hideKeyboard
+import com.flaviu.timetable.setAccentColor
+import com.flaviu.timetable.setBackgroundColor
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding

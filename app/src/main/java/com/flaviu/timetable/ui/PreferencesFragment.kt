@@ -1,14 +1,15 @@
-package com.flaviu.timetable
+package com.flaviu.timetable.ui
 
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.provider.DocumentsContract
-import android.widget.Toast
+import androidx.core.net.toFile
 import androidx.navigation.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.flaviu.timetable.*
 import com.flaviu.timetable.database.CardDatabase
 import com.flaviu.timetable.database.CardDatabaseDao
 import com.google.android.material.snackbar.Snackbar
@@ -94,32 +95,28 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             true
         }
         findPreference<Preference>("save_data")!!.setOnPreferenceClickListener {
-            uiScope.launch {
-                withContext(Dispatchers.IO) {
-                    val path = File("/storage/emulated/0/Documents/Timetable Backups/")
-                    path.mkdirs()
-                    val now = Calendar.getInstance()
-                    val fileName = "Timetable-${
-                        SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.ROOT).format(
-                            Date(
-                                now.timeInMillis
-                            )
-                        )
-                    }.txt"
-                    val file = File(path, fileName)
-                    @Suppress("BlockingMethodInNonBlockingContext")
-                    FileOutputStream(file).use { stream ->
-                        stream.write(getTextFromDB(CardDatabase.getInstance(requireContext()).cardDatabaseDao).toByteArray())
-                    }
-                    Snackbar.make(requireView(), "Successfully wrote the data to $path", Snackbar.LENGTH_SHORT).show()
-                }
-            }
+            saveFile()
             true
         }
         findPreference<Preference>("load_data")!!.setOnPreferenceClickListener {
             loadFile()
             true
         }
+    }
+
+    private fun saveFile() {
+        val now = Calendar.getInstance()
+        val fileName = "Timetable-${
+            SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.ROOT).format(
+                Date(now.timeInMillis)
+            )
+        }.txt"
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+            putExtra(Intent.EXTRA_TITLE, fileName)
+        }
+        startActivityForResult(intent, 2)
     }
 
     private fun loadFile() {
@@ -146,8 +143,16 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                             uiScope.launch {
                                 withContext(Dispatchers.IO) {
                                     if (loadDataFromFile(resultData.data!!, requireContext()))
-                                        Snackbar.make(requireView(), "Data successfully loaded", Snackbar.LENGTH_SHORT).show()
-                                    else Snackbar.make(requireView(), "Error processing the file", Snackbar.LENGTH_SHORT).show()
+                                        Snackbar.make(
+                                            requireView(),
+                                            "Data successfully loaded",
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                    else Snackbar.make(
+                                        requireView(),
+                                        "Error processing the file",
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                         }
@@ -158,6 +163,33 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             } else {
                 Snackbar.make(requireView(), "No file found", Snackbar.LENGTH_SHORT).show()
             }
+        } else if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (resultData?.data != null) {
+                    uiScope.launch {
+                        withContext(Dispatchers.IO) {
+                            val contentResolver = requireContext().contentResolver
+                            @Suppress("BlockingMethodInNonBlockingContext")
+                            contentResolver.openOutputStream(resultData.data!!).use { stream ->
+                                stream!!.write(getTextFromDB(CardDatabase.getInstance(requireContext()).cardDatabaseDao).toByteArray())
+                            }
+                            Snackbar.make(
+                                requireView(),
+                                "Successfully saved the data",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                } else Snackbar.make(
+                    requireView(),
+                    "Could not choose folder (ERROR: 2)",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else Snackbar.make(
+                requireView(),
+                "Could not choose folder (ERROR: 1)",
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 }
