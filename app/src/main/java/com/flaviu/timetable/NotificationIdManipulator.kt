@@ -27,4 +27,24 @@ object NotificationIdManipulator {
         }
         return toReturn
     }
+
+    suspend fun refreshId(context: Context) {
+        var maxId = 0
+        val dao = CardDatabase.getInstance(context).cardDatabaseDao
+        for (card in dao.getAllCardsNow()) {
+            if (card.reminderId != null)
+                maxId = max(maxId, card.reminderId!!)
+            if (card.expirationId != null)
+                maxId = max(maxId, card.expirationId!!)
+        }
+        for (subtask in dao.getAllSubtasksNow())
+            if (subtask.reminderId != null)
+                maxId = max(maxId, subtask.reminderId!!)
+        maxId += 1
+        val sharedPref = context.getSharedPreferences("com.flaviu.timetable", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putInt("notificationId", maxId)
+            apply()
+        }
+    }
 }

@@ -596,5 +596,6 @@ suspend fun loadDataFromFile(fileName: Uri, context: Context): Boolean {
             if (subtask.reminderId != null && subtask.reminderDate != null)
                 scheduleNotificationOnIO(context, subtask.reminderId!!, subtask.reminderDate)
         }
+    NotificationIdManipulator.refreshId(context)
     return true
 }
